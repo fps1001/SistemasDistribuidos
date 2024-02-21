@@ -6,4 +6,4 @@ Curso 2023-2024.
 - Creación de script con ant y maven: en un proyecto maven se ha generado un archivo build.xml para ejecutar el comando 'ant'
 - Se crea un pom.xml equivalente para el proyecto.
 
-El proyecto base usado es el usado por defecto al crear un proyecto en intellij.
+El proyecto base usado es el que usa por defecto al crear un proyecto en intellij.
