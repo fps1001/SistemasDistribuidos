@@ -33,8 +33,9 @@ package es.ubu.lsi.echoserver;
 
 import java.net.*;
 import java.io.*;
+import java.util.Arrays;
 
-public class EchoServer {
+public class EchoServerMultihilo {
 
     //FPS Lista negra de puertos.
     private static final int[] BLACKLISTED_PORTS = {1234, 5678}; 
@@ -51,13 +52,12 @@ public class EchoServer {
         
         try  (
             	//FPS Cambio por claridad la variable, en vez de volver a hacer el parse 
-                // ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
+                //ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
                 ServerSocket serverSocket = new ServerSocket(portNumber);
    		)
         {
             while (true){
                 Socket clientSocket = serverSocket.accept();
-
                 //FPS Comprobación de lista negra.
                 if (isPortBlacklisted(clientSocket.getPort())) { // Utilizo un método que devuelve true si está en blacklist
                     System.out.println("Conexión rechazada desde el puerto bloqueado: " + clientSocket.getPort());
@@ -86,7 +86,7 @@ public class EchoServer {
     
 class ThreadServerHandler extends Thread {
 	
-	private Socket clientSocket;
+	private final Socket clientSocket;
 	
 	public ThreadServerHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;

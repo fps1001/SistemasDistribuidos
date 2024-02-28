@@ -47,7 +47,8 @@
 					<mainClass>es.ubu.lsi.echoclient.EchoClient</mainClass>
 					<arguments>
 						<argument>localhost</argument>
-						<argument>2000</argument>
+						<argument>5031</argument>
+
 					</arguments>
 				</configuration>
 			</plugin>

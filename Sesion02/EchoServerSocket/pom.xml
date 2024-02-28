@@ -47,6 +47,7 @@
 					<mainClass>es.ubu.lsi.echoserver.EchoServer</mainClass>
 					<arguments>
 						<argument>2000</argument>
+						<!-- sería el puerto-->
 					</arguments>
 				</configuration>
 			</plugin>
