@@ -25,6 +25,24 @@
 
 	<build>
 		<plugins>
+
+			<!--			Añado este plugin para evitar problemas de manifesto?-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.2</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>es.ubu.lsi.echoclient.EchoClient</mainClass> <!-- Clase principal con método main -->
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -47,7 +65,7 @@
 					<mainClass>es.ubu.lsi.echoclient.EchoClient</mainClass>
 					<arguments>
 						<argument>localhost</argument>
-						<argument>5031</argument>
+						<argument>1234</argument>
 
 					</arguments>
 				</configuration>
