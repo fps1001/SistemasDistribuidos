@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Sistemas Distribuidos
+Grado en Ingeniería Informática
+Universidad de Burgos
+Curso 2023-2024
+Fernando Pisot Serrano
+fps1001@alu.ubu.es
+________________________________________________
+https://github.com/fps1001/SistemasDistribuidos
+________________________________________________
+Sesión 3 - Práctica chat-sockets:
+
+Archivo para usar ant que permita la generación de documentación javadoc
+
+
+TODO: SIN MODIFICAR DE SESION 01
+
+-->
+
+<project name="Sesion03" default="jar" >
+
+    <!-- Se establecen las 'variables' que se usarán a continuación-->
+    <property name="src.dir" value="src/main/java/es/ubu/lsi" />
+    <property name="build.dir" value="target" />
+    <property name="classes.dir" value="src/target/classes" />
+    <property name="jar.file" value="${build.dir}/PruebaAnt.jar" />
+
+
+    <target name="clean" description="Borra el directorio target si existe">
+        <!-- También se podía llamar para borrar los archivos class-->
+        <delete dir="src/target" />
+    </target>
+
+    <target name="compile" description="Crea el directorio destino y compila con javac">
+        <mkdir dir="src/target/classes" />
+        <!-- Para evitar warning al compilar se añade el includeantruntime a falso -->
+        <javac srcdir="${src.dir}" destdir="src/target/classes" includeantruntime="false"/>
+    </target>
+
+    <target name="javadoc" description="Genera la documentación del proyecto">
+        <javadoc sourcepath="${src.dir}" destdir="${build.dir}/javadoc" />
+    </target>
+
+<!--    &lt;!&ndash; depends indica que antes de hacer el jar debe compilar.&ndash;&gt;-->
+<!--    &lt;!&ndash; Añado manifest para poder ejecutar .jar&ndash;&gt;-->
+<!--    <target name="jar" depends="compile">-->
+<!--        <jar destfile="${jar.file}" basedir="src/target/classes" manifest="META-INF/MANIFEST.MF"/>-->
+<!--    </target>-->
+
+<!--    <target name="manifest">-->
+<!--        <manifest file="META-INF/MANIFEST.MF">-->
+<!--            <attribute name="Main-Class" value="es.ubu.lsi"/>-->
+<!--        </manifest>-->
+<!--    </target>-->
+
+</project>
