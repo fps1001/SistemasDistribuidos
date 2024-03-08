@@ -2,6 +2,9 @@
 En este repositorio se incluirá en trabajo realizado en la asignatura Sistemas Distribuidos 
 del Grado en Informática de la Universidad de Burgos.
 Curso 2023-2024.
+
+### https://github.com/fps1001/SistemasDistribuidos
+
 ## Sesión 01
 - Creación de script con ant y maven: en un proyecto maven se ha generado un archivo build.xml para ejecutar el comando 'ant'
 - Se crea un pom.xml equivalente al usado para ant. 
@@ -18,4 +21,12 @@ Curso 2023-2024.
 Ejemplo de uso:
 - java -jar .\target\EchoClientSocket-0.0.1-SNAPSHOT.jar localhost 8080 1234 
 - Donde 8080 sería el puerto del servidor y 1234 el puerto del origen que es el bloqueado.
+
+## Sesión 03 - Chat Sockets - (Práctica evaluable - 10%)
+- Chat creado con sockets de tipo TCP donde un cliente puede enviar mensajes al resto de clientes.
+- Existen varios tipos de mensajes:
+  - texto libre.
+  - logout
+  - shutdown
+  - drop usuarioaeliminar
 
