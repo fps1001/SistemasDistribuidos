@@ -1,5 +1,10 @@
 package es.ubu.lsi.client;
 
+import es.ubu.lsi.common.ChatMessage;
+
+import java.io.*;
+import java.net.Socket;
+
 /**
  * Implementación del cliente para el sistema de chat.
  * Gestiona la conexión con el servidor y el envío y recepción de mensajes.
@@ -14,28 +19,33 @@ package es.ubu.lsi.client;
  * @email fps1001@alu.ubu.es
  */
 public class ChatClientImpl implements ChatClient {
-    private String serverAddress;
-    private String nickname;
-    private final int port = 1500;
+    private final String server;
+    private final String username;
+    private int port = 1500;
 
-    // ...otros campos necesarios para la implementación...
+    ObjectOutputStream out = null; // cambio PrintWriter por la clase pedida.
+    ObjectInputStream in = null; // cambio BufferReader por la clase pedida. Usado en hilo listener.
+    // in leera del socket, stdin de teclado.
+    BufferedReader stdIn = null;
+
+
+
 
     /**
      * Constructor con dirección IP/nombre de máquina y nickname.
      *
-     * @param serverAddress dirección IP o nombre del servidor.
-     * @param nickname apodo para el usuario.
+     * @param server dirección IP o nombre del servidor.
+     * @param username apodo para el usuario.
      */
-    public ChatClientImpl(String serverAddress, String nickname) {
-        this.serverAddress = serverAddress;
-        this.nickname = nickname;
+    public ChatClientImpl(String server, String username) {
+        this.server = server;
+        this.username = username;
         // Más inicializaciones según sea necesario...
     }
 
     @Override
     public void start() {
-        // Iniciar ChatClientListener...
-        // Más implementación...
+
     }
 
     @Override
@@ -54,7 +64,35 @@ public class ChatClientImpl implements ChatClient {
      * @param args argumentos de la línea de comandos.
      */
     public static void main(String[] args) {
-        // Iniciar cliente...
+
+        // Compruebo argumentos.
+        if ((args.length != 1) || (args.length != 2)){
+            System.err.println(
+                    "Usage: java ChatClientImpl <host name> <port number>");
+            System.exit(1);
+        }
+        // Inicializo las variables y las copio de los argumentos pasados.
+        String server = null;
+        String nickname = null;
+
+        if (args.length ==1){
+            server = "localhost";
+            nickname = args[0];
+        }
+        else {
+            server = args[0];
+            nickname = args[1];
+        }
+
+        //Arranco el hilo principal de ejecución para el cliente anónimamente.
+        new ChatClientImpl(server, nickname).start();
+        //Arranco el hilo adicional a través de ChatClientLIstener.
+        //new Thread(new ChatClientListener(in)).start();
+        // Igual tiene que ir a connect, una vez establecido el socket entonces lanza el hilo que lee.
+
+
+
+
     }
 
     /**
@@ -65,9 +103,23 @@ public class ChatClientImpl implements ChatClient {
      */
     private class ChatClientListener implements Runnable {
 
+        ObjectInputStream in;
+        public ChatClientListener (ObjectInputStream in){
+            this.in = in; // para recoger información del servidor.
+        }
+
         @Override
         public void run() {
             // Escuchar y mostrar mensajes entrantes...
+            while (true){ //TODO: quizá usar flag para evitar warning?
+                try { // Obtengo mensaje y lo imprimo.
+                    String msg = ((ChatMessage) in.readObject()).getMessage();
+                    System.out.println(msg);
+                } catch (IOException | ClassNotFoundException e) {
+                    System.out.println("Error al leer el mensaje: " + e.getMessage());
+                    break; // Sale del bucle si hay un error.
+                }
+            }
         }
     }
 }
