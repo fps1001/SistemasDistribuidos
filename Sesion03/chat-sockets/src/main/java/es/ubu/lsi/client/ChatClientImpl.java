@@ -47,9 +47,10 @@ public class ChatClientImpl implements ChatClient {
     public void start() {
         try {
             //Inicializamos todas las variables que necesitamos: socket, objects in and out y lector de teclado:
-            Socket socket = new Socket(server, port);
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
+            try (Socket socket = new Socket(server, port)) {
+                out = new ObjectOutputStream(socket.getOutputStream());
+                in = new ObjectInputStream(socket.getInputStream());
+            }
             stdIn = new BufferedReader(new InputStreamReader(System.in));
 
             // TODO: Enviar mensaje del nombre de usuario aquí??? devuelve id???

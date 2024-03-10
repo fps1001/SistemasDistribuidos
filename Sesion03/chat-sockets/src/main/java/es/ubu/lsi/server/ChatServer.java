@@ -16,9 +16,9 @@ public interface ChatServer {
     /**
      * Envía un mensaje a todos los clientes conectados.
      *
-     * @param message el mensaje a enviar.
+     * @param msg el mensaje a enviar.
      */
-    void broadcast(String message);
+    void broadcast(String msg);
 
     /**
      * Elimina un cliente del chat.
