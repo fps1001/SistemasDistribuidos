@@ -15,6 +15,8 @@ import java.net.Socket;
  *
  * La clase ChatClientListener se define dentro de esta clase para facilitar el acceso a los campos y métodos de la clase externa.
  *
+ * https://www.youtube.com/watch?v=gLfuZrrfKes
+ *
  * @author Fernando Pisot Serrano
  * @email fps1001@alu.ubu.es
  */

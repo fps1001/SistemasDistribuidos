@@ -1,6 +1,5 @@
 package es.ubu.lsi.server;
 
-import es.ubu.lsi.common.ChatMessage;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -43,7 +42,7 @@ public class ChatServerImpl implements ChatServer {
         this.alive = true;
         this.clientId = new AtomicInteger(0);
         this.sdf = new SimpleDateFormat("HH:mm:ss");
-        // Voy a usar un concurrentHashMap para
+        this.clientMap = new ConcurrentHashMap<>(); // Lo inicializo para evitar nullpointerexcept.
     }
 
     /**
@@ -89,7 +88,7 @@ public class ChatServerImpl implements ChatServer {
     public void broadcast(String msg) {
         // Recorrer el mapa para enviar el mensaje a todos los clientes...
         //TODO Quizá habría que evitar el remitente???
-        clientMap.values().forEach(client -> client.sendMessage(message));
+        clientMap.values().forEach(client -> client.sendMessage(msg));
     }
 
     @Override
@@ -104,16 +103,36 @@ public class ChatServerImpl implements ChatServer {
         }
     }
 
+    /**
+     * Cierra todas las conexiones de cliente y luego apaga el servidor.
+     * Cierra los sockets de cliente, sus flujos de entrada y salida asociados,
+     * y finalmente el socket del servidor.
+     */
     @Override
     public void shutdown() {
-        // Cierra la conexión con el cliente y baja el flag de bucle de escucha.
+        System.out.println("Apagando el servidor...");
+        // Marca el servidor como no vivo para detener el bucle principal del servidor.
         alive = false;
+
+        // Cierra todas las conexiones de cliente.
+        clientMap.forEach((clientId, clientThread) -> {
+            System.out.println("Cerrando la conexión con el cliente ID: " + clientId);
+            clientThread.shutdown(); // Invoca el método shutdown de cada cliente, que debería cerrar los recursos de red.
+        });
+
+        clientMap.clear(); // Limpia el mapa después de cerrar todas las conexiones de cliente.
+
+        // Cierra el ServerSocket del servidor.
         try {
-            this.serverSocket.close();
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+            }
+            System.out.println("El servidor ha sido apagado correctamente.");
         } catch (IOException e) {
-            System.err.println("Error al cerrar el socket del cliente: " + e.getMessage());
+            System.err.println("Error al cerrar el ServerSocket del servidor: " + e.getMessage());
         }
     }
+
 
     /**
      * Punto de entrada principal para la aplicación del servidor.
@@ -147,7 +166,24 @@ public class ChatServerImpl implements ChatServer {
                 // Manejar la comunicación con el cliente
             }
         }
+        public void shutdown() {
+            // Intenta cerrar el socket del cliente y sus flujos asociados.
+            try {
+                if (socket != null && !socket.isClosed()) {
+                    // Cierra los flujos de entrada y salida aquí, si están inicializados.
+                    // Por ejemplo:
+                    // out.close();
+                    // in.close();
 
-        // Métodos adicionales si es necesario...
+                    socket.close(); // Cierra el socket del cliente.
+                }
+                System.out.println("Conexión cerrada para el cliente ID: " + id);
+            } catch (IOException e) {
+                System.err.println("Error al cerrar la conexión para el cliente ID: " + id + ": " + e.getMessage());
+            } finally {
+                alive = false; // Asegura que el hilo del cliente se detenga.
+            }
+        }
+
     }
 }
