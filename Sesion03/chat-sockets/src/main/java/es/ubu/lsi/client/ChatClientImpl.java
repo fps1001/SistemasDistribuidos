@@ -22,16 +22,14 @@ public class ChatClientImpl implements ChatClient {
     private final String server;
     private final String username;
     private int port = 1500;
-
-    ObjectOutputStream out = null; // cambio PrintWriter por la clase pedida.
-    ObjectInputStream in = null; // cambio BufferReader por la clase pedida. Usado en hilo listener.
+    //* Cambio a privadas y creo el socket.
+    private ObjectOutputStream out = null; // cambio PrintWriter por la clase pedida.
+    private ObjectInputStream in = null; // cambio BufferReader por la clase pedida. Usado en hilo listener.
     // in leera del socket, stdin de teclado.
-    BufferedReader stdIn = null;
+    private BufferedReader stdIn = null;
+    private Socket socket = null;
 
-
-
-
-    /**
+        /**
      * Constructor con dirección IP/nombre de máquina y nickname.
      *
      * @param server dirección IP o nombre del servidor.
@@ -40,12 +38,34 @@ public class ChatClientImpl implements ChatClient {
     public ChatClientImpl(String server, String username) {
         this.server = server;
         this.username = username;
-        // Más inicializaciones según sea necesario...
     }
 
+    /**
+     * Inicia la ejecución del cliente: establece la conexión con el servidor, arranca el hilo listener desde aquí.
+     */
     @Override
     public void start() {
+        try {
+            //Inicializamos todas las variables que necesitamos: socket, objects in and out y lector de teclado:
+            Socket socket = new Socket(server, port);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
+            stdIn = new BufferedReader(new InputStreamReader(System.in));
 
+            // TODO: Enviar mensaje del nombre de usuario aquí??? devuelve id???
+
+            // Lanzamos el listener aquí!
+            new Thread(new ChatClientListener(in)).start();
+
+            String userInput;
+            // TODO Leer mensaje en bucle
+            // Lee mensajes de la consola y los envía al servidor y si es LOGOUT ir a disconnect.
+
+
+        } catch (IOException e) {
+            System.err.println("No se pudo iniciar el cliente: " + e.getMessage());
+            disconnect();
+        }
     }
     /**
      * Envía un mensaje al servidor.
@@ -55,17 +75,42 @@ public class ChatClientImpl implements ChatClient {
     @Override
     public void sendMessage(String msg) {
         try {
-            // Envuelve el mensaje en un objeto ChatMessage y lo envía.
-            out.writeObject(new ChatMessage(username, msg)); //TODO ESPERA 3 ARGUMENTOS ENCUENTRA 2.
-            out.flush(); // Limpia el buffer para evitar problemas.
+            // Determina el tipo de mensaje basado en el contenido del mensaje ignorando case.
+            ChatMessage.MessageType type;
+            if (msg.equalsIgnoreCase("logout")) {
+                type = ChatMessage.MessageType.LOGOUT;
+            } else if (msg.equalsIgnoreCase("shutdown")) {
+                type = ChatMessage.MessageType.SHUTDOWN;
+            } else {
+                type = ChatMessage.MessageType.MESSAGE;
+            }
+
+            // Crea un objeto ChatMessage con el tipo y el mensaje.
+            //TODO determinar el id del cliente aquí?
+            ChatMessage chatMessage = new ChatMessage(id, type, msg);
+
+            // Envía el objeto ChatMessage al servidor.
+            out.writeObject(chatMessage);
+            out.flush();
         } catch (IOException e) {
             System.err.println("Error al enviar mensaje: " + e.getMessage());
         }
     }
 
+    /**
+     * Desconecta al cliente del servidor, cerrando los flujos y el socket.
+     */
     @Override
     public void disconnect() {
-        // Implementar desconexión...
+        try {
+            if (out != null) out.close();
+            if (in != null) in.close();
+            if (stdIn != null) stdIn.close();
+            if (socket != null) socket.close();
+            System.out.println("Desconectado del servidor.");
+        } catch (IOException e) {
+            System.err.println("Error al desconectar: " + e.getMessage());
+        }
     }
 
     /**
@@ -76,9 +121,9 @@ public class ChatClientImpl implements ChatClient {
     public static void main(String[] args) {
 
         // Compruebo argumentos.
-        if ((args.length != 1) || (args.length != 2)){
+        if ((args.length < 1) || (args.length > 2)){
             System.err.println(
-                    "Usage: java ChatClientImpl <host name> <port number>");
+                    "Usage: java ChatClientImpl (<host name>) <port number>");
             System.exit(1);
         }
         // Inicializo las variables y las copio de los argumentos pasados.
@@ -95,13 +140,8 @@ public class ChatClientImpl implements ChatClient {
         }
 
         //Arranco el hilo principal de ejecución para el cliente anónimamente.
-        new ChatClientImpl(server, nickname).start();
-        //Arranco el hilo adicional a través de ChatClientLIstener.
-        //new Thread(new ChatClientListener(in)).start();
-        // Igual tiene que ir a connect, una vez establecido el socket entonces lanza el hilo que lee.
-
-
-
+        ChatClientImpl client = new ChatClientImpl(server, nickname);
+        client.start();
 
     }
 
