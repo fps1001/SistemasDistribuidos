@@ -47,10 +47,20 @@ public class ChatClientImpl implements ChatClient {
     public void start() {
 
     }
-
+    /**
+     * Envía un mensaje al servidor.
+     *
+     * @param msg El mensaje a enviar.
+     */
     @Override
-    public void sendMessage(String message) {
-        // Implementar envío de mensajes...
+    public void sendMessage(String msg) {
+        try {
+            // Envuelve el mensaje en un objeto ChatMessage y lo envía.
+            out.writeObject(new ChatMessage(username, msg)); //TODO ESPERA 3 ARGUMENTOS ENCUENTRA 2.
+            out.flush(); // Limpia el buffer para evitar problemas.
+        } catch (IOException e) {
+            System.err.println("Error al enviar mensaje: " + e.getMessage());
+        }
     }
 
     @Override
