@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7dac7eb9-bfab-4dfb-a7f4-effca706f510" name="Changes" comment="Probado funcionamiento S4 Hola Mundo">
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/Servidor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/Servidor.java" afterDir="false" />
+    <list default="true" id="7dac7eb9-bfab-4dfb-a7f4-effca706f510" name="Changes" comment="S4: Servidor.java ya genera 3 objetos.">
+      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/Cliente.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +53,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1710149894299</updated>
-      <workItem from="1710149895360" duration="2557000" />
+      <workItem from="1710149895360" duration="3578000" />
     </task>
     <task id="LOCAL-00001" summary="Probado funcionamiento S4 Hola Mundo">
       <option name="closed" value="true" />
@@ -63,7 +63,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710151242679</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="S4: Servidor.java ya genera 3 objetos.">
+      <option name="closed" value="true" />
+      <created>1710152641605</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1710152641605</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -71,6 +79,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Probado funcionamiento S4 Hola Mundo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Probado funcionamiento S4 Hola Mundo" />
+    <MESSAGE value="S4: Servidor.java ya genera 3 objetos." />
+    <option name="LAST_COMMIT_MESSAGE" value="S4: Servidor.java ya genera 3 objetos." />
   </component>
 </project>
