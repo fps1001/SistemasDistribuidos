@@ -15,14 +15,14 @@ import java.net.Socket;
  *
  * La clase ChatClientListener se define dentro de esta clase para facilitar el acceso a los campos y métodos de la clase externa.
  *
- * https://www.youtube.com/watch?v=gLfuZrrfKes
+ * https://www.youtube.com/watch?v=gLfuZrrfKes - Video y canal de WittCode
  *
  * @author Fernando Pisot Serrano
  * @email fps1001@alu.ubu.es
  */
 public class ChatClientImpl implements ChatClient {
-    private final String server;
-    private final String username;
+    private String serverAddress;
+    private String username;
     private boolean alive; //* Igual tiene que ser en el hilo.
     private static final int DEFAULT_PORT = 1500;
     private Socket socket;
@@ -37,11 +37,9 @@ public class ChatClientImpl implements ChatClient {
      */
     public ChatClientImpl(String server, String username) {
         try {
-            socket = new Socket(server, DEFAULT_PORT);
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
-            //this.alive = true;
-            //****Prueba voy a probar a enviar el nombre aquí.
+            this.serverAddress = server;
+            this.username = username;
+
         } catch (Exception e) {
             System.out.println("Error al conectar con el servidor: " + e.getMessage());
             System.exit(1);
@@ -86,7 +84,25 @@ public class ChatClientImpl implements ChatClient {
      */
     @Override
     public void start() { // Hilo principal del cliente:
+        try {
+            // Establecemos conexión con el servidor
+            socket = new Socket(serverAddress, DEFAULT_PORT);
+            System.out.println("Conectado al servidor de chat en " + serverAddress + ":" + DEFAULT_PORT);
 
+            // Inicializo aquí los flujos de entrada y salida
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
+
+            // Enviar el nombre de usuario al servidor como el primer mensaje
+            sendMessage(username);
+            //sendMessage(new ChatMessage(0, ChatMessage.MessageType.LOGIN, username));
+
+            // Crea y arranca el hilo para escuchar mensajes del servidor
+            new Thread(new ChatClientListener(in)).start();
+        } catch (Exception e) {
+            System.err.println("Error al iniciar el cliente: " + e.getMessage());
+            System.exit(1);
+        }
 
 
     }
@@ -111,7 +127,7 @@ public class ChatClientImpl implements ChatClient {
 
             // Crea un objeto ChatMessage con el tipo y el mensaje.
             //TODO como determino el id del cliente aquí?
-            ChatMessage chatMessage = new ChatMessage(, type, msg);
+            ChatMessage chatMessage = new ChatMessage(0, type, msg);
 
             // Envía el objeto ChatMessage al servidor.
             out.writeObject(chatMessage);
@@ -129,7 +145,6 @@ public class ChatClientImpl implements ChatClient {
         try {
             if (out != null) out.close();
             if (in != null) in.close();
-            if (stdIn != null) stdIn.close();
             if (socket != null) socket.close();
             System.out.println("Desconectado del servidor.");
         } catch (IOException e) {
