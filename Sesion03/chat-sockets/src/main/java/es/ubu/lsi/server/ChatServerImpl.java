@@ -45,6 +45,19 @@ public class ChatServerImpl implements ChatServer {
         this.clientMap = new ConcurrentHashMap<>(); // Lo inicializo para evitar nullpointerexcept.
     }
 
+
+    /**
+     * Punto de entrada principal para la aplicación del servidor.
+     *
+     * @param args argumentos de la línea de comandos.
+     */
+    public static void main(String[] args) throws IOException {
+
+        // Creamos un servidor de la clase de este archivo java y ejecutamos startup.
+        ChatServerImpl server = new ChatServerImpl(DEFAULT_PORT);
+        server.startup();
+    }
+
     /**
      * Implementa el bucle con el servidor de sockets.
      * Ante una petición, se instancia un nuevo hilo y se arranca el hilo correspondiente
@@ -60,6 +73,7 @@ public class ChatServerImpl implements ChatServer {
             while (alive) {
                 // Acepta una nueva conexión de cliente
                 Socket clientSocket = serverSocket.accept();
+                //System.out.println("Un nuevo cliente se ha conectado.");
                 // Incrementa y obtiene el nuevo ID de cliente
                 int newClientId = clientId.incrementAndGet();
 
@@ -69,18 +83,19 @@ public class ChatServerImpl implements ChatServer {
                 String username = "Cliente" + newClientId;
 
                 // Crea un nuevo thread para manejar la comunicación con el cliente
-                ServerThreadForClient clientThread = new ServerThreadForClient(clientSocket, username, newClientId);
-                // Añado al mapa el id del cliente asociado a su hilo.
+                ServerThreadForClient clientThread = new ServerThreadForClient(username, newClientId, this.serverSocket);
+                // Añado al mapa el par: id del cliente y su hilo.
                 clientMap.put(newClientId, clientThread);
 
                 // Inicio el hilo para este cliente
                 clientThread.start();
 
                 System.out.println("Nuevo cliente conectado: " + username + " (ID: " + newClientId + ")");
+                //Vuelta a esperar hasta salida de bucle infinito.
             }
         } catch (IOException e) {
             System.err.println("Error al iniciar el servidor: " + e.getMessage());
-            shutdown();
+            //this.shutdown();
         }
     }
 
@@ -134,16 +149,6 @@ public class ChatServerImpl implements ChatServer {
     }
 
 
-    /**
-     * Punto de entrada principal para la aplicación del servidor.
-     *
-     * @param args argumentos de la línea de comandos.
-     */
-    public static void main(String[] args) {
-        int port = args.length > 0 ? Integer.parseInt(args[0]) : DEFAULT_PORT;
-        ChatServerImpl server = new ChatServerImpl(port);
-        server.startup();
-    }
 
     /**
      * Clase interna que maneja la comunicación con un cliente específico en el sistema de chat.
@@ -153,35 +158,32 @@ public class ChatServerImpl implements ChatServer {
         private int id;
         private String username;
         private boolean alive;
+        private ServerSocket serverSocket;
 
-        public ServerThreadForClient(String username, int id) {
+        public ServerThreadForClient(String username, int id, ServerSocket serverSocket) {
             this.id = id;
             this.username = username;
+            this.serverSocket = serverSocket;
             this.alive = true;
         }
 
         @Override
         public void run() {
-            while(alive) {
-                // Manejar la comunicación con el cliente
-            }
+//  no sé qué hay que hacer aquí!
+
+
         }
         public void shutdown() {
             // Intenta cerrar el socket del cliente y sus flujos asociados.
             try {
-                if (socket != null && !socket.isClosed()) {
-                    // Cierra los flujos de entrada y salida aquí, si están inicializados.
-                    // Por ejemplo:
-                    // out.close();
-                    // in.close();
-
-                    socket.close(); // Cierra el socket del cliente.
+                if (this.serverSocket != null && !this.serverSocket.isClosed()) {
+                    serverSocket.close(); // Cierra el socket del cliente.
                 }
-                System.out.println("Conexión cerrada para el cliente ID: " + id);
+                System.out.println("Conexión cerrada para el cliente ID: " + this.id);
             } catch (IOException e) {
-                System.err.println("Error al cerrar la conexión para el cliente ID: " + id + ": " + e.getMessage());
+                System.err.println("Error al cerrar la conexión para el cliente ID: " + this.id + ": " + e.getMessage());
             } finally {
-                alive = false; // Asegura que el hilo del cliente se detenga.
+                alive = false; // Asegura que el hilo del bucle se detenga.
             }
         }
 

@@ -23,12 +23,8 @@ import java.net.Socket;
 public class ChatClientImpl implements ChatClient {
     private final String server;
     private final String username;
-    private int port = 1500;
-    //* Cambio a privadas y creo el socket.
-    private ObjectOutputStream out = null; // cambio PrintWriter por la clase pedida.
-    private ObjectInputStream in = null; // cambio BufferReader por la clase pedida. Usado en hilo listener.
-    // in leera del socket, stdin de teclado.
-    private BufferedReader stdIn = null;
+    private boolean alive; //* Igual tiene que ser en el hilo.
+    private static final int DEFAULT_PORT = 1500;
     private Socket socket = null;
 
         /**
@@ -43,24 +39,53 @@ public class ChatClientImpl implements ChatClient {
     }
 
     /**
+     * Punto de entrada principal para la aplicación del cliente.
+     *
+     * @param args argumentos de la línea de comandos.
+     */
+    public static void main(String[] args) {
+
+        // Compruebo argumentos.
+        if ((args.length < 1) || (args.length > 2)){
+            System.err.println(
+                    "Usage: java ChatClientImpl (<host name>) <port number>");
+            System.exit(1);
+        }
+        // Inicializo las variables y las copio de los argumentos pasados.
+        String server = null;
+        String nickname = null;
+
+        if (args.length ==1){
+            server = "localhost";
+            nickname = args[0];
+        }
+        else {
+            server = args[0];
+            nickname = args[1];
+        }
+
+        //Arranco el hilo principal de ejecución para el cliente.
+        ChatClientImpl client = new ChatClientImpl(server, nickname);
+        client.start();
+
+    }
+
+    /**
      * Inicia la ejecución del cliente: establece la conexión con el servidor, arranca el hilo listener desde aquí.
      */
     @Override
-    public void start() {
+    public void start() { // Hilo principal del cliente:
         try {
             //Inicializamos todas las variables que necesitamos: socket, objects in and out y lector de teclado:
-            try (Socket socket = new Socket(server, port)) {
-                out = new ObjectOutputStream(socket.getOutputStream());
-                in = new ObjectInputStream(socket.getInputStream());
-            }
-            stdIn = new BufferedReader(new InputStreamReader(System.in));
+            Socket socket = new Socket(server, DEFAULT_PORT);
+
 
             // TODO: Enviar mensaje del nombre de usuario aquí??? devuelve id???
 
             // Lanzamos el listener aquí!
-            new Thread(new ChatClientListener(in)).start();
+            new Thread(new ChatClientListener()).start();
 
-            String userInput;
+            //String userInput;
             // TODO Leer mensaje en bucle
             // Lee mensajes de la consola y los envía al servidor y si es LOGOUT ir a disconnect.
 
@@ -116,37 +141,7 @@ public class ChatClientImpl implements ChatClient {
         }
     }
 
-    /**
-     * Punto de entrada principal para la aplicación del cliente.
-     *
-     * @param args argumentos de la línea de comandos.
-     */
-    public static void main(String[] args) {
 
-        // Compruebo argumentos.
-        if ((args.length < 1) || (args.length > 2)){
-            System.err.println(
-                    "Usage: java ChatClientImpl (<host name>) <port number>");
-            System.exit(1);
-        }
-        // Inicializo las variables y las copio de los argumentos pasados.
-        String server = null;
-        String nickname = null;
-
-        if (args.length ==1){
-            server = "localhost";
-            nickname = args[0];
-        }
-        else {
-            server = args[0];
-            nickname = args[1];
-        }
-
-        //Arranco el hilo principal de ejecución para el cliente anónimamente.
-        ChatClientImpl client = new ChatClientImpl(server, nickname);
-        client.start();
-
-    }
 
     /**
      * Clase interna que escucha los mensajes del servidor y los muestra al cliente.
@@ -156,9 +151,15 @@ public class ChatClientImpl implements ChatClient {
      */
     private class ChatClientListener implements Runnable {
 
-        ObjectInputStream in;
-        public ChatClientListener (ObjectInputStream in){
-            this.in = in; // para recoger información del servidor.
+        private ObjectOutputStream out = null; // cambio PrintWriter por la clase pedida.
+        private ObjectInputStream in = null; // cambio BufferReader por la clase pedida. Usado en hilo listener.
+        // in leera del socket, stdin de teclado.
+        private BufferedReader stdIn = null;
+
+        public ChatClientListener() throws IOException {
+            this.out = new ObjectOutputStream();
+            this.in = new ObjectInputStream();
+            this.stdIn = new BufferedReader();
         }
 
         @Override
