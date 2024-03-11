@@ -4,29 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7dac7eb9-bfab-4dfb-a7f4-effca706f510" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.classpath" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.project" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.settings/org.eclipse.m2e.core.prefs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cliente.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registerit.policy" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/registro.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/servidor.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/Cliente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/HolaMundo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/Servidor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/RMI-HolaMundo-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/es/ubu/lsi/Cliente.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/es/ubu/lsi/HolaMundo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/es/ubu/lsi/Servidor.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+    <list default="true" id="7dac7eb9-bfab-4dfb-a7f4-effca706f510" name="Changes" comment="Probado funcionamiento S4 Hola Mundo">
+      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/Servidor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/Servidor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,11 +53,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1710149894299</updated>
-      <workItem from="1710149895360" duration="1141000" />
+      <workItem from="1710149895360" duration="2557000" />
     </task>
+    <task id="LOCAL-00001" summary="Probado funcionamiento S4 Hola Mundo">
+      <option name="closed" value="true" />
+      <created>1710151242679</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1710151242679</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Probado funcionamiento S4 Hola Mundo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Probado funcionamiento S4 Hola Mundo" />
   </component>
 </project>
