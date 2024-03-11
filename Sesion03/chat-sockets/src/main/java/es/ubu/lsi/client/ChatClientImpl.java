@@ -19,6 +19,7 @@ import java.net.Socket;
  *
  * @author Fernando Pisot Serrano
  * @email fps1001@alu.ubu.es
+ * @repo https://github.com/fps1001/SistemasDistribuidos
  */
 public class ChatClientImpl implements ChatClient {
     private String serverAddress;

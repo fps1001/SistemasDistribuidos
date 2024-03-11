@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Fernando Pisot Serrano
  * @email fps1001@alu.ubu.es
+ * @repo https://github.com/fps1001/SistemasDistribuidos
  */
 public class ChatServerImpl implements ChatServer {
 

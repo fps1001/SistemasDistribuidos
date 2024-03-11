@@ -29,4 +29,6 @@ Ejemplo de uso:
   - logout
   - shutdown
   - drop usuarioaeliminar
+## Sesión 04 - Hola Mundo RMI
+- Modificar la aplicación "Hola mundo" de RMI para exponer al menos 3 objetos y listar estos objetos desde el cliente RMI.
 
