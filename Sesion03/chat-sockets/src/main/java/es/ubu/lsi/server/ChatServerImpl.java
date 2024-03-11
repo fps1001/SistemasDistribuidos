@@ -1,7 +1,10 @@
 package es.ubu.lsi.server;
 
+import es.ubu.lsi.common.ChatMessage;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
@@ -22,27 +25,29 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ChatServerImpl implements ChatServer {
 
     private static final int DEFAULT_PORT = 1500;
-    private int port;
     private ServerSocket serverSocket;
     private boolean alive;
-    //atomic para que no se repitan.
-    private AtomicInteger clientId;
+    private AtomicInteger clientId; //atomic para que no se repitan.
     private SimpleDateFormat sdf;
     //Voy a usar un ConcurrentHashMap que puedes emparejar un entero con una clase personalizada como el hilo del cliente.
     //Así será más fácil enviar a todos o desconectar al que sea necesario.
     private ConcurrentHashMap<Integer, ServerThreadForClient> clientMap;
 
     /**
-     * Constructor con el puerto de escucha para el servidor.
-     *
-     * @param port Puerto de escucha.
+     * Constructor de clase que inicializa las variables.
      */
-    public ChatServerImpl(int port) {
-        this.port = port;
+    public ChatServerImpl() {
         this.alive = true;
         this.clientId = new AtomicInteger(0);
         this.sdf = new SimpleDateFormat("HH:mm:ss");
         this.clientMap = new ConcurrentHashMap<>(); // Lo inicializo para evitar nullpointerexcept.
+        try {
+            this.serverSocket = new ServerSocket(DEFAULT_PORT);
+            System.out.println("El servidor está escuchando en el puerto " + DEFAULT_PORT);
+        } catch (IOException e) {
+            System.err.println("Error al iniciar el servidor: " + e.getMessage());
+            shutdown();
+        }
     }
 
 
@@ -54,7 +59,7 @@ public class ChatServerImpl implements ChatServer {
     public static void main(String[] args) throws IOException {
 
         // Creamos un servidor de la clase de este archivo java y ejecutamos startup.
-        ChatServerImpl server = new ChatServerImpl(DEFAULT_PORT);
+        ChatServerImpl server = new ChatServerImpl();
         server.startup();
     }
 
@@ -67,43 +72,37 @@ public class ChatServerImpl implements ChatServer {
     public void startup() {
         // Copio el sistema del servidor multihilo
         try {
-            serverSocket = new ServerSocket(port);
-            System.out.println("El servidor está escuchando en el puerto " + port);
+            serverSocket = new ServerSocket(DEFAULT_PORT);
+            System.out.println("El servidor está escuchando en el puerto " + DEFAULT_PORT);
 
             while (alive) {
                 // Acepta una nueva conexión de cliente
                 Socket clientSocket = serverSocket.accept();
-                //System.out.println("Un nuevo cliente se ha conectado.");
+                System.out.println("Un nuevo cliente se ha conectado.");
                 // Incrementa y obtiene el nuevo ID de cliente
                 int newClientId = clientId.incrementAndGet();
-
-                //TODO Aquí se debería realizar alguna lógica para obtener el username del cliente,
-                // por ejemplo, leer el primer mensaje enviado tras la conexión.
-                // Para este ejemplo, usaremos el ID del cliente como placeholder.
-                String username = "Cliente" + newClientId;
-
                 // Crea un nuevo thread para manejar la comunicación con el cliente
-                ServerThreadForClient clientThread = new ServerThreadForClient(username, newClientId, this.serverSocket);
+                ServerThreadForClient clientThread = new ServerThreadForClient(newClientId, clientSocket, this);
                 // Añado al mapa el par: id del cliente y su hilo.
                 clientMap.put(newClientId, clientThread);
 
                 // Inicio el hilo para este cliente
                 clientThread.start();
 
-                System.out.println("Nuevo cliente conectado: " + username + " (ID: " + newClientId + ")");
+                System.out.println("Nuevo cliente conectado: " + " (ID: " + newClientId + ")");
                 //Vuelta a esperar hasta salida de bucle infinito.
             }
         } catch (IOException e) {
             System.err.println("Error al iniciar el servidor: " + e.getMessage());
-            //this.shutdown();
+            this.shutdown();
         }
     }
 
     @Override
     public void broadcast(String msg) {
         // Recorrer el mapa para enviar el mensaje a todos los clientes...
-        //TODO Quizá habría que evitar el remitente???
-        clientMap.values().forEach(client -> client.sendMessage(msg));
+        //TODO Quizá habría que evitar el remitente??? id=0, creo que no está muy bien.
+        clientMap.values().forEach(client -> client.sendMessage(new ChatMessage(0, ChatMessage.MessageType.MESSAGE, msg)));
     }
 
     @Override
@@ -155,33 +154,78 @@ public class ChatServerImpl implements ChatServer {
      * Se ejecuta como un hilo separado para manejar las solicitudes del cliente individualmente.
      */
     private class ServerThreadForClient extends Thread {
-        private int id;
+        private final int clientId;
         private String username;
         private boolean alive;
-        private ServerSocket serverSocket;
+        private Socket socket;
+        private ObjectInputStream in;
+        private ObjectOutputStream out;
 
-        public ServerThreadForClient(String username, int id, ServerSocket serverSocket) {
-            this.id = id;
-            this.username = username;
-            this.serverSocket = serverSocket;
-            this.alive = true;
+        private ChatServerImpl server;
+
+        public ServerThreadForClient(int clientId, Socket socket, ChatServerImpl server) {
+            this.clientId = clientId;
+            this.socket = socket;
+            this.server = server;
+            try {
+                out = new ObjectOutputStream(socket.getOutputStream());
+                in = new ObjectInputStream(socket.getInputStream());
+            } catch (IOException e) {
+                System.err.println("Error al establecer flujos de E/S para el cliente " + clientId);
+            }
         }
 
         @Override
         public void run() {
-//  no sé qué hay que hacer aquí!
+            try {
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-
+                while (alive) {
+                    // Leer mensaje del cliente
+                    ChatMessage msg = (ChatMessage) in.readObject();
+                    // Procesar mensaje según su tipo
+                    switch (msg.getType()) {
+                        case MESSAGE:
+                            // Reenvia mensaje a todos los clientes
+                            server.broadcast(msg.getMessage());
+                            break;
+                        case LOGOUT:
+                            // Maneja desconexión del cliente
+                            server.remove(this.clientId);
+                            return; // Terminar ejecución del hilo
+                        case SHUTDOWN:
+                            // Inicia secuencia de apagado del servidor
+                            server.shutdown();
+                            break;
+                        //TODO DROP / BAN.... HAY QUE AÑADIR MÁS LÓGICA UNA VEZ FUNCIONE ESTO
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                // Limpia recursos y eliminar cliente del mapa
+                server.remove(this.clientId);
+            }
         }
+
+        public void sendMessage(ChatMessage message) {
+            try {
+                out.writeObject(message);
+                out.flush();
+            } catch (IOException e) {
+                System.err.println("Error al enviar mensaje al cliente " + clientId + ": " + e.getMessage());
+            }
+        }
+
         public void shutdown() {
             // Intenta cerrar el socket del cliente y sus flujos asociados.
             try {
-                if (this.serverSocket != null && !this.serverSocket.isClosed()) {
+                if (this.socket != null && !this.socket.isClosed()) {
                     serverSocket.close(); // Cierra el socket del cliente.
                 }
-                System.out.println("Conexión cerrada para el cliente ID: " + this.id);
+                System.out.println("Conexión cerrada para el cliente ID: " + this.clientId);
             } catch (IOException e) {
-                System.err.println("Error al cerrar la conexión para el cliente ID: " + this.id + ": " + e.getMessage());
+                System.err.println("Error al cerrar la conexión para el cliente ID: " + this.clientId + ": " + e.getMessage());
             } finally {
                 alive = false; // Asegura que el hilo del bucle se detenga.
             }
