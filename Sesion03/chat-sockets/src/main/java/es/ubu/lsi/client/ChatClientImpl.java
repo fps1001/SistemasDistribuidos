@@ -37,14 +37,10 @@ public class ChatClientImpl implements ChatClient {
      * @param username apodo para el usuario.
      */
     public ChatClientImpl(String server, String username) {
-        try {
-            this.serverAddress = server;
-            this.username = username;
+        this.serverAddress = server;
+        this.username = username;
 
-        } catch (Exception e) {
-            System.out.println("Error al conectar con el servidor: " + e.getMessage());
-            System.exit(1);
-        }
+
 
     }
 
