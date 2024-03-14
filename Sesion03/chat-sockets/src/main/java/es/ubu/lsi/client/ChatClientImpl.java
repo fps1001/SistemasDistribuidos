@@ -170,7 +170,7 @@ public class ChatClientImpl implements ChatClient {
         public ChatClientListener(ObjectInputStream in){
 
             this.in = in;
-            //this.new ObjectOutputStream();
+        //this.new ObjectOutputStream();
         }
 
         @Override

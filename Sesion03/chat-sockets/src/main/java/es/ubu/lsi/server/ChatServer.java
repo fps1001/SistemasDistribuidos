@@ -20,7 +20,7 @@ public interface ChatServer {
      *
      * @param msg el mensaje a enviar.
      */
-    void broadcast(String msg);
+    //void broadcast(String msg);
 
     void broadcast(ChatMessage msg);
 
