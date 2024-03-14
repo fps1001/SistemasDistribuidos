@@ -236,11 +236,12 @@ import java.io.*;
 
 public class ChatServerImpl implements ChatServer {
     private static final int DEFAULT_PORT = 1500;
+    private boolean alive = true;
 
     public static void main(String[] args) throws IOException {
 
         if (args.length != 0) {
-            System.err.println("Usage: java ChatServerImpl.java ");
+            System.err.println("Usage: java es.ubu.lsi.server.ChatServerImpl ");
             System.exit(1);
         }
 
@@ -259,12 +260,10 @@ public class ChatServerImpl implements ChatServer {
     @Override
     public void startup() {
         try  (
-                //FPS Cambio por claridad la variable, en vez de volver a hacer el parse
-                //ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
                 ServerSocket serverSocket = new ServerSocket(DEFAULT_PORT);
         )
         {
-            while (true){
+            while (alive){
                 Socket clientSocket = serverSocket.accept();
                 // Si pasa el corte establece la conexión.
                 System.out.println("Nuevo Cliente: " + clientSocket.getInputStream());

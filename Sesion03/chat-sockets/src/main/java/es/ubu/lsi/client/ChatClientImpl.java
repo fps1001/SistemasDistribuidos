@@ -1,6 +1,8 @@
 package es.ubu.lsi.client;
 
+
 import es.ubu.lsi.common.ChatMessage;
+import es.ubu.lsi.common.ChatMessage.MessageType;
 
 import java.io.*;
 import java.net.Socket;
@@ -26,7 +28,7 @@ public class ChatClientImpl implements ChatClient {
     private String username;
     private boolean alive; //* Igual tiene que ser en el hilo.
     private static final int DEFAULT_PORT = 1500;
-    private Socket socket;
+    private Socket clientSocket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
@@ -39,7 +41,13 @@ public class ChatClientImpl implements ChatClient {
     public ChatClientImpl(String server, String username) {
         this.serverAddress = server;
         this.username = username;
-
+        try {
+            this.clientSocket = new Socket(this.serverAddress, DEFAULT_PORT);
+            out = new ObjectOutputStream(clientSocket.getOutputStream());
+        } catch (IOException e) {
+            System.err.println("ERROR: No se pudo iniciar el cliente.");
+            System.exit(1);
+        }
 
 
     }
@@ -81,28 +89,25 @@ public class ChatClientImpl implements ChatClient {
      */
     @Override
     public void start() { // Hilo principal del cliente:
-        try {
-            // Establecemos conexión con el servidor
-            socket = new Socket(serverAddress, DEFAULT_PORT);
-            System.out.println("Conectado al servidor de chat en " + serverAddress + ":" + DEFAULT_PORT);
-
-            // Inicializo aquí los flujos de entrada y salida
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
-
-            // Enviar el nombre de usuario al servidor como el primer mensaje
-            sendMessage(username);
-            //sendMessage(new ChatMessage(0, ChatMessage.MessageType.LOGIN, username));
-
-            // Crea y arranca el hilo para escuchar mensajes del servidor
+        //Lo primero será enviar el nombre de usuario.
+        sendMessage(String.valueOf(new ChatMessage(0, MessageType.MESSAGE, username)));
+        //Leeremos de servidor.
+        try (ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream())) {
             new Thread(new ChatClientListener(in)).start();
+            // Procesamiento de entrada del usuario (dispather de mensaje recibido).
+            processUserInput();
         } catch (Exception e) {
-            System.err.println("Error al iniciar el cliente: " + e.getMessage());
-            System.exit(1);
+            System.err.println("ERROR: Problema al iniciar la escucha de mensajes.");
         }
-
-
     }
+
+    /**
+     * Recibirá un mensaje del servidor y tratará su información
+     */
+    private void processUserInput() {
+        //TODO
+    }
+
 
     /**
      * Envía un mensaje al servidor.
@@ -112,25 +117,9 @@ public class ChatClientImpl implements ChatClient {
     @Override
     public void sendMessage(String msg) {
         try {
-            // Determina el tipo de mensaje basado en el contenido del mensaje ignorando case.
-            ChatMessage.MessageType type;
-            if (msg.equalsIgnoreCase("logout")) {
-                type = ChatMessage.MessageType.LOGOUT;
-            } else if (msg.equalsIgnoreCase("shutdown")) {
-                type = ChatMessage.MessageType.SHUTDOWN;
-            } else {
-                type = ChatMessage.MessageType.MESSAGE;
-            }
-
-            // Crea un objeto ChatMessage con el tipo y el mensaje.
-            //TODO como determino el id del cliente aquí?
-            ChatMessage chatMessage = new ChatMessage(0, type, msg);
-
-            // Envía el objeto ChatMessage al servidor.
-            out.writeObject(chatMessage);
-            out.flush();
+            out.writeObject(msg);
         } catch (IOException e) {
-            System.err.println("Error al enviar mensaje: " + e.getMessage());
+            System.err.println("ERROR: No se pudo enviar el mensaje al servidor.");
         }
     }
 
@@ -140,15 +129,15 @@ public class ChatClientImpl implements ChatClient {
     @Override
     public void disconnect() {
         try {
+            this.alive = false;
             if (out != null) out.close();
             if (in != null) in.close();
-            if (socket != null) socket.close();
+            if (clientSocket != null) clientSocket.close();
             System.out.println("Desconectado del servidor.");
         } catch (IOException e) {
             System.err.println("Error al desconectar: " + e.getMessage());
         }
     }
-
 
 
     /**
@@ -158,17 +147,20 @@ public class ChatClientImpl implements ChatClient {
      * Como es una clase interna, tiene acceso directo a los métodos y campos de la clase externa ChatClientImpl.
      */
     private class ChatClientListener implements Runnable {
-        private ObjectInputStream in = null; // cambio BufferReader por la clase pedida. Usado en hilo listener.
-        // in leera del socket, stdin de teclado.
+        private ObjectInputStream in; // cambio BufferReader por la clase pedida. Usado en hilo listener.
+        //private ObjectOutputStream out;
 
-        public ChatClientListener(ObjectInputStream input){
-            this.in = input;
+
+        public ChatClientListener(ObjectInputStream in){
+
+            this.in = in;
+            //this.new ObjectOutputStream();
         }
 
         @Override
         public void run() {
             // Escuchar y mostrar mensajes entrantes...
-            while (alive){ //TODO: quizá usar flag para evitar warning?
+            while (alive){
                 try { // Obtengo mensaje y lo imprimo.
                     String msg = ((ChatMessage) in.readObject()).getMessage();
                     System.out.println(msg);
