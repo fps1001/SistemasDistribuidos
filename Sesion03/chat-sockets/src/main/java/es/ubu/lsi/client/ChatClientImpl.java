@@ -42,6 +42,7 @@ public class ChatClientImpl implements ChatClient {
     public ChatClientImpl(String server, String username) {
         this.serverAddress = server;
         this.username = username;
+        this.carryOn = true;
         try {
             this.clientSocket = new Socket(this.serverAddress, DEFAULT_PORT);
             out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -49,8 +50,6 @@ public class ChatClientImpl implements ChatClient {
             System.err.println("ERROR: No se pudo iniciar el cliente.");
             System.exit(1);
         }
-
-
     }
 
     /**
@@ -93,13 +92,17 @@ public class ChatClientImpl implements ChatClient {
         //Lo primero será enviar el nombre de usuario.
         sendMessage(new ChatMessage(0, MessageType.MESSAGE, username));
         //Leeremos de servidor.
-        try (ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream())) {
-            new Thread(new ChatClientListener(in)).start();
-            // Procesamiento de entrada del usuario (dispather de mensaje recibido).
-            processUserInput();
-        } catch (Exception e) {
-            System.err.println("ERROR: Problema al iniciar la escucha de mensajes.");
+        // Inicializar la escucha de mensajes entrantes en un nuevo hilo
+        try {
+            in = new ObjectInputStream(clientSocket.getInputStream());
+            new Thread(new ChatClientListener(in)).start(); // Este hilo se mantendrá activo escuchando mensajes del servidor.
+        } catch (IOException e) {
+            System.err.println("ERROR: No se pudo crear ObjectInputStream.");
+            e.printStackTrace();
         }
+
+        // Función privada que funciona de distpacher de los mensajes recibidos.
+        processUserInput();
     }
 
     /**
@@ -107,15 +110,15 @@ public class ChatClientImpl implements ChatClient {
      */
     private void processUserInput() {
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Escriba sus mensajes (escriba 'salir' para terminar):");
             while (carryOn) {
+                System.out.print(username + ">>> "); // Añadir indicador de nombre de usuario antes de la entrada
                 String input = scanner.nextLine();
                 if ("salir".equalsIgnoreCase(input)) {
-                    carryOn = false;
-                    disconnect(); // Desconectar si el usuario desea salir
-                    System.out.println("Sesión finalizada.");
+                    carryOn = false; // Cambiar la bandera carryOn para terminar los bucles en ambos hilos
+                    sendMessage(new ChatMessage(0, MessageType.LOGOUT, "salir")); // Enviar mensaje de logout al servidor
+                    disconnect(); // Desconectar del servidor
                 } else {
-                    sendMessage(new ChatMessage(0, MessageType.MESSAGE, input)); // Modificado para enviar objetos
+                    sendMessage(new ChatMessage(0, MessageType.MESSAGE, input)); // Enviar mensajes regulares al servidor
                 }
             }
         } catch (Exception e) {
@@ -177,12 +180,12 @@ public class ChatClientImpl implements ChatClient {
         public void run() {
             // Escuchar y mostrar mensajes entrantes...
             while (carryOn){
-                try { // Obtengo mensaje y lo imprimo.
-                    String msg = ((ChatMessage) in.readObject()).getMessage();
-                    System.out.println(msg);
+                try { // Se obtiene mensaje y se imprime.
+                    ChatMessage msg = (ChatMessage) in.readObject();
+                    System.out.println(msg.getId() + ">>> " + msg.getMessage());
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("Error al leer el mensaje: " + e.getMessage());
-                    break; // Sale del bucle si hay un error.
+                    carryOn = false; // Cambiar la bandera para detener el bucle si hay un error
                 }
             }
         }
