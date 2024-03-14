@@ -89,12 +89,19 @@ class ChatServerImpl implements ChatServer {
 
     @Override
     public void broadcast(ChatMessage msg) {
-        String senderUsername = idToUsername.get(msg.getId()); // Obtener el username usando el clientId
+        // Extraer el nombre de usuario del cliente que envió el mensaje original.
+        String senderUsername = idToUsername.get(msg.getId());
 
+        // Crear el mensaje con el formato "username: message"
+        String formattedMessage = senderUsername + ": " + msg.getMessage();
+        ChatMessage formattedChatMessage = new ChatMessage(msg.getId(), msg.getType(), formattedMessage);
+
+        // Recorrer todos los clientes y enviarles el mensaje formateado,
+        // excepto al cliente que envió el mensaje original.
         for (Map.Entry<String, ServerThreadForClient> clientEntry : clients.entrySet()) {
-            if (!clientEntry.getKey().equals(senderUsername)) { // Comprobar el username en lugar del clientId
+            if (!clientEntry.getKey().equals(senderUsername)) { // No retransmitir al emisor
                 try {
-                    clientEntry.getValue().getOut().writeObject(msg);
+                    clientEntry.getValue().getOut().writeObject(formattedChatMessage);
                 } catch (IOException e) {
                     System.err.println("Error al enviar mensaje a " + clientEntry.getKey());
                     // Considera eliminar al cliente si no se puede enviar el mensaje
@@ -102,8 +109,6 @@ class ChatServerImpl implements ChatServer {
             }
         }
     }
-
-
 
 
     @Override

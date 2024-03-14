@@ -97,8 +97,8 @@ public class ChatClientImpl implements ChatClient {
             in = new ObjectInputStream(clientSocket.getInputStream());
             new Thread(new ChatClientListener(in)).start(); // Este hilo se mantendrá activo escuchando mensajes del servidor.
         } catch (IOException e) {
-            System.err.println("ERROR: No se pudo crear ObjectInputStream.");
             e.printStackTrace();
+            disconnect(); // Desconectar si hay un error al iniciar.
         }
 
         // Función privada que funciona de distpacher de los mensajes recibidos.
@@ -121,12 +121,11 @@ public class ChatClientImpl implements ChatClient {
                     sendMessage(new ChatMessage(0, MessageType.MESSAGE, input)); // Enviar mensajes regulares al servidor
                 }
             }
+            disconnect();
         } catch (Exception e) {
             System.err.println("Error al procesar la entrada del usuario: " + e.getMessage());
         }
     }
-
-
 
     /**
      * Envía un mensaje al servidor.
@@ -166,7 +165,7 @@ public class ChatClientImpl implements ChatClient {
      * Como es una clase interna, tiene acceso directo a los métodos y campos de la clase externa ChatClientImpl.
      */
     private class ChatClientListener implements Runnable {
-        private ObjectInputStream in; // cambio BufferReader por la clase pedida. Usado en hilo listener.
+        private final ObjectInputStream in; // Cambio BufferReader por la clase pedida. Usado en hilo listener.
         //private ObjectOutputStream out;
 
 
@@ -180,9 +179,14 @@ public class ChatClientImpl implements ChatClient {
         public void run() {
             // Escuchar y mostrar mensajes entrantes...
             while (carryOn){
-                try { // Se obtiene mensaje y se imprime.
+                try {
                     ChatMessage msg = (ChatMessage) in.readObject();
-                    System.out.println(msg.getId() + ">>> " + msg.getMessage());
+                    String[] parts = msg.getMessage().split(": ", 2); // Suponemos que el mensaje tiene formato "username: message"
+                    if (parts.length == 2) {
+                        System.out.println(parts[0] + ">>> " + parts[1]); // Imprime "username>>> message"
+                    } else {
+                        System.out.println(msg.getMessage()); // Si no sigue el formato, imprime el mensaje como está
+                    }
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("Error al leer el mensaje: " + e.getMessage());
                     carryOn = false; // Cambiar la bandera para detener el bucle si hay un error
