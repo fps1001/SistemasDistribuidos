@@ -6,6 +6,7 @@ import es.ubu.lsi.common.ChatMessage.MessageType;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Implementación del cliente para el sistema de chat.
@@ -26,7 +27,7 @@ import java.net.Socket;
 public class ChatClientImpl implements ChatClient {
     private String serverAddress;
     private String username;
-    private boolean alive; //* Igual tiene que ser en el hilo.
+    private boolean carryOn;
     private static final int DEFAULT_PORT = 1500;
     private Socket clientSocket;
     private ObjectOutputStream out;
@@ -105,7 +106,21 @@ public class ChatClientImpl implements ChatClient {
      * Recibirá un mensaje del servidor y tratará su información
      */
     private void processUserInput() {
-        //TODO
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Escriba sus mensajes (escriba 'salir' para terminar):");
+            while (carryOn) {
+                String input = scanner.nextLine();
+                if ("salir".equalsIgnoreCase(input)) {
+                    carryOn = false;
+                    disconnect(); // Desconectar si el usuario desea salir
+                    System.out.println("Sesión finalizada.");
+                } else {
+                    System.out.println("Mensaje recibido: " + input);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al procesar la entrada del usuario: " + e.getMessage());
+        }
     }
 
 
@@ -129,7 +144,7 @@ public class ChatClientImpl implements ChatClient {
     @Override
     public void disconnect() {
         try {
-            this.alive = false;
+            this.carryOn = false;
             if (out != null) out.close();
             if (in != null) in.close();
             if (clientSocket != null) clientSocket.close();
@@ -160,7 +175,7 @@ public class ChatClientImpl implements ChatClient {
         @Override
         public void run() {
             // Escuchar y mostrar mensajes entrantes...
-            while (alive){
+            while (carryOn){
                 try { // Obtengo mensaje y lo imprimo.
                     String msg = ((ChatMessage) in.readObject()).getMessage();
                     System.out.println(msg);
