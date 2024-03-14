@@ -121,7 +121,7 @@ public class ChatClientImpl implements ChatClient {
                     sendMessage(new ChatMessage(0, MessageType.MESSAGE, input)); // Enviar mensajes regulares al servidor
                 }
             }
-            disconnect();
+            //disconnect();
         } catch (Exception e) {
             System.err.println("Error al procesar la entrada del usuario: " + e.getMessage());
         }
@@ -182,14 +182,11 @@ public class ChatClientImpl implements ChatClient {
                 try {
                     ChatMessage msg = (ChatMessage) in.readObject();
                     String[] parts = msg.getMessage().split(": ", 2); // Suponemos que el mensaje tiene formato "username: message"
-                    if (parts.length == 2) {
-                        System.out.println(parts[0] + ">>> " + parts[1]); // Imprime "username>>> message"
-                    } else {
-                        System.out.println(msg.getMessage()); // Si no sigue el formato, imprime el mensaje como está
-                    }
+                    System.out.println(parts[0] + ">>> " + parts[1]); // Imprime "username>>> message"
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("Error al leer el mensaje: " + e.getMessage());
                     carryOn = false; // Cambiar la bandera para detener el bucle si hay un error
+                    //TODO si se desconecta dará error de Socket cerrado, habría que gestionarlo para que no diera.
                 }
             }
         }

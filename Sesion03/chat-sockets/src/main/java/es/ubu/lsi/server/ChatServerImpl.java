@@ -29,7 +29,7 @@ class ChatServerImpl implements ChatServer {
     private static final int DEFAULT_PORT = 1500;
     private boolean alive = true;
     //Añado clases a partir del multihilo.
-    private int clientId; // Lo añado porque está en los apuntes aunque con mi estructura de datos no se usa.
+    private static int clientId = 1;
     private SimpleDateFormat sdf;
     Map<String, ServerThreadForClient> clients = new ConcurrentHashMap<>();
     // Para no modificar el archivo de ChatMessage tengo que llevar otro mapa con id-usuario.
@@ -41,14 +41,26 @@ class ChatServerImpl implements ChatServer {
     public void registerClient(int clientId, String username, ServerThreadForClient clientThread) {
         clients.put(username, clientThread);
         idToUsername.put(clientId, username); // Almacena la asociación de ID a username
-        System.out.println(username + " ha sido conectado.");
+        //System.out.println(username + " ha sido conectado.");
     }
 
 
     public void removeClient(String username) {
-        clients.remove(username);
+        // Encuentra el ID correspondiente al username y lo elimina de idToUsername
+        Integer clientIdToRemove = null;
+        for (Map.Entry<Integer, String> entry : idToUsername.entrySet()) {
+            if (entry.getValue().equals(username)) {
+                clientIdToRemove = entry.getKey();
+                break;
+            }
+        }
+        if (clientIdToRemove != null) {
+            idToUsername.remove(clientIdToRemove);
+        }
+        clients.remove(username); // Elimina al cliente del map de clientes
         System.out.println(username + " ha sido desconectado.");
     }
+
 
     public static void main(String[] args){
 
@@ -75,8 +87,10 @@ class ChatServerImpl implements ChatServer {
             while (alive){
                 Socket clientSocket = serverSocket.accept();
                 // Si pasa el corte establece la conexión a un nuevo hilo.
-                System.out.println("Nuevo Cliente: " + clientSocket);
-                ServerThreadForClient clientThread = new ServerThreadForClient(clientSocket, this);
+                //System.out.println("Nuevo Cliente: " + clientSocket);
+                int thisClientId = clientId++; // Asigna y luego incrementa el valor para el próximo cliente
+                ServerThreadForClient clientThread = new ServerThreadForClient(clientSocket, this, thisClientId);
+
                 clientThread.start();
             }
 
@@ -91,6 +105,11 @@ class ChatServerImpl implements ChatServer {
     public void broadcast(ChatMessage msg) {
         // Extraer el nombre de usuario del cliente que envió el mensaje original.
         String senderUsername = idToUsername.get(msg.getId());
+
+
+        System.out.println("DEBUG: Nombre de usuario asignado - " + senderUsername + "id: " + msg.getId());
+
+
 
         // Crear el mensaje con el formato "username: message"
         String formattedMessage = senderUsername + ": " + msg.getMessage();
@@ -143,9 +162,10 @@ class ServerThreadForClient extends Thread {
     private int clientId;
     private ChatServerImpl server; // Referencia al servidor para poder llamar a métodos como broadcast
 
-    public ServerThreadForClient(Socket clientSocket, ChatServerImpl server) {
+    public ServerThreadForClient(Socket clientSocket, ChatServerImpl server, int clienteId) {
         this.clientSocket = clientSocket;
         this.server = server;
+        this.clientId = clienteId;
 
         try {
             out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -163,6 +183,9 @@ class ServerThreadForClient extends Thread {
             if (inputObject instanceof ChatMessage) {
                 ChatMessage initMessage = (ChatMessage) inputObject;
                 this.username = initMessage.getMessage(); // Suponemos que el mensaje contiene el nombre de usuario
+
+                System.out.println("DEBUG: Nombre de usuario asignado - " + this.username);
+
                 server.registerClient(this.clientId,this.username, this); // Método adicional en ChatServerImpl para añadir el cliente
 
                 System.out.println("Cliente " + this.username + " conectado.");
@@ -171,7 +194,8 @@ class ServerThreadForClient extends Thread {
                 while ((inputObject = in.readObject()) != null) {
                     if (inputObject instanceof ChatMessage) {
                         ChatMessage message = (ChatMessage) inputObject;
-                        System.out.println("Mensaje de " + this.username + ": " + message.getMessage());
+                        //TODO Tendría que comprobar el usuario de nuevo???
+                        System.out.println(this.username + ": " + message.getMessage());
                         server.broadcast(message); // Asume que este método ya gestiona adecuadamente la exclusión del emisor
                     }
                 }
