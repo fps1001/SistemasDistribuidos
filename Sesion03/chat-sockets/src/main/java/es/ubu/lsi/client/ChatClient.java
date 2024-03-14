@@ -1,5 +1,7 @@
 package es.ubu.lsi.client;
 
+import es.ubu.lsi.common.ChatMessage;
+
 /**
  * Interfaz para la funcionalidad del cliente en el sistema de chat.
  * Define la firma para los métodos de envío de mensajes, desconexión y arranque del cliente.
@@ -13,7 +15,7 @@ public interface ChatClient {
      *
      * @param message mensaje a enviar.
      */
-    void sendMessage(String message);
+    void sendMessage(ChatMessage message);
 
     /**
      * Desconecta al cliente del servidor de chat.

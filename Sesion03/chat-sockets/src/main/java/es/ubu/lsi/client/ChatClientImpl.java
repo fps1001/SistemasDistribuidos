@@ -91,7 +91,7 @@ public class ChatClientImpl implements ChatClient {
     @Override
     public void start() { // Hilo principal del cliente:
         //Lo primero será enviar el nombre de usuario.
-        sendMessage(String.valueOf(new ChatMessage(0, MessageType.MESSAGE, username)));
+        sendMessage(new ChatMessage(0, MessageType.MESSAGE, username));
         //Leeremos de servidor.
         try (ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream())) {
             new Thread(new ChatClientListener(in)).start();
@@ -115,7 +115,7 @@ public class ChatClientImpl implements ChatClient {
                     disconnect(); // Desconectar si el usuario desea salir
                     System.out.println("Sesión finalizada.");
                 } else {
-                    System.out.println("Mensaje recibido: " + input);
+                    sendMessage(new ChatMessage(0, MessageType.MESSAGE, input)); // Modificado para enviar objetos
                 }
             }
         } catch (Exception e) {
@@ -124,13 +124,14 @@ public class ChatClientImpl implements ChatClient {
     }
 
 
+
     /**
      * Envía un mensaje al servidor.
      *
      * @param msg El mensaje a enviar.
      */
     @Override
-    public void sendMessage(String msg) {
+    public void sendMessage(ChatMessage msg) {
         try {
             out.writeObject(msg);
         } catch (IOException e) {

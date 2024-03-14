@@ -1,5 +1,7 @@
 package es.ubu.lsi.server;
 
+import es.ubu.lsi.common.ChatMessage;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -97,29 +99,50 @@ public class ChatServerImpl implements ChatServer {
 
 
 class ServerThreadForClient extends Thread {
+    private Socket clientSocket;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
+    private int clientId;
+    private ChatServerImpl server; // Referencia al servidor para poder llamar a métodos como broadcast
 
-    private final Socket clientSocket;
-
-    public ServerThreadForClient(Socket clientSocket) {
+    public ServerThreadForClient(Socket clientSocket, int clientId, ChatServerImpl server) {
         this.clientSocket = clientSocket;
+        this.clientId = clientId;
+        this.server = server;
+        try {
+            out = new ObjectOutputStream(clientSocket.getOutputStream());
+            in = new ObjectInputStream(clientSocket.getInputStream());
+        } catch (IOException e) {
+            System.out.println("Error al crear flujos de entrada/salida: " + e.getMessage());
+        }
     }
 
     public void run() {
+        // Cambio el printer del multihilo por un objeto serializable
         try {
-            //TODO Cambiar outputStream por object
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            Object inputObject;
 
-            String inputLine;
-
-            while ((inputLine = in.readLine()) != null) {
-                System.out.println(clientSocket.getPort() + ":" + inputLine);
-                out.println(inputLine);
+            while ((inputObject = in.readObject()) != null) {
+                if (inputObject instanceof ChatMessage) {
+                    ChatMessage message = (ChatMessage) inputObject;
+                    System.out.println("Mensaje de cliente " + clientId + ": " + message.getMessage());
+                    // Aquí puedes implementar la lógica para manejar diferentes tipos de mensajes
+                    // Por ejemplo, retransmitir el mensaje a otros clientes
+                    server.broadcast(message);
+                }
             }
-        }
-        catch (IOException e) {
-            System.out.println("Exception caught on thread");
-            System.out.println(e.getMessage());
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Exception caught on thread for client " + clientId + ": " + e.getMessage());
+        } finally {
+            // Asegurarse de cerrar recursos y notificar al servidor que el cliente se desconectó
+            server.remove(clientId);
+            try {
+                if (out != null) out.close();
+                if (in != null) in.close();
+                if (clientSocket != null) clientSocket.close();
+            } catch (IOException e) {
+                System.out.println("Error al cerrar flujos o socket para el cliente " + clientId);
+            }
         }
     }
 }
