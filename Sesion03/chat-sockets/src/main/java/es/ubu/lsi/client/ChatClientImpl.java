@@ -90,17 +90,23 @@ public class ChatClientImpl implements ChatClient {
      */
     @Override
     public void start() { // Hilo principal del cliente:
-        //Lo primero será enviar el nombre de usuario.
-        sendMessage(new ChatMessage(id, MessageType.MESSAGE, username));
-        //Leeremos de servidor su id.
-
-
-
-        // Inicializar la escucha de mensajes entrantes en un nuevo hilo
         try {
+            // Espera recibir el id asignado por el servidor.
             in = new ObjectInputStream(clientSocket.getInputStream());
+            ChatMessage welcomeMessage = (ChatMessage) in.readObject();
+            // Suponiendo que el servidor envía un mensaje indicando el id del cliente.
+            this.id = welcomeMessage.getId(); // Actualiza el id del cliente basado en el mensaje recibido.
+            System.out.println(welcomeMessage.getMessage()); // Muestra el mensaje con el id asignado.
+
+            //Lo primero será enviar el nombre de usuario.
+            sendMessage(new ChatMessage(this.id, MessageType.MESSAGE, username));
+            //Leeremos de servidor su id.
+
+            // Inicializar la escucha de mensajes entrantes en un nuevo hilo
+
+            //in = new ObjectInputStream(clientSocket.getInputStream());
             new Thread(new ChatClientListener(in)).start(); // Este hilo se mantendrá activo escuchando mensajes del servidor.
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             disconnect(); // Desconectar si hay un error al iniciar.
         }

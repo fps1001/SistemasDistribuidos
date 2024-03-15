@@ -117,7 +117,7 @@ class ChatServerImpl implements ChatServer {
         String senderUsername = idToUsername.get(msg.getId());
 
 
-        System.out.println("DEBUG: Nombre de usuario asignado - " + senderUsername + ". id: " + msg.getId());
+        //System.out.println("DEBUG: Nombre de usuario asignado - " + senderUsername + ". id: " + msg.getId());
 
 
 
@@ -188,6 +188,8 @@ class ServerThreadForClient extends Thread {
     public void run() {
         // Cambio el printer del multihilo por un objeto serializable
         try {
+            // Enviar al cliente su id asignado inmediatamente después de la conexión.
+            out.writeObject(new ChatMessage(clientId, ChatMessage.MessageType.MESSAGE, "Tu id es: " + clientId));
             // Espera el primer mensaje, que consideramos el nombre de usuario.
             Object inputObject = in.readObject();
             if (inputObject instanceof ChatMessage) {
