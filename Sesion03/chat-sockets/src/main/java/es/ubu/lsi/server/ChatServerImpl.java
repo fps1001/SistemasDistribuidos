@@ -41,7 +41,7 @@ class ChatServerImpl implements ChatServer {
     public void registerClient(int clientId, String username, ServerThreadForClient clientThread) {
         clients.put(username, clientThread);
         idToUsername.put(clientId, username); // Almacena la asociación de ID a username
-        //System.out.println(username + " ha sido conectado.");
+        // System.out.println("DEBUG: " + username + " con id: " + clientId + " ha sido registrado.");
     }
 
 
@@ -103,11 +103,21 @@ class ChatServerImpl implements ChatServer {
 
     @Override
     public void broadcast(ChatMessage msg) {
-        // Extraer el nombre de usuario del cliente que envió el mensaje original.
+//        // Extraer el nombre de usuario del cliente que envió el mensaje original.
+//        System.out.println("DEBUG: Mapa de idToUsername:");
+//        for(Map.Entry<Integer, String> entry : idToUsername.entrySet()) {
+//            System.out.println("ID: " + entry.getKey() + " -> Username: " + entry.getValue());
+//        }
+//
+//        System.out.println("DEBUG: Mapa de clients:");
+//        for(Map.Entry<String, ServerThreadForClient> entry : clients.entrySet()) {
+//            System.out.println("Username: " + entry.getKey() + " -> ClientThread: " + entry.getValue());
+//        }
+
         String senderUsername = idToUsername.get(msg.getId());
 
 
-        System.out.println("DEBUG: Nombre de usuario asignado - " + senderUsername + "id: " + msg.getId());
+        System.out.println("DEBUG: Nombre de usuario asignado - " + senderUsername + ". id: " + msg.getId());
 
 
 
@@ -184,11 +194,11 @@ class ServerThreadForClient extends Thread {
                 ChatMessage initMessage = (ChatMessage) inputObject;
                 this.username = initMessage.getMessage(); // Suponemos que el mensaje contiene el nombre de usuario
 
-                System.out.println("DEBUG: Nombre de usuario asignado - " + this.username);
+                //System.out.println("DEBUG: Nombre de usuario asignado - " + this.username);
 
                 server.registerClient(this.clientId,this.username, this); // Método adicional en ChatServerImpl para añadir el cliente
 
-                System.out.println("Cliente " + this.username + " conectado.");
+                System.out.println("Cliente " + this.username + " con id: " + this.clientId + " conectado.");
 
                 // Ahora entra en un bucle para leer mensajes siguientes
                 while ((inputObject = in.readObject()) != null) {
@@ -196,6 +206,10 @@ class ServerThreadForClient extends Thread {
                         ChatMessage message = (ChatMessage) inputObject;
                         //TODO Tendría que comprobar el usuario de nuevo???
                         System.out.println(this.username + ": " + message.getMessage());
+
+                        //System.out.println("DEBUG: id: " + message.getId() + " type: " + message.getType() + " message: " + message.getMessage());
+
+
                         server.broadcast(message); // Asume que este método ya gestiona adecuadamente la exclusión del emisor
                     }
                 }

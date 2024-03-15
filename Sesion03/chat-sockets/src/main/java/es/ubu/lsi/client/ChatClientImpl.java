@@ -32,6 +32,7 @@ public class ChatClientImpl implements ChatClient {
     private Socket clientSocket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    int id;
 
         /**
      * Constructor con dirección IP/nombre de máquina y nickname.
@@ -90,8 +91,11 @@ public class ChatClientImpl implements ChatClient {
     @Override
     public void start() { // Hilo principal del cliente:
         //Lo primero será enviar el nombre de usuario.
-        sendMessage(new ChatMessage(0, MessageType.MESSAGE, username));
-        //Leeremos de servidor.
+        sendMessage(new ChatMessage(id, MessageType.MESSAGE, username));
+        //Leeremos de servidor su id.
+
+
+
         // Inicializar la escucha de mensajes entrantes en un nuevo hilo
         try {
             in = new ObjectInputStream(clientSocket.getInputStream());
@@ -110,15 +114,15 @@ public class ChatClientImpl implements ChatClient {
      */
     private void processUserInput() {
         try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Bienvenido al chat: " + username ); // Añadir indicador de nombre de usuario antes de la entrada
             while (carryOn) {
-                System.out.print(username + ">>> "); // Añadir indicador de nombre de usuario antes de la entrada
                 String input = scanner.nextLine();
                 if ("salir".equalsIgnoreCase(input)) {
                     carryOn = false; // Cambiar la bandera carryOn para terminar los bucles en ambos hilos
-                    sendMessage(new ChatMessage(0, MessageType.LOGOUT, "salir")); // Enviar mensaje de logout al servidor
+                    sendMessage(new ChatMessage(this.id, MessageType.LOGOUT, "salir")); // Enviar mensaje de logout al servidor
                     disconnect(); // Desconectar del servidor
                 } else {
-                    sendMessage(new ChatMessage(0, MessageType.MESSAGE, input)); // Enviar mensajes regulares al servidor
+                    sendMessage(new ChatMessage(this.id, MessageType.MESSAGE, input)); // Enviar mensajes regulares al servidor
                 }
             }
             //disconnect();
