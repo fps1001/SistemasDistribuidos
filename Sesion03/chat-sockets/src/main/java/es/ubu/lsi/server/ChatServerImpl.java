@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.*;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -58,7 +59,7 @@ class ChatServerImpl implements ChatServer {
             idToUsername.remove(clientIdToRemove);
         }
         clients.remove(username); // Elimina al cliente del map de clientes
-        System.out.println(username + " ha sido desconectado.");
+        //System.out.println(username + " ha sido desconectado.");
     }
 
 
@@ -203,24 +204,37 @@ class ServerThreadForClient extends Thread {
                 System.out.println("Cliente " + this.username + " con id: " + this.clientId + " conectado.");
 
                 // Ahora entra en un bucle para leer mensajes siguientes
-                while ((inputObject = in.readObject()) != null) {
-                    if (inputObject instanceof ChatMessage) {
-                        ChatMessage message = (ChatMessage) inputObject;
-                        //TODO Tendría que comprobar el usuario de nuevo???
+                while (true) {
+                    ChatMessage message = (ChatMessage) in.readObject();
+                    if (message.getType() == ChatMessage.MessageType.MESSAGE) {
                         System.out.println(this.username + ": " + message.getMessage());
-
-                        //System.out.println("DEBUG: id: " + message.getId() + " type: " + message.getType() + " message: " + message.getMessage());
-
-
-                        server.broadcast(message); // Asume que este método ya gestiona adecuadamente la exclusión del emisor
+                        server.broadcast(message); // Solo retransmite mensajes que no sean de logout
+                    } else if (message.getType() == ChatMessage.MessageType.LOGOUT) {
+                        break; // Rompe el bucle si el mensaje es de tipo LOGOUT
                     }
                 }
             }
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Exception caught on thread for client " + this.username + ": " + e.getMessage());
+        } catch (EOFException | SocketException e) {
+            // Estas excepciones se esperan al cerrar el socket del cliente
+            System.out.println(this.username + " se ha desconectado con un cierre de socket.");
+        } catch (IOException e) {
+            System.err.println("Error de E/S en el hilo del cliente " + this.username + ": " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.err.println("Clase no encontrada al leer el objeto en el hilo del cliente " + this.username + ": " + e.getMessage());
         } finally {
-            // Lógica para manejar la desconexión del cliente
-            server.removeClient(this.username); // Método para eliminar al cliente del mapa
+            server.removeClient(this.username); // Elimina al cliente del mapa
+            closeConnection(); // Cierra la conexión
+        }
+    }
+
+    private void closeConnection() {
+        try {
+            if (out != null) out.close();
+            if (in != null) in.close();
+            if (clientSocket != null) clientSocket.close();
+            System.out.println("Conexión cerrada para el cliente " + this.username);
+        } catch (IOException e) {
+            System.err.println("Error al cerrar la conexión para el cliente " + this.username + ": " + e.getMessage());
         }
     }
 

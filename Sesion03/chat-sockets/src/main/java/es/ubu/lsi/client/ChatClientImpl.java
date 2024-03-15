@@ -6,6 +6,7 @@ import es.ubu.lsi.common.ChatMessage.MessageType;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
 
 /**
@@ -123,17 +124,19 @@ public class ChatClientImpl implements ChatClient {
             System.out.println("Bienvenido al chat: " + username ); // Añadir indicador de nombre de usuario antes de la entrada
             while (carryOn) {
                 String input = scanner.nextLine();
-                if ("salir".equalsIgnoreCase(input)) {
+                if ("logout".equalsIgnoreCase(input)) {
                     carryOn = false; // Cambiar la bandera carryOn para terminar los bucles en ambos hilos
                     sendMessage(new ChatMessage(this.id, MessageType.LOGOUT, "salir")); // Enviar mensaje de logout al servidor
                     disconnect(); // Desconectar del servidor
+                    System.out.println("Desconectando del servidor.");
                 } else {
                     sendMessage(new ChatMessage(this.id, MessageType.MESSAGE, input)); // Enviar mensajes regulares al servidor
                 }
             }
-            //disconnect();
         } catch (Exception e) {
             System.err.println("Error al procesar la entrada del usuario: " + e.getMessage());
+        } finally {
+            disconnect(); // Llamar a disconnect fuera del bucle para cerrar recursos
         }
     }
 
@@ -156,14 +159,22 @@ public class ChatClientImpl implements ChatClient {
      */
     @Override
     public void disconnect() {
+        // Enviar un mensaje al servidor que el cliente está desconectando
+//        if (out != null) {
+//            try {
+//                out.writeObject(new ChatMessage(this.id, MessageType.LOGOUT, "Cliente desconectando"));
+//            } catch (IOException e) {
+//                // Logear el error, el servidor podría haberse desconectado primero
+//            }
+//        }
+
+        // Cerrar los recursos
         try {
-            this.carryOn = false;
             if (out != null) out.close();
             if (in != null) in.close();
             if (clientSocket != null) clientSocket.close();
-            System.out.println("Desconectado del servidor.");
         } catch (IOException e) {
-            System.err.println("Error al desconectar: " + e.getMessage());
+            System.err.println("Error al cerrar los recursos del cliente: " + e.getMessage());
         }
     }
 
@@ -193,10 +204,21 @@ public class ChatClientImpl implements ChatClient {
                     ChatMessage msg = (ChatMessage) in.readObject();
                     String[] parts = msg.getMessage().split(": ", 2); // Suponemos que el mensaje tiene formato "username: message"
                     System.out.println(parts[0] + ">>> " + parts[1]); // Imprime "username>>> message"
+                } catch (EOFException e) {
+                    // Esto se espera cuando el socket se cierra mientras se está esperando leer. Salimos del bucle.
+                    break;
+                } catch (SocketException e) {
+                    if (!carryOn) { // Si está a falso es que se cerró intencionadamente, sin problema.
+                        break;
+                    } else {
+                        // Si el flag está a true es un fallo unexpected socket error.
+                        System.out.println("Error al leer el mensaje: " + e.getMessage());
+                        break;
+                    }
                 } catch (IOException | ClassNotFoundException e) {
+                    // Para otras excepciones escribimos error
                     System.out.println("Error al leer el mensaje: " + e.getMessage());
-                    carryOn = false; // Cambiar la bandera para detener el bucle si hay un error
-                    //TODO si se desconecta dará error de Socket cerrado, habría que gestionarlo para que no diera.
+                    break;
                 }
             }
         }
