@@ -201,9 +201,12 @@ public class ChatClientImpl implements ChatClient {
             // Escuchar y mostrar mensajes entrantes...
             while (carryOn){
                 try {
+//                    ChatMessage msg = (ChatMessage) in.readObject();
+//                    String[] parts = msg.getMessage().split(": ", 2); // Suponemos que el mensaje tiene formato "username: message"
+//                    System.out.println(parts[0] + ">>> " + parts[1]); // Imprime "username>>> message"
                     ChatMessage msg = (ChatMessage) in.readObject();
-                    String[] parts = msg.getMessage().split(": ", 2); // Suponemos que el mensaje tiene formato "username: message"
-                    System.out.println(parts[0] + ">>> " + parts[1]); // Imprime "username>>> message"
+                    // Puede que no necesites dividir el mensaje en partes si simplemente vas a imprimirlo
+                    System.out.println(msg.getMessage()); // Imprime el mensaje completo tal cual se recibe
                 } catch (EOFException e) {
                     // Esto se espera cuando el socket se cierra mientras se está esperando leer. Salimos del bucle.
                     break;

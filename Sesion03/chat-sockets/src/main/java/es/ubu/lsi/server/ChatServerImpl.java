@@ -231,11 +231,15 @@ class ServerThreadForClient extends Thread {
                         if (parts[0].equalsIgnoreCase("ban") && parts.length > 1) {
                             String userToBan = parts[1];
                             server.addUserBlock(this.username, userToBan); // Agrega el bloqueo
+                            // Envía mensaje de confirmación al usuario que banea
+                            out.writeObject(new ChatMessage(clientId, ChatMessage.MessageType.MESSAGE, "usuario " + userToBan + " bloqueado."));
                             //TODO
                             //server.saveConfig(server.getConfigFile()); // Guarda la nueva configuración
                         } else if (parts[0].equalsIgnoreCase("unban") && parts.length > 1) {
                             String userToUnban = parts[1];
                             server.removeUserBlock(this.username, userToUnban); // Elimina el bloqueo
+                            // Envía mensaje de confirmación al usuario que desbanea
+                            out.writeObject(new ChatMessage(clientId, ChatMessage.MessageType.MESSAGE, "usuario " + userToUnban + " desbloqueado."));
                             //TODO
                             //server.saveConfig(server.getConfigFile()); // Guarda la nueva configuración
                         }else {
