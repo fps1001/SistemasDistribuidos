@@ -14,16 +14,16 @@ import java.util.Scanner;
  * Gestiona la conexión con el servidor y el envío y recepción de mensajes.
  * Utiliza la dirección IP o el nombre de la máquina y un nickname para la conexión.
  * El puerto por defecto es el 1500.
- *
+ * <p>
  * Ejemplo de uso: java es.ubu.lsi.client.ChatClientImpl localhost aroca
- *
+ * <p>
  * La clase ChatClientListener se define dentro de esta clase para facilitar el acceso a los campos y métodos de la clase externa.
- *
- * https://www.youtube.com/watch?v=gLfuZrrfKes - Video y canal de WittCode
+ * <p>
+ * <a href="https://www.youtube.com/watch?v=gLfuZrrfKes">...</a> - Video y canal de WittCode
  *
  * @author Fernando Pisot Serrano
  * @email fps1001@alu.ubu.es
- * @repo https://github.com/fps1001/SistemasDistribuidos
+ * @repo <a href="https://github.com/fps1001/SistemasDistribuidos">...</a>
  */
 public class ChatClientImpl implements ChatClient {
     private String serverAddress;

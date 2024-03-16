@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.io.*;
 import java.net.SocketException;
 import java.text.SimpleDateFormat;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -30,15 +30,30 @@ class ChatServerImpl implements ChatServer {
     private static final int DEFAULT_PORT = 1500;
     private boolean alive = true;
     //Añado clases a partir del multihilo.
-    private static int clientId = 1;
+    private int clientId = 1;
     private SimpleDateFormat sdf;
     Map<String, ServerThreadForClient> clients = new ConcurrentHashMap<>();
     // Para no modificar el archivo de ChatMessage tengo que llevar otro mapa con id-usuario.
     // Si fuese mi proyecto desde cero cambiaría la clase a username como clave.
     Map<Integer, String> idToUsername = new ConcurrentHashMap<>();
-
+    // El siguiente mapa será usuario- usuarios bloqueados y gestionará los bans de cada usuario.
+    Map<String, Set<String>> userBlocks = new ConcurrentHashMap<>();
     ServerSocket serverSocket;
 
+    public void addUserBlock(String blocker, String blocked) {
+        userBlocks.computeIfAbsent(blocker, k -> new HashSet<>()).add(blocked);
+    }
+
+    public void removeUserBlock(String blocker, String blocked) {
+
+        if(userBlocks.containsKey(blocker)) {
+            userBlocks.get(blocker).remove(blocked);
+        }
+    }
+
+    public Set<String> getBlockedUsers(String blocker) {
+        return userBlocks.getOrDefault(blocker, Collections.emptySet());
+    }
     public void registerClient(int clientId, String username, ServerThreadForClient clientThread) {
         clients.put(username, clientThread);
         idToUsername.put(clientId, username); // Almacena la asociación de ID a username
@@ -72,13 +87,9 @@ class ChatServerImpl implements ChatServer {
 
         System.out.println("Escuchando por puerto: " + DEFAULT_PORT);
 
-
         // Creamos un servidor de la clase de este archivo java y ejecutamos startup.
         ChatServerImpl server = new ChatServerImpl();
         server.startup();
-
-
-
     }
 
     @Override
@@ -104,42 +115,52 @@ class ChatServerImpl implements ChatServer {
 
     @Override
     public void broadcast(ChatMessage msg) {
-//        // Extraer el nombre de usuario del cliente que envió el mensaje original.
-//        System.out.println("DEBUG: Mapa de idToUsername:");
-//        for(Map.Entry<Integer, String> entry : idToUsername.entrySet()) {
-//            System.out.println("ID: " + entry.getKey() + " -> Username: " + entry.getValue());
-//        }
-//
-//        System.out.println("DEBUG: Mapa de clients:");
-//        for(Map.Entry<String, ServerThreadForClient> entry : clients.entrySet()) {
-//            System.out.println("Username: " + entry.getKey() + " -> ClientThread: " + entry.getValue());
-//        }
-
+        // Averiguamos id del remitente
         String senderUsername = idToUsername.get(msg.getId());
 
-
-        //System.out.println("DEBUG: Nombre de usuario asignado - " + senderUsername + ". id: " + msg.getId());
-
-
-
-        // Crear el mensaje con el formato "username: message"
+        // Creamos el mensaje con el formato "username: message"
         String formattedMessage = senderUsername + ": " + msg.getMessage();
         ChatMessage formattedChatMessage = new ChatMessage(msg.getId(), msg.getType(), formattedMessage);
 
         // Recorrer todos los clientes y enviarles el mensaje formateado,
-        // excepto al cliente que envió el mensaje original.
+        // excepto al cliente que envió el mensaje original y aquellos que lo han bloqueado.
+
         for (Map.Entry<String, ServerThreadForClient> clientEntry : clients.entrySet()) {
-            if (!clientEntry.getKey().equals(senderUsername)) { // No retransmitir al emisor
+            String recipientUsername = clientEntry.getKey();
+            // Comprobar si el destinatario ha bloqueado al emisor con función privada
+            if (!recipientUsername.equals(senderUsername) && !hasUserBlocked(recipientUsername, senderUsername)) {
                 try {
                     clientEntry.getValue().getOut().writeObject(formattedChatMessage);
                 } catch (IOException e) {
-                    System.err.println("Error al enviar mensaje a " + clientEntry.getKey());
+                    System.err.println("Error al enviar mensaje a " + recipientUsername);
                     // Considera eliminar al cliente si no se puede enviar el mensaje
                 }
             }
         }
+//        for (Map.Entry<String, ServerThreadForClient> clientEntry : clients.entrySet()) {
+//            if (!clientEntry.getKey().equals(senderUsername)) { // No retransmitir al emisor
+//                try {
+//                    clientEntry.getValue().getOut().writeObject(formattedChatMessage);
+//                } catch (IOException e) {
+//                    System.err.println("Error al enviar mensaje a " + clientEntry.getKey());
+//                    // Considera eliminar al cliente si no se puede enviar el mensaje
+//                }
+//            }
+//        }
     }
-
+    /**
+     * Comprueba si un usuario ha bloqueado a otro.
+     *
+     * @param recipientUsername El nombre de usuario del destinatario que podría haber bloqueado al emisor.
+     * @param senderUsername El nombre de usuario del emisor del mensaje.
+     * @return true si el destinatario ha bloqueado al emisor; false en caso contrario.
+     */
+    private boolean hasUserBlocked(String recipientUsername, String senderUsername) {
+        //getOrDefault devolverá el valor vacío si no está el usuario entre los bloqueados del cliente a comprobar.
+        Set<String> blockedUsers = userBlocks.getOrDefault(recipientUsername, Collections.emptySet());
+        // Si devuelve el usuario entonces es que está bloqueado y devolverá true.
+        return blockedUsers.contains(senderUsername);
+    }
 
     @Override
     public void remove(int id) {
@@ -162,8 +183,6 @@ class ChatServerImpl implements ChatServer {
             }
         }
     }
-
-
 
 class ServerThreadForClient extends Thread {
     private Socket clientSocket;
@@ -206,9 +225,24 @@ class ServerThreadForClient extends Thread {
                 // Ahora entra en un bucle para leer mensajes siguientes
                 while (true) {
                     ChatMessage message = (ChatMessage) in.readObject();
+                    String[] parts = message.getMessage().split("\\s+", 2); // Separa el comando del resto del mensaje
+                    // Si el tipo es ban/unban o mensaje normal:
                     if (message.getType() == ChatMessage.MessageType.MESSAGE) {
-                        System.out.println(this.username + ": " + message.getMessage());
-                        server.broadcast(message); // Solo retransmite mensajes que no sean de logout
+                        if (parts[0].equalsIgnoreCase("ban") && parts.length > 1) {
+                            String userToBan = parts[1];
+                            server.addUserBlock(this.username, userToBan); // Agrega el bloqueo
+                            //TODO
+                            //server.saveConfig(server.getConfigFile()); // Guarda la nueva configuración
+                        } else if (parts[0].equalsIgnoreCase("unban") && parts.length > 1) {
+                            String userToUnban = parts[1];
+                            server.removeUserBlock(this.username, userToUnban); // Elimina el bloqueo
+                            //TODO
+                            //server.saveConfig(server.getConfigFile()); // Guarda la nueva configuración
+                        }else {
+                            // Trata el mensaje como un mensaje de chat regular
+                            System.out.println(this.username + ": " + message.getMessage());
+                            server.broadcast(message); // Retransmite el mensaje
+                        }
                     } else if (message.getType() == ChatMessage.MessageType.LOGOUT) {
                         break; // Rompe el bucle si el mensaje es de tipo LOGOUT
                     }
