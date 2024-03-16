@@ -7,6 +7,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.*;
 import java.net.SocketException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,14 +43,49 @@ class ChatServerImpl implements ChatServer {
     Map<String, Set<String>> userBlocks = new ConcurrentHashMap<>();
     ServerSocket serverSocket;
 
+    public ChatServerImpl() {
+        try {
+            // Define la ruta del directorio de configuración
+            Path configPath = Paths.get("./chat-sockets/config");
+            // Crea el directorio de configuración si no existe
+            if (!Files.exists(configPath)) {
+                Files.createDirectories(configPath);
+            }
+            // Inicializa el archivo de configuración en el directorio
+            this.configFile = configPath.resolve("banConfig.properties").toFile();
+            // Carga la configuración de baneos
+            loadBanConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    //Archivo configuración y baneos
+    private Properties banConfig = new Properties();
+    private File configFile = new File("banConfig.properties");
+
     public void addUserBlock(String blocker, String blocked) {
+        // Actualiza la estructura de datos en memoria
         userBlocks.computeIfAbsent(blocker, k -> new HashSet<>()).add(blocked);
+        // Actualiza la configuración de baneos
+        updateBanConfig(blocker);
+    }
+
+    private void updateBanConfig(String username) {
+        Set<String> blockedUsers = userBlocks.get(username);
+        if (blockedUsers != null && !blockedUsers.isEmpty()) {
+            banConfig.setProperty(username, String.join(",", blockedUsers));
+        } else {
+            banConfig.remove(username); // Si no hay usuarios bloqueados, elimina la clave
+        }
+        saveBanConfig();
     }
 
     public void removeUserBlock(String blocker, String blocked) {
-
-        if(userBlocks.containsKey(blocker)) {
+        if (userBlocks.containsKey(blocker)) {
             userBlocks.get(blocker).remove(blocked);
+            updateBanConfig(blocker);
         }
     }
 
@@ -95,6 +133,7 @@ class ChatServerImpl implements ChatServer {
     @Override
     public void startup() {
         try{
+            loadBanConfig();
             serverSocket = new ServerSocket(DEFAULT_PORT);
             while (alive){
                 Socket clientSocket = serverSocket.accept();
@@ -112,6 +151,34 @@ class ChatServerImpl implements ChatServer {
         }
     }
 
+    private void loadBanConfig() {
+        // Si el archivo de configuración existe, lo carga
+        if (configFile.exists()) {
+            try (InputStream input = new FileInputStream(configFile)) {
+                banConfig.load(input);
+                // Carga los baneos en la estructura de datos
+                for (String key : banConfig.stringPropertyNames()) {
+                    String[] blockedUsersArray = banConfig.getProperty(key).split(",");
+                    Set<String> blockedUsersSet = new HashSet<>(Arrays.asList(blockedUsersArray));
+                    userBlocks.put(key, blockedUsersSet);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            // Si no existe, intenta crear el archivo de configuración
+            saveBanConfig();
+        }
+    }
+
+    private void saveBanConfig() {
+        // Guarda la configuración de baneos en el archivo
+        try (OutputStream output = new FileOutputStream(configFile)) {
+            banConfig.store(output, "Ban Configuration");
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+    }
 
     @Override
     public void broadcast(ChatMessage msg) {
