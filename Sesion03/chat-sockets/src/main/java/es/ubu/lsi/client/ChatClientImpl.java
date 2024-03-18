@@ -87,34 +87,53 @@ public class ChatClientImpl implements ChatClient {
     }
 
     /**
-     * Inicia la ejecución del cliente: establece la conexión con el servidor, arranca el hilo listener desde aquí.
+     * Inicia la conexión del cliente con el servidor y comienza a escuchar mensajes.
+     * Establece la conexión, inicializa los flujos de entrada/salida y comienza la sesión de chat.
      */
     @Override
-    public void start() { // Hilo principal del cliente:
+    public void start() {
         try {
-            // Espera recibir el id asignado por el servidor.
-            in = new ObjectInputStream(clientSocket.getInputStream());
+            // Establece conexión con el servidor.
+            this.clientSocket = new Socket(this.serverAddress, DEFAULT_PORT);
+            this.out = new ObjectOutputStream(clientSocket.getOutputStream());
+            this.in = new ObjectInputStream(clientSocket.getInputStream());
+
+            // Recibe  el ID del cliente dado por el servidor.
             ChatMessage welcomeMessage = (ChatMessage) in.readObject();
-            // Suponiendo que el servidor envía un mensaje indicando el id del cliente.
-            this.id = welcomeMessage.getId(); // Actualiza el id del cliente basado en el mensaje recibido.
-            System.out.println(welcomeMessage.getMessage()); // Muestra el mensaje con el id asignado.
+            this.id = welcomeMessage.getId();
+            System.out.println(welcomeMessage.getMessage());
 
-            //Lo primero será enviar el nombre de usuario.
-            sendMessage(new ChatMessage(this.id, MessageType.MESSAGE, username));
-            //Leeremos de servidor su id.
+            // El primer mensaje a enviar será el nombre del usuario
+            sendMessage(new ChatMessage(this.id, ChatMessage.MessageType.MESSAGE, this.username));
 
-            // Inicializar la escucha de mensajes entrantes en un nuevo hilo
+            // Iniciar hilo para escuchar mensajes del servidor.
+            new Thread(this::listenForServerMessages).start();
 
-            //in = new ObjectInputStream(clientSocket.getInputStream());
-            new Thread(new ChatClientListener(in)).start(); // Este hilo se mantendrá activo escuchando mensajes del servidor.
+            // Procesar la entrada del usuario en el hilo principal.
+            processUserInput();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            disconnect(); // Desconectar si hay un error al iniciar.
+            disconnect();
         }
-
-        // Función privada que funciona de distpacher de los mensajes recibidos.
-        processUserInput();
     }
+
+    /**
+     * Escucha y procesa los mensajes entrantes del servidor.
+     */
+    private void listenForServerMessages() {
+        try {
+            while (carryOn) {
+                ChatMessage message = (ChatMessage) in.readObject();
+                System.out.println(message.getMessage());
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            if (carryOn) {
+                e.printStackTrace();
+                disconnect();
+            }
+        }
+    }
+
 
     /**
      * Recibirá un mensaje del servidor y tratará su información
@@ -159,16 +178,6 @@ public class ChatClientImpl implements ChatClient {
      */
     @Override
     public void disconnect() {
-        // Enviar un mensaje al servidor que el cliente está desconectando
-//        if (out != null) {
-//            try {
-//                out.writeObject(new ChatMessage(this.id, MessageType.LOGOUT, "Cliente desconectando"));
-//            } catch (IOException e) {
-//                // Logear el error, el servidor podría haberse desconectado primero
-//            }
-//        }
-
-        // Cerrar los recursos
         try {
             if (out != null) out.close();
             if (in != null) in.close();
@@ -187,11 +196,7 @@ public class ChatClientImpl implements ChatClient {
      */
     private class ChatClientListener implements Runnable {
         private final ObjectInputStream in; // Cambio BufferReader por la clase pedida. Usado en hilo listener.
-        //private ObjectOutputStream out;
-
-
         public ChatClientListener(ObjectInputStream in){
-
             this.in = in;
         //this.new ObjectOutputStream();
         }
@@ -201,11 +206,7 @@ public class ChatClientImpl implements ChatClient {
             // Escuchar y mostrar mensajes entrantes...
             while (carryOn){
                 try {
-//                    ChatMessage msg = (ChatMessage) in.readObject();
-//                    String[] parts = msg.getMessage().split(": ", 2); // Suponemos que el mensaje tiene formato "username: message"
-//                    System.out.println(parts[0] + ">>> " + parts[1]); // Imprime "username>>> message"
                     ChatMessage msg = (ChatMessage) in.readObject();
-                    // Puede que no necesites dividir el mensaje en partes si simplemente vas a imprimirlo
                     System.out.println(msg.getMessage()); // Imprime el mensaje completo tal cual se recibe
                 } catch (EOFException e) {
                     // Esto se espera cuando el socket se cierra mientras se está esperando leer. Salimos del bucle.
