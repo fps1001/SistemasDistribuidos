@@ -37,13 +37,17 @@ class ChatServerImpl implements ChatServer {
     private boolean alive = true;
     //Añado clases a partir del multihilo.
     private int clientId = 1;
-    private SimpleDateFormat sdf;
+    private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
     Map<String, ServerThreadForClient> clients = new ConcurrentHashMap<>();
     // Para no modificar el archivo de ChatMessage tengo que llevar otro mapa con id-usuario.
     // Si fuese mi proyecto desde cero cambiaría la clase a username como clave.
     Map<Integer, String> idToUsername = new ConcurrentHashMap<>();
     // El siguiente mapa será usuario- usuarios bloqueados y gestionará los bans de cada usuario.
     Map<String, Set<String>> userBlocks = new ConcurrentHashMap<>();
+    //Archivo configuración y baneos
+    private Properties banConfig = new Properties();
+    private File configFile = new File("banConfig.properties");
     ServerSocket serverSocket;
 
     // Constructor que inicializa el archivo de configuración y carga baneos.
@@ -62,61 +66,6 @@ class ChatServerImpl implements ChatServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    //Archivo configuración y baneos
-    private Properties banConfig = new Properties();
-    private File configFile = new File("banConfig.properties");
-
-    public void addUserBlock(String blocker, String blocked) {
-        // Actualiza la estructura de datos en memoria
-        userBlocks.computeIfAbsent(blocker, k -> new HashSet<>()).add(blocked);
-        // Actualiza la configuración de baneos
-        updateBanConfig(blocker);
-    }
-
-    private void updateBanConfig(String username) {
-        Set<String> blockedUsers = userBlocks.get(username);
-        if (blockedUsers != null && !blockedUsers.isEmpty()) {
-            banConfig.setProperty(username, String.join(",", blockedUsers));
-        } else {
-            banConfig.remove(username); // Si no hay usuarios bloqueados, elimina la clave
-        }
-        saveBanConfig();
-    }
-
-    public void removeUserBlock(String blocker, String blocked) {
-        if (userBlocks.containsKey(blocker)) {
-            userBlocks.get(blocker).remove(blocked);
-            updateBanConfig(blocker);
-        }
-    }
-
-    public Set<String> getBlockedUsers(String blocker) {
-        return userBlocks.getOrDefault(blocker, Collections.emptySet());
-    }
-    public void registerClient(int clientId, String username, ServerThreadForClient clientThread) {
-        clients.put(username, clientThread);
-        idToUsername.put(clientId, username); // Almacena la asociación de ID a username
-        // System.out.println("DEBUG: " + username + " con id: " + clientId + " ha sido registrado.");
-    }
-
-
-    public void removeClient(String username) {
-        // Encuentra el ID correspondiente al username y lo elimina de idToUsername
-        Integer clientIdToRemove = null;
-        for (Map.Entry<Integer, String> entry : idToUsername.entrySet()) {
-            if (entry.getValue().equals(username)) {
-                clientIdToRemove = entry.getKey();
-                break;
-            }
-        }
-        if (clientIdToRemove != null) {
-            idToUsername.remove(clientIdToRemove);
-        }
-        clients.remove(username); // Elimina al cliente del map de clientes
-        //System.out.println(username + " ha sido desconectado.");
     }
 
     /**
@@ -154,6 +103,67 @@ class ChatServerImpl implements ChatServer {
     }
 
     /**
+     * Agrega un usuario a la lista de bloqueados de otro usuario.
+     * Este método actualiza tanto la estructura de datos en memoria como el archivo de configuración persistente.
+     * @param blocker El nombre de usuario que bloquea.
+     * @param blocked El nombre de usuario a ser bloqueado.
+     */
+    public void addUserBlock(String blocker, String blocked) {
+        // Actualiza la estructura de datos en memoria
+        userBlocks.computeIfAbsent(blocker, k -> new HashSet<>()).add(blocked);
+        // Actualiza la configuración de baneos
+        updateBanConfig(blocker);
+    }
+
+    /**
+     * Actualiza el archivo de bloqueos del usuario pasado por parámetro.
+     * @param username
+     */
+    private void updateBanConfig(String username) {
+        Set<String> blockedUsers = userBlocks.get(username);
+        if (blockedUsers != null && !blockedUsers.isEmpty()) {
+            banConfig.setProperty(username, String.join(",", blockedUsers));
+        } else {
+            banConfig.remove(username); // Si no hay usuarios bloqueados, elimina la clave
+        }
+        saveBanConfig();
+    }
+
+    /**
+     * Realizará un unban actualizando el archivo de configuración.
+     * @param blocker
+     * @param blocked
+     */
+    public void removeUserBlock(String blocker, String blocked) {
+        if (userBlocks.containsKey(blocker)) {
+            userBlocks.get(blocker).remove(blocked);
+            updateBanConfig(blocker);
+        }
+    }
+
+    /**
+     * Guarda los datos del cliente una vez establecida la comunicación: id, nombre e hilo en sus respectivos mapas.
+     * @param clientId
+     * @param username
+     * @param clientThread
+     */
+    public void registerClient(int clientId, String username, ServerThreadForClient clientThread) {
+        String timestamp = sdf.format(new Date());
+        System.out.println(timestamp + " - Cliente " + username + " con id: " + clientId + " ha sido registrado.");
+        clients.put(username, clientThread);
+        idToUsername.put(clientId, username); // Almacena la asociación de ID a username
+        // System.out.println("DEBUG: " + username + " con id: " + clientId + " ha sido registrado.");
+    }
+
+    /**
+     * Borra los datos de un usuario en los mapas de las variables: id, nombre e hilo.
+     * @param username
+     */
+    public void removeClient(String username) {
+
+    }
+
+    /**
      * Inicializa el servidor, creando un nuevo ServerSocket y cargando la configuración de baneos.
      * @throws IOException Si ocurre un error al crear el ServerSocket o cargar configuraciones.
      */
@@ -181,7 +191,7 @@ class ChatServerImpl implements ChatServer {
     private void handleNewClientConnection(Socket clientSocket) {
         int thisClientId = clientId++;
         //Crea un nuevo hilo con los datos de id y la clase del padre (servidor)
-        ServerThreadForClient clientThread = new ServerThreadForClient(clientSocket, this, thisClientId);
+        ServerThreadForClient clientThread = new ServerThreadForClient(clientSocket, this, thisClientId, this.sdf);
         clientThread.start();
     }
 
@@ -264,9 +274,16 @@ class ChatServerImpl implements ChatServer {
 
     @Override
     public void remove(int id) {
-        //TODO enviará mensaje a todos de que está eliminado el usuario con id=id
-        //Se borrará del Map
-        //Desconectará al usuario con id=id.
+        // Encuentra el ID correspondiente al username y lo elimina de idToUsername
+        String usernameToRemove = idToUsername.get(id);
+        if (usernameToRemove != null) {
+            // Eliminar al cliente de los mapas y realizar cualquier otra limpieza necesaria.
+            clients.remove(usernameToRemove);
+            idToUsername.remove(id);
+            System.out.println("El cliente " + usernameToRemove + " ha sido eliminado.");
+        } else {
+            System.out.println("El cliente con ID " + id + " no fue encontrado.");
+        }
     }
 
     @Override
@@ -290,12 +307,15 @@ class ServerThreadForClient extends Thread {
     private ObjectOutputStream out;
     private String username;
     private int clientId;
+
+    private SimpleDateFormat sdf;
     private ChatServerImpl server; // Referencia al servidor para poder llamar a métodos como broadcast
 
-    public ServerThreadForClient(Socket clientSocket, ChatServerImpl server, int clienteId) {
+    public ServerThreadForClient(Socket clientSocket, ChatServerImpl server, int clienteId, SimpleDateFormat sdf) {
         this.clientSocket = clientSocket;
         this.server = server;
         this.clientId = clienteId;
+        this.sdf = sdf;
 
         try {
             out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -365,7 +385,8 @@ class ServerThreadForClient extends Thread {
      */
     private void handleChatMessage(ChatMessage message) throws IOException {
         // Registro del mensaje en el servidor
-        System.out.println("[" + this.username + "]: " + message.getMessage());
+        String timestamp = sdf.format(new Date());
+        System.out.println(timestamp + " [" + this.username + "]: " + message.getMessage());
 
         String[] parts = message.getMessage().split("\\s+", 2);
         if ("ban".equalsIgnoreCase(parts[0]) && parts.length > 1) {
@@ -384,7 +405,8 @@ class ServerThreadForClient extends Thread {
      * Maneja la desconexión del cliente debido a cierre de socket o fin de la conexión.
      */
     private void handleClientDisconnection() {
-        System.out.println(this.username + " se ha desconectado con un cierre de socket.");
+        String timestamp = sdf.format(new Date());
+        System.out.println(timestamp + " - " + this.username + " se ha desconectado con un cierre de socket.");
     }
 
     /**
@@ -399,7 +421,7 @@ class ServerThreadForClient extends Thread {
      * Cierra los recursos y notifica al servidor la eliminación del cliente.
      */
     private void cleanupResources() {
-        server.removeClient(this.username);
+        server.remove(this.clientId);
         closeConnection();
     }
 
@@ -416,7 +438,9 @@ class ServerThreadForClient extends Thread {
         }
     }
 
-    // Método para obtener el ObjectOutputStream asociado con este hilo de cliente
+    /**
+     * Método para obtener el ObjectOutputStream asociado con este hilo de cliente
+     */
     public ObjectOutputStream getOut() {
         return out;
     }
