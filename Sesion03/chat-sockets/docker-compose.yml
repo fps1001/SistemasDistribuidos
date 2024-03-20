@@ -1,0 +1,30 @@
+version: '3'
+# Se definen dos servicios: cliente y servidor.
+services:
+  chat-server:
+    build:
+      context: .
+      # Cada servicio tiene su dockerfile
+      dockerfile: Dockerfile.server
+    ports:
+      - "1500:1500"
+    networks:
+      - chat-network
+
+  chat-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+      # Se añade dependencia para que no se genere el cliente sin el servidor.
+    depends_on:
+      - chat-server
+    networks:
+      - chat-network
+# Se define una red para que puedan comunicar entre si.
+networks:
+  chat-network:
+
+# Para ejecutarlo: docker-compose up -d
+# Para pararlo: docker-compose down
+# Reconstruir servicios: docker-compose build
+# Ver logs: docker-compose logs

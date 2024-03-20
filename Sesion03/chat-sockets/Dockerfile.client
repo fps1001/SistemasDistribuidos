@@ -1,0 +1,13 @@
+# Usa la misma imagen base de Java 8
+FROM openjdk:8-jdk-alpine
+
+# Establece el directorio de trabajo en el contenedor
+WORKDIR /app
+
+# Copia los archivos binarios/compilados de tu cliente al contenedor
+COPY . /src/main/java/es/ubu/lsi/server
+
+# No es necesario exponer un puerto a menos que tu cliente también actúe como un servidor
+
+# El comando para ejecutar tu cliente puede ser especificado cuando inicias el contenedor,
+# ya que probablemente necesites pasar diferentes argumentos (como el servidor IP y el username)

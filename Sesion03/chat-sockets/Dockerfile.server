@@ -1,8 +1,9 @@
-FROM openjdk:1.8
+FROM openjdk:8-jdk-alpine
+
 LABEL authors="fpisot1001@alu.ubu.es"
-COPY . /src/main/java/es/ubu/lsi
+COPY . /src/main/java/es/ubu/lsi/server
 WORKDIR /src//main/java/es/ubu/lsi
-RUN javac ./server/ChatServerImpl
+RUN javac ChatServerImpl
 CMD ["java","ChatServerImpl"]
 ENTRYPOINT ["top", "-b"]
 
