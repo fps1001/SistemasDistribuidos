@@ -1,13 +1,27 @@
-# Usa la misma imagen base de Java 8
-FROM openjdk:8-jdk-alpine
+# Utilizamos una imagen de Maven con JDK 8, que es suficiente tanto para compilar como para ejecutar la aplicación
+FROM maven:3.6.3-jdk-8
 
-# Establece el directorio de trabajo en el contenedor
-WORKDIR /app
+# Copiamos los archivos del proyecto al directorio de trabajo del contenedor
+COPY src /usr/src/myapp/src
+COPY pom.xml /usr/src/myapp
 
-# Copia los archivos binarios/compilados de tu cliente al contenedor
-COPY . /src/main/java/es/ubu/lsi/server
+# Establecemos el directorio de trabajo
+WORKDIR /usr/src/myapp
 
-# No es necesario exponer un puerto a menos que tu cliente también actúe como un servidor
+# Compilamos el proyecto y empaquetamos la aplicación usando Maven
+# Este paso genera el archivo JAR en el directorio target/
+RUN mvn clean package
+
+# El puerto del cliente no necesita ser expuesto si el cliente solo va a hacer conexiones salientes
+# EXPOSE <puerto_cliente_si_es_necesario>
+
+# Definimos un punto de entrada que permitirá pasar argumentos al contenedor
+# Esto es útil para pasar el host y el puerto del servidor cuando se ejecuta el cliente
+ENTRYPOINT ["java", "-jar", "target/chat-client-1.0-SNAPSHOT.jar"]
+
+# Se pueden establecer valores por defecto para los argumentos usando CMD
+# Por ejemplo, si el servidor siempre va a estar en la misma dirección y solo el puerto varía:
+CMD ["localhost", "1500"]
 
 # El comando para ejecutar tu cliente puede ser especificado cuando inicias el contenedor,
 # ya que probablemente necesites pasar diferentes argumentos (como el servidor IP y el username)
