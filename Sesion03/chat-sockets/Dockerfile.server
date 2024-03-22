@@ -1,12 +1,21 @@
-FROM openjdk:8-jdk-alpine
+# Utilizamos una imagen de Maven con JDK 8, que es suficiente tanto para compilar como para ejecutar la aplicación
+FROM maven:3.6.3-jdk-8
 
-LABEL authors="fpisot1001@alu.ubu.es"
-COPY . /src/main/java/es/ubu/lsi/server
-WORKDIR /src//main/java/es/ubu/lsi
-RUN javac ChatServerImpl
-CMD ["java","ChatServerImpl"]
-ENTRYPOINT ["top", "-b"]
+# Copiamos los archivos del proyecto al directorio de trabajo del contenedor
+COPY src /usr/src/myapp/src
+COPY pom.xml /usr/src/myapp
 
-#$ docker build -t my-java-app .
-#$ docker run -it --rm --name my-running-app my-java-app
-#$ docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp openjdk:11 javac Main.java
+# Establecemos el directorio de trabajo
+WORKDIR /usr/src/myapp
+
+# Compilamos el proyecto y empaquetamos la aplicación usando Maven
+# Este paso genera el archivo JAR en el directorio target/
+RUN mvn clean package
+
+# Expone el puerto en el que tu aplicación escucha
+EXPOSE 1500
+
+# Comando para ejecutar la aplicación.
+
+CMD ["java", "-jar", "target/chat-app-1.0-SNAPSHOT.jar"]
+
