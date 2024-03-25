@@ -1,9 +1,6 @@
 # Utilizamos una imagen de Maven con JDK 8, que es suficiente tanto para compilar como para ejecutar la aplicación
 FROM maven:3.6.3-jdk-8
 
-# Crea el directorio /app
-RUN mkdir /app
-
 # Copiamos los archivos del proyecto al directorio de trabajo del contenedor
 COPY src /usr/src/myapp/src
 COPY pom.xml /usr/src/myapp
@@ -18,9 +15,10 @@ RUN mvn clean compile
 # Hace el script ejecutable
 RUN chmod +x /app/entrypoint.sh
 
-# El puerto del cliente no necesita ser expuesto si el cliente solo va a hacer conexiones salientes
-# EXPOSE <puerto_cliente_si_es_necesario>
+# El directorio de trabajo ahora será donde están los archivos .class
+WORKDIR /usr/src/myapp/target/classes
 
-# Establece el script como punto de entrada
+# El comando ENTRYPOINT se utilizará para ejecutar el cliente.
+# CMD se puede usar para pasar argumentos adicionales a ENTRYPOINT, pero no es necesario si todos los argumentos están en entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
 

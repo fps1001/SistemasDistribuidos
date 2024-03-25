@@ -12,6 +12,9 @@ WORKDIR /usr/src/myapp
 # Este paso genera el archivo JAR en el directorio target/
 RUN mvn compile
 
+# El directorio de trabajo ahora será donde están los archivos .class
+WORKDIR /usr/src/myapp/target/classes
+
 # Expone el puerto en el que tu aplicación escucha
 EXPOSE 1500
 
