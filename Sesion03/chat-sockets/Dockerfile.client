@@ -4,7 +4,6 @@ FROM maven:3.6.3-jdk-8
 # Copiamos los archivos del proyecto al directorio de trabajo del contenedor
 COPY src /usr/src/myapp/src
 COPY pom.xml /usr/src/myapp
-COPY entrypoint.sh /app/entrypoint.sh
 
 # Establecemos el directorio de trabajo
 WORKDIR /usr/src/myapp
@@ -12,13 +11,10 @@ WORKDIR /usr/src/myapp
 # Compilamos el proyecto usando Maven para generar los .class en docker.
 RUN mvn clean compile
 
-# Hace el script ejecutable
-RUN chmod +x /app/entrypoint.sh
-
 # El directorio de trabajo ahora será donde están los archivos .class
 WORKDIR /usr/src/myapp/target/classes
 
 # El comando ENTRYPOINT se utilizará para ejecutar el cliente.
 # CMD se puede usar para pasar argumentos adicionales a ENTRYPOINT, pero no es necesario si todos los argumentos están en entrypoint.sh
-ENTRYPOINT ["/app/entrypoint.sh"]
+
 

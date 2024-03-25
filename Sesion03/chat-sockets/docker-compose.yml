@@ -1,4 +1,4 @@
-version: '3'
+version: '4'
 # Se definen dos servicios: cliente y servidor.
 services:
   chat-server:
@@ -11,18 +11,28 @@ services:
     networks:
       - chat-network
 
-  chat-client:
+  chat-client-aroca:
     build:
       context: .
       dockerfile: Dockerfile.client
       # Se añade dependencia para que no se genere el cliente sin el servidor.
     depends_on:
       - chat-server
-    environment:
-      SERVER_ADDRESS: "chat-server" # Utiliza el nombre del servicio como la dirección del servidor
-      NICKNAME: "nickname" # Define aquí el apodo deseado para el cliente
+    command: java es.ubu.lsi.client.ChatClientImpl chat-server aroca
     networks:
       - chat-network
+
+
+  chat-client-fpisot:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    depends_on:
+      - chat-server
+    command: java es.ubu.lsi.client.ChatClientImpl chat-server fpisot
+    networks:
+      - chat-network
+
 # Se define una red para que puedan comunicar entre si.
 networks:
   chat-network:
