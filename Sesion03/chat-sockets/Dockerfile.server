@@ -10,12 +10,12 @@ WORKDIR /usr/src/myapp
 
 # Compilamos el proyecto y empaquetamos la aplicación usando Maven
 # Este paso genera el archivo JAR en el directorio target/
-RUN mvn clean package
+RUN mvn compile
 
 # Expone el puerto en el que tu aplicación escucha
 EXPOSE 1500
 
 # Comando para ejecutar la aplicación.
 
-CMD ["java", "-jar", "target/chat-app-1.0-SNAPSHOT.jar"]
+CMD ["java", "es.ubu.lsi.server.ChatServerImpl"]
 

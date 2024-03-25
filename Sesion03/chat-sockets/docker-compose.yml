@@ -18,6 +18,9 @@ services:
       # Se añade dependencia para que no se genere el cliente sin el servidor.
     depends_on:
       - chat-server
+    environment:
+      SERVER_ADDRESS: "chat-server" # Utiliza el nombre del servicio como la dirección del servidor
+      NICKNAME: "nickname" # Define aquí el apodo deseado para el cliente
     networks:
       - chat-network
 # Se define una red para que puedan comunicar entre si.
