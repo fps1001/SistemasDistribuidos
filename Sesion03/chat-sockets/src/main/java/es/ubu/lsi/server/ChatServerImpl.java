@@ -25,11 +25,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * Para más información sobre eventos de broadcast:
  * @see <a href="https://socket.io/docs/v3/broadcasting-events">Socket.io Broadcasting Events</a>
  * <p>
- * Repositorio del proyecto:
+ * Para más información sobre el proyecto, consultar el repositorio de GitHub:
  * @see <a href="https://github.com/fps1001/SistemasDistribuidos">Repositorio de GitHub</a>
+ * Contacto: fps1001@alu.ubu.es
  *
  * @author Fernando Pisot Serrano
- * @email fps1001@alu.ubu.es
  */
 
 class ChatServerImpl implements ChatServer {

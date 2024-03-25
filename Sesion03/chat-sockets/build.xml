@@ -12,46 +12,44 @@ ________________________________________________
 Sesión 3 - Práctica chat-sockets:
 
 Archivo para usar ant que permita la generación de documentación javadoc
-
-
-TODO: SIN MODIFICAR DE SESION 01
-
+en terminal: ant javadoc
 -->
 
-<project name="Sesion03" default="jar" >
+<!--<project name="Sesion03" default="jar" >-->
+<project name="ChatApp" default="compile" basedir=".">
+    <!-- Se establecen las 'variables' que se usarán a continuación -->
+    <property name="src.dir" value="src/main/java" />
+    <property name="build.dir" value="target/classes" />
+    <property name="docs.dir" value="target/doc"/>
 
-    <!-- Se establecen las 'variables' que se usarán a continuación-->
-    <property name="src.dir" value="src/main/java/es/ubu/lsi" />
-    <property name="build.dir" value="target" />
-    <property name="classes.dir" value="src/target/classes" />
-    <property name="jar.file" value="${build.dir}/PruebaAnt.jar" />
-
-
-    <target name="clean" description="Borra el directorio target si existe">
-        <!-- También se podía llamar para borrar los archivos class-->
-        <delete dir="src/target" />
+    <!-- Prepara el directorio de compilación. Los crea si no existen. -->
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${docs.dir}"/>
     </target>
 
-    <target name="compile" description="Crea el directorio destino y compila con javac">
-        <mkdir dir="src/target/classes" />
-        <!-- Para evitar warning al compilar se añade el includeantruntime a falso -->
-        <javac srcdir="${src.dir}" destdir="src/target/classes" includeantruntime="false"/>
+    <!-- Compila el proyecto -->
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
+            <!-- No necesita incluir explícitamente los archivos Java si usas las propiedades de srcdir y destdir correctamente -->
+        </javac>
     </target>
 
-    <target name="javadoc" description="Genera la documentación del proyecto">
-        <javadoc sourcepath="${src.dir}" destdir="${build.dir}/javadoc" />
+    <!-- Genera la documentación Javadoc -->
+    <target name="javadoc" depends="compile">
+        <javadoc sourcepath="${src.dir}" destdir="${docs.dir}" packagenames="es.ubu.lsi.*" >
+            <!-- Quito el include incorrecto y ajusto el packagenames para buscar cualquier paquete bajo es.ubu.lsi -->
+            <classpath>
+                <pathelement path="${build.dir}"/>
+            </classpath>
+        </javadoc>
     </target>
 
-<!--    &lt;!&ndash; depends indica que antes de hacer el jar debe compilar.&ndash;&gt;-->
-<!--    &lt;!&ndash; Añado manifest para poder ejecutar .jar&ndash;&gt;-->
-<!--    <target name="jar" depends="compile">-->
-<!--        <jar destfile="${jar.file}" basedir="src/target/classes" manifest="META-INF/MANIFEST.MF"/>-->
-<!--    </target>-->
-
-<!--    <target name="manifest">-->
-<!--        <manifest file="META-INF/MANIFEST.MF">-->
-<!--            <attribute name="Main-Class" value="es.ubu.lsi"/>-->
-<!--        </manifest>-->
-<!--    </target>-->
-
+    <!-- Limpia el proyecto -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${docs.dir}"/>
+    </target>
 </project>
+
+

@@ -7,7 +7,7 @@ import es.ubu.lsi.common.ChatMessage;
  * Define la firma para los métodos de envío de mensajes, desconexión y arranque del cliente.
  *
  * @author Fernando Pisot Serrano
- * @email fps1001@alu.ubu.es
+ *
  */
 public interface ChatClient {
     /**

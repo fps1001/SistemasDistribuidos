@@ -13,6 +13,8 @@ Sesión 1 - Ejercicio 1 Script con ant:
 crear un archivo build.xml que compile,
 genere documentación y genere binarios
 en un jar.
+Se modifica tras corrección del profesor para que target esté al mismo
+nivel que src y no dentro.
 
 -->
 
@@ -31,9 +33,9 @@ en un jar.
     </target>
 
     <target name="compile" description="Crea el directorio destino y compila con javac">
-        <mkdir dir="src/target/classes" />
+        <mkdir dir="target/classes" />
         <!-- Para evitar warning al compilar se añade el includeantruntime a falso -->
-        <javac srcdir="${src.dir}" destdir="src/target/classes" includeantruntime="false"/>
+        <javac srcdir="${src.dir}" destdir="target/classes" includeantruntime="false"/>
     </target>
 
     <target name="javadoc" description="Genera la documentación del proyecto">
@@ -43,7 +45,7 @@ en un jar.
     <!-- depends indica que antes de hacer el jar debe compilar.-->
     <!-- Añado manifest para poder ejecutar .jar-->
     <target name="jar" depends="compile">
-        <jar destfile="${jar.file}" basedir="src/target/classes" manifest="META-INF/MANIFEST.MF"/>
+        <jar destfile="${jar.file}" basedir="target/classes" manifest="META-INF/MANIFEST.MF"/>
     </target>
 
     <target name="manifest">

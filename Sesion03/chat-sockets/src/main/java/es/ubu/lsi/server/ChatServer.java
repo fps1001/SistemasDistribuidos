@@ -7,7 +7,6 @@ import es.ubu.lsi.common.ChatMessage;
  * Define los métodos para el arranque del servidor, la multidifusión de mensajes, la eliminación de clientes y el apagado.
  *
  * @author Fernando Pisot Serrano
- * @email fps1001@alu.ubu.es
  */
 public interface ChatServer {
     /**

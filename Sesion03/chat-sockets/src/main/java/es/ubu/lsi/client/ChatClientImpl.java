@@ -19,12 +19,14 @@ import java.util.Scanner;
  * <p>
  * La clase ChatClientListener se define dentro de esta clase para facilitar el acceso a los campos y métodos de la clase externa.
  * <p>
- * <a href="https://www.youtube.com/watch?v=gLfuZrrfKes">...</a> - Video y canal de WittCode
+ * Para más información sobre el proyecto, consultar el repositorio de GitHub.
+ * Contacto: fps1001@alu.ubu.es
  *
+ * @see <a href="https://github.com/fps1001/SistemasDistribuidos">Repositorio de GitHub</a>
  * @author Fernando Pisot Serrano
- * @email fps1001@alu.ubu.es
- * @repo <a href="https://github.com/fps1001/SistemasDistribuidos">...</a>
+ *
  */
+
 public class ChatClientImpl implements ChatClient {
     private String serverAddress;
     private String username;
