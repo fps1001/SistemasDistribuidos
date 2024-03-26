@@ -7,7 +7,8 @@ import es.ubu.lsi.client.ChatClient;
 import es.ubu.lsi.common.ChatMessage;
 
 /**
- * Chat server.
+ * Chat server: interfaz que define los métodos remotos que el servidor debe implementar para registrar y desregistrar
+ * clientes, publicar mensajes y apagar el servidor.
  * 
  * @author Raúl Marticorena
  * @author Joaquin P. Seco

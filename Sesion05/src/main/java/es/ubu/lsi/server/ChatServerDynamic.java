@@ -5,10 +5,12 @@ import java.rmi.server.RMIClassLoader;
 import java.util.Properties;
 
 /**
- * Dynamic server. 
+ * Dynamic server: Se encarga de la configuración dinámica del servidor, cargando la clase ChatServerStarter para
+ * iniciar la ejecución del servidor.
  * 
  * @author Raúl Marticorena
  * @author Joaquin P. Seco
+ *
  */
 public class ChatServerDynamic {
 	/**

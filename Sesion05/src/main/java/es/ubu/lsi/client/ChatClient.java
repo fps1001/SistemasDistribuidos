@@ -6,7 +6,8 @@ import java.rmi.RemoteException;
 import es.ubu.lsi.common.ChatMessage;
 
 /**
- * Chat client.
+ * Chat client: interfaz que define los métodos remotos que el cliente debe implementar como recibir mensajes y
+ * manejar el ID y el apodo del cliente.
  * 
  * @author Raúl Marticorena
  * @author Joaquin P. Seco

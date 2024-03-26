@@ -6,7 +6,8 @@ import java.rmi.server.RMIClassLoader;
 import java.util.Properties;
 
 /**
- * Dynamic client.
+ * Dynamic client: maneja la configuración dinámica del cliente, cargando la clase ChatClientStarter para iniciar
+ * la ejecución del cliente.
  * 
  * @author Raúl Marticorena
  * @author Joaquin P. Seco
