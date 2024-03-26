@@ -17,26 +17,31 @@ import java.util.Scanner;
  * @author Fernando Pisot Serrano
  */
 
-public class ChatClientStarter {
+/**
+ * Constructor de la clase.
+ *
+ * @param args nombre de usuario y host (localhost por defecto)
+ */
+public class ChatClientStarter (String[] args){
 
-    // TODO Quizá haya que ponerlo en un start por ser un hilo...
-    public static void main(String[] args) {
+    String nickname = args.length > 0 ? args[0] : "Anónimo"; // Asigno nombre Anónimo a cliente si no indica nombre.
+    String host = args.length > 1 ? args[1] : "localhost"; // localhost valor por defecto.
+    start(); // Iniciamos el host del cliente
+
+    /**
+     * Inicia el chat y los mensajes entre clientes a través del servidor.
+     */
+    public void start() {
         try {
-            String nickname = args.length > 0 ? args[0] : "Anónimo"; // Asigno nombre Anónimo a cliente si no indica nombre.
-            String host = args.length > 1 ? args[1] : "localhost"; // localhost valor por defecto.
 
-            // Exportación y vinculación del cliente remoto
-            System.setProperty("java.security.policy", "path/to/your/security/policy");
-            if (System.getSecurityManager() == null) {
-                System.setSecurityManager(new SecurityManager());
-            }
+            // Crea instancia de ChatClientImpl y se registra en el servidor
+            UnicastRemoteObject.exportObject(chatClient, 0);
+            Registry registry = LocateRegistry.getRegistry(hostCliente);
+            ChatServer servidor = (ChatServer) registry.lookup("/servidor");
 
-            // Crear instancia de ChatClientImpl y registrarse en el servidor
-            ChatClientImpl client = new ChatClientImpl(host, nickname);
-            ChatServer server = (ChatServer) Naming.lookup("//" + host + "/ChatServer");
-            int clientId = server.checkIn(client);
 
             // Confirmación de registro como en el caso de sockets
+            int clientId = server.checkIn(client);
             System.out.println("Registrado en el servidor con ID: " + clientId);
 
             // Manejo de entradas del usuario
@@ -44,7 +49,8 @@ public class ChatClientStarter {
             String input;
             System.out.println("Escribe tus mensajes (escribe 'logout' para salir):");
             while (!(input = scanner.nextLine()).equalsIgnoreCase("logout")) {
-                // Enviar mensaje al servidor
+
+                // Envia mensaje al servidor
                 server.publish(new ChatMessage(clientId, nickname, input));
             }
 
