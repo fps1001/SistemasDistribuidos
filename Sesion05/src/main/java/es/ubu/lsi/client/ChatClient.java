@@ -7,7 +7,7 @@ import es.ubu.lsi.common.ChatMessage;
 
 /**
  * Chat client: interfaz que define los métodos remotos que el cliente debe implementar como recibir mensajes y
- * manejar el ID y el apodo del cliente.
+ * manejar el ID y el apodo del cliente. Sería el HolaMundo de la sesión 4.
  * 
  * @author Raúl Marticorena
  * @author Joaquin P. Seco

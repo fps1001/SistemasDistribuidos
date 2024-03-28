@@ -20,23 +20,26 @@ public class ChatServerStarter {
 
     public static void main(String[] args) {
         try {
-            // Establecer la política de seguridad
-            System.setProperty("java.security.policy", "path/to/security.policy");
+            //* Establecer la política de seguridad
+            //System.setProperty("java.security.policy", "path/to/security.policy");
 
-            if (System.getSecurityManager() == null) {
-                System.setSecurityManager(new SecurityManager());
-            }
+//            if (System.getSecurityManager() == null) {
+//                System.setSecurityManager(new SecurityManager());
+//            }
 
-            // Crear e instanciar el servidor
+            //* Crea e instancia el servidor
             ChatServerImpl server = new ChatServerImpl();
+            // Los stubs son la puerta de entrada para el lado del cliente
             ChatServer stub = (ChatServer) UnicastRemoteObject.exportObject(server, 0);
 
             // Iniciar el registro RMI en el puerto especificado o en el puerto por defecto
-            int port = args.length > 0 ? Integer.parseInt(args[0]) : 1099;
-            LocateRegistry.createRegistry(port);
-            Registry registry = LocateRegistry.getRegistry(port);
+//            int port = args.length > 0 ? Integer.parseInt(args[0]) : 1099;
+//            LocateRegistry.createRegistry(port);
+//            Registry registry = LocateRegistry.getRegistry(port);
+            // Liga el resguardo de objeto remoto en el registro
+            Registry registro = LocateRegistry.getRegistry();
 
-            // Registrar el servidor en el registro RMI con un nombre único
+            // Registra el servidor en el registro RMI con un nombre único
             String name = "ChatServer";
             registry.rebind(name, stub);
 

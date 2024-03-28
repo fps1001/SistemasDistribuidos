@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 /**
  * ChatClientStarter: Inicia la comunicación con el servidor.
+ * Sería el que haga las funciones de Cliente de la sesión 4.
  *
  * <p>
  * Para más información sobre el proyecto, consultar el repositorio de GitHub.
@@ -34,23 +35,25 @@ public class ChatClientStarter (String[] args){
     public void start() {
         try {
 
-            // Crea instancia de ChatClientImpl y se registra en el servidor
+            //* Crea instancia de ChatClientImpl y se registra en el servidor
             UnicastRemoteObject.exportObject(chatClient, 0);
+            // registry paso esencial para poder buscar objetos remotos más tarde.
             Registry registry = LocateRegistry.getRegistry(hostCliente);
+            // busca el objeto remoto por su nombre
             ChatServer servidor = (ChatServer) registry.lookup("/servidor");
 
 
-            // Confirmación de registro como en el caso de sockets
+            //* Confirmación de registro como en el caso de sockets
             int clientId = server.checkIn(client);
             System.out.println("Registrado en el servidor con ID: " + clientId);
 
-            // Manejo de entradas del usuario
+            //* Manejo de entradas del usuario
             Scanner scanner = new Scanner(System.in);
             String input;
             System.out.println("Escribe tus mensajes (escribe 'logout' para salir):");
             while (!(input = scanner.nextLine()).equalsIgnoreCase("logout")) {
 
-                // Envia mensaje al servidor
+                //* Envia mensaje al servidor
                 server.publish(new ChatMessage(clientId, nickname, input));
             }
 
