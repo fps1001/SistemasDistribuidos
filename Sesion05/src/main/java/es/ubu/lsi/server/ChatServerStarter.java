@@ -37,7 +37,7 @@ public class ChatServerStarter {
 //            LocateRegistry.createRegistry(port);
 //            Registry registry = LocateRegistry.getRegistry(port);
             // Liga el resguardo de objeto remoto en el registro
-            Registry registro = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.getRegistry();
 
             // Registra el servidor en el registro RMI con un nombre único
             String name = "ChatServer";
