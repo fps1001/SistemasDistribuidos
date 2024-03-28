@@ -29,6 +29,13 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
         super();
     }
 
+    /**
+     * Registra un nuevo cliente en el servidor.
+     *
+     * @param client Cliente a registrar.
+     * @return ID asignado al cliente.
+     * @throws RemoteException Si ocurre un error en la llamada remota.
+     */
     @Override
     public synchronized int checkIn(ChatClient client) throws RemoteException {
         int clientId = clientIdCounter++;
@@ -37,6 +44,12 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
         return clientId;
     }
 
+    /**
+     * Desconecta un cliente del servidor.
+     *
+     * @param client Cliente a desconectar.
+     * @throws RemoteException Si ocurre un error en la llamada remota.
+     */
     @Override
     public synchronized void logout(ChatClient client) throws RemoteException {
         // Borramos el cliente si lo encontramos en el mapa.
@@ -44,6 +57,12 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
         System.out.println("Cliente borrado de registro.");
     }
 
+    /**
+     * Publica un mensaje a todos los clientes conectados.
+     *
+     * @param msg Mensaje a publicar.
+     * @throws RemoteException Si ocurre un error en la llamada remota.
+     */
     @Override
     public void publish(ChatMessage msg) throws RemoteException {
         for (ChatClient client : clients.values()) {
@@ -51,6 +70,12 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
         }
     }
 
+    /**
+     * Apaga el servidor de chat, desconectando a todos los clientes.
+     *
+     * @param client Cliente que solicita el apagado.
+     * @throws RemoteException Si ocurre un error en la llamada remota.
+     */
     @Override
     public void shutdown(ChatClient client) throws RemoteException {
         System.out.println("Servidor cerrando.");
