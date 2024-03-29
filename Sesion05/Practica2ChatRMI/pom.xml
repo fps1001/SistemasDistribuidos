@@ -65,7 +65,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.basedir}/../Practica2ChatRMI-Web/src/main/webapp</outputDirectory>
+              <outputDirectory>${project.basedir}/../Practica2ChatRMI-Web/src/main/webapp/WEB-INF/classes</outputDirectory>
               <resources>
                 <resource>
                   <directory>${project.build.outputDirectory}</directory>
