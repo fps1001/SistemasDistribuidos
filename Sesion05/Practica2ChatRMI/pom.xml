@@ -52,24 +52,31 @@
         </configuration>
       </plugin>
 
-<!--      Plugin para copiar las clases al proyecto 'Practica2ChatRMI-Web-->
+<!--      Plugin para copiar las clases al proyecto 'Practica2ChatRMI-Web', dependencies no me funcionaba-->
+
       <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.2</version>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.1</version>
         <executions>
           <execution>
-            <id>copy-classes</id>
-            <phase>prepare-package</phase>
+            <id>copy-resource-one</id>
+            <phase>package</phase>
             <goals>
-              <goal>copy-dependencies</goal>
+              <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/../Practica2ChatRMI-Web/src/main/webapp/WEB-INF/classes</outputDirectory>
-              <includeGroupIds>es.ubu.lsi</includeGroupIds>
-              <includeArtifactIds>Practica2ChatRMI</includeArtifactIds>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>true</overWriteSnapshots>
-              <overWriteIfNewer>true</overWriteIfNewer>
+              <outputDirectory>${project.basedir}/../Practica2ChatRMI-Web/src/main/webapp</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.build.outputDirectory}</directory>
+                  <includes>
+                    <include>**/*.class</include>
+                  </includes>
+                  <excludes>
+                    <exclude>**/*Dynamic.class</exclude>
+                  </excludes>
+                </resource>
+              </resources>
             </configuration>
           </execution>
         </executions>
