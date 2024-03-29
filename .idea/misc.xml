@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/Sesion01/pom.xml" />
         <option value="$PROJECT_DIR$/Sesion03/chat-sockets/pom.xml" />
+        <option value="$PROJECT_DIR$/Sesion05/Practica2ChatRMI-Web/pom.xml" />
       </list>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />

@@ -7,9 +7,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="chat-sockets" />
+        <module name="Practica2ChatRMI-Web" />
         <module name="Sesion01" />
         <module name="chat-app" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Practica2ChatRMI-Web" options="-endorseddirs &quot;G:\Mi unidad\DISTRIBUIDOS\repo\Sesion05\Practica2ChatRMI-Web\target/endorsed&quot;" />
+    </option>
   </component>
 </project>

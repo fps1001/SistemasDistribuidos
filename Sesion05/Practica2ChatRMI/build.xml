@@ -16,7 +16,7 @@ en terminal: ant javadoc
 -->
 
 <!--<project name="Sesion05" default="jar" >-->
-<project name="ChatRMI" default="compile" basedir=".">
+<project name="ChatRMI" default="compile" basedir="..">
     <!-- Se establecen las 'variables' que se usarán a continuación -->
     <property name="src.dir" value="src/main/java" />
     <property name="build.dir" value="target/classes" />

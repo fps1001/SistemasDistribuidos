@@ -1,51 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Practica2ChatRMI-Web:war" />
+      <artifact name="Practica2ChatRMI-Web:war exploded" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a33a5b1c-25bc-43de-9bf4-8881adfbfcc1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Practica2ChatRMI/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/test/java/es/ubu/lsi/AppTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cliente.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/cliente.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../registerit.policy" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/registerit.policy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../registro.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/registro.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servidor.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/servidor.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/es/ubu/lsi/client/ChatClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/es/ubu/lsi/client/ChatClientDynamic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientDynamic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/es/ubu/lsi/client/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/es/ubu/lsi/client/ChatClientStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/es/ubu/lsi/common/ChatMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/common/ChatMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/es/ubu/lsi/server/ChatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/es/ubu/lsi/server/ChatServerDynamic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerDynamic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/es/ubu/lsi/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/es/ubu/lsi/server/ChatServerStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerStarter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/chat-app-rmi-1.0-SNAPSHOT.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/classes/es/ubu/lsi/client/ChatClient.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/classes/es/ubu/lsi/client/ChatClientDynamic.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/classes/es/ubu/lsi/client/ChatClientImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/classes/es/ubu/lsi/client/ChatClientStarter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/classes/es/ubu/lsi/common/ChatMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/classes/es/ubu/lsi/server/ChatServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/classes/es/ubu/lsi/server/ChatServerDynamic.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/classes/es/ubu/lsi/server/ChatServerImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/classes/es/ubu/lsi/server/ChatServerStarter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Sesion01/target/classes/org/example/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../Sesion01/target/classes/org/example/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/build.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pom.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,9 +28,19 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2eM3gQ8ZNIZ6wLGbnuQMj6oMpdR" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -65,12 +48,17 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "GlassFish Server.GlassFish 5.1.0.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.Practica2ChatRMI-Web [clean].executor": "Run",
+    "Maven.Practica2ChatRMI-Web [deploy].executor": "Run",
+    "Maven.Practica2ChatRMI-Web [install].executor": "Run",
+    "Maven.Practica2ChatRMI-Web [package].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "G:/Mi unidad/DISTRIBUIDOS/repo",
+    "last_opened_file_path": "G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05/Practica2ChatRMI-Web",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -79,6 +67,93 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="GlassFish 5.1.0" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 5.1.0" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="1.8" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/Practica2ChatRMI-Web/Sesion05/Practica2ChatRMI-Web/src/main/webapp/index.html" />
+      <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <file path="$PROJECT_DIR$/target/Practica2ChatRMI-Web-1.0-SNAPSHOT.war">
+          <settings />
+        </file>
+      </deployment>
+      <server-settings>
+        <option name="DOMAIN" value="domain1" />
+        <option name="PRESERVE" value="false" />
+        <option name="COMPATIBILITY" value="false" />
+        <option name="VIRTUAL_SERVER" />
+        <option name="USERNAME" value="admin" />
+        <option name="CREDENTIAL_ALIAS" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="GlassFish" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="9009" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <deployment />
+      <server-settings>
+        <option name="DOMAIN" value="" />
+        <option name="PRESERVE" value="false" />
+        <option name="COMPATIBILITY" value="false" />
+        <option name="VIRTUAL_SERVER" />
+        <option name="USERNAME" value="admin" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="GlassFish" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -95,6 +170,9 @@
       <option name="presentableId" value="Default" />
       <updated>1711700736520</updated>
       <workItem from="1711700737578" duration="643000" />
+      <workItem from="1711722334074" duration="67000" />
+      <workItem from="1711729141936" duration="1881000" />
+      <workItem from="1711731113001" duration="10000" />
     </task>
     <servers />
   </component>
