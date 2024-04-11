@@ -30,7 +30,7 @@ import java.util.Scanner;
                 Registry registry = LocateRegistry.getRegistry(host);
                 ChatServer server = (ChatServer) registry.lookup("/servidor");
 
-                es.ubu.lsi.client.ChatClientImpl client = new es.ubu.lsi.client.ChatClientImpl(nickname, server);
+                ChatClientImpl client = new ChatClientImpl(nickname, server);
                 // Exportación del cliente remoto:
                 UnicastRemoteObject.exportObject(client,0);
                 // Enlaza ambos objetos: ChatClientImpl y ChatServer: cliente y servidor.

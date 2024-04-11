@@ -65,14 +65,13 @@
           <execution>
             <phase>package</phase>
             <configuration>
-              <tasks>
-                <!-- Tus tareas Ant van aquí -->
+              <target>
                 <copy todir="../Practica2ChatRMI-Web/src/main/webapp">
                   <fileset dir="./target/classes">
                     <exclude name="**/*Dynamic.class" />
                   </fileset>
                 </copy>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>

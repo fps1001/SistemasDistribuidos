@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43c7abee-b242-403d-96f0-a37ff44e7100" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lanzar_consolas.bat" afterDir="false" />
+    <list default="true" id="43c7abee-b242-403d-96f0-a37ff44e7100" name="Changes" comment="Añadido bash para lanzar las consolas automáticamente. No me funciona servidor ahora. Hay que revisar ambos starters.">
+      <change beforePath="$PROJECT_DIR$/../ChatClientStarter.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/Sesion05/es/ubu/lsi/client/Practica2ChatRMI/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/Sesion05/es/ubu/lsi/client/Practica2ChatRMI/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientDynamic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientDynamic.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,23 +30,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05/Practica2ChatRMI&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -55,11 +58,24 @@
       <workItem from="1711701855127" duration="620000" />
       <workItem from="1712857111196" duration="531000" />
       <workItem from="1712857684898" duration="42000" />
-      <workItem from="1712857837241" duration="1352000" />
+      <workItem from="1712857837241" duration="4187000" />
     </task>
+    <task id="LOCAL-00001" summary="Añadido bash para lanzar las consolas automáticamente. No me funciona servidor ahora. Hay que revisar ambos starters.">
+      <option name="closed" value="true" />
+      <created>1712863097660</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1712863097660</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Añadido bash para lanzar las consolas automáticamente. No me funciona servidor ahora. Hay que revisar ambos starters." />
+    <option name="LAST_COMMIT_MESSAGE" value="Añadido bash para lanzar las consolas automáticamente. No me funciona servidor ahora. Hay que revisar ambos starters." />
   </component>
 </project>
