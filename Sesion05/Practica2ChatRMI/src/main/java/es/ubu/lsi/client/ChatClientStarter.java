@@ -42,15 +42,12 @@ import java.util.Scanner;
                 try (Scanner scanner = new Scanner(System.in)) {
                     while (true) {
                         // TODO El primer mensaje debería ser el usuario?
-                        String raw_message = scanner.nextLine();
-                        if ("logout".equalsIgnoreCase(raw_message)) {
-                            client.logout(); //TODO Debería cerrar el scanner
+                        String message = scanner.nextLine();
+                        if ("logout".equalsIgnoreCase(message)) {
+                            server.logout(client); //TODO Debería cerrar el scanner
                             break;
                         } else {
-                            //client.sendMessage(message);
-                            // Le paso todo el mensaje montado no solo el raw_message
-                            ChatMessage message = new ChatMessage(chatClient.getId(), nickname, mensaje);
-                            servidor.publish(message)
+                            client.sendMessage(message); // montará un tipo ChatMessage y hará server.publish
                         }
                     }
                 }

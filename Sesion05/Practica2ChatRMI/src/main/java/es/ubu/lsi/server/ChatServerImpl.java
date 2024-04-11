@@ -3,9 +3,13 @@ package es.ubu.lsi.server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Map;
 
 import es.ubu.lsi.client.ChatClient;
 import es.ubu.lsi.common.ChatMessage;
+
 
 /**
  * ChatServerImpl: Implementación del servidor RMI.
@@ -19,11 +23,16 @@ import es.ubu.lsi.common.ChatMessage;
  * @author Fernando Pisot Serrano
  */
 
-public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
+//public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
+public class ChatServerImpl implements ChatServer {
 
-    // Lista de clientes conectados: como en sockets usaré un mapa id-cliente.
+    /** Lista de clientes conectados: como en sockets usaré un mapa id-cliente.*/
     private ConcurrentHashMap<Integer, ChatClient> clients = new ConcurrentHashMap<>();
+    /** Ids de los clientes */
     private int clientIdCounter = 1; // Contador para asignar ID únicos a cada cliente.
+
+    /** Fecha de recepción de mensaje */
+    private static SimpleDateFormat sdf = new SimpleDateFormat ("HH:mm:ss");
 
     public ChatServerImpl() throws RemoteException {
         super();
@@ -52,10 +61,24 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
      */
     @Override
     public synchronized void logout(ChatClient client) throws RemoteException {
-        // Borramos el cliente si lo encontramos en el mapa.
-        clients.entrySet().removeIf(entry -> entry.getValue().equals(client));
-        System.out.println("Cliente borrado de registro.");
+        // Iteramos sobre las entradas del mapa para encontrar el cliente y su ID correspondiente.
+        Integer clientIdToRemove = null;
+        for (Map.Entry<Integer, ChatClient> entry : clients.entrySet()) {
+            if (entry.getValue().equals(client)) {
+                clientIdToRemove = entry.getKey(); // Encontramos el ID del cliente.
+                break; // Salimos del bucle una vez encontrado el cliente.
+            }
+        }
+
+        // Si encontramos un cliente para remover, lo eliminamos y mostramos un mensaje personalizado.
+        if (clientIdToRemove != null) {
+            clients.remove(clientIdToRemove); // Eliminamos el cliente usando su ID.
+            System.out.println("El cliente " + clientIdToRemove + " ha sido borrado de registro.");
+        } else {
+            System.out.println("Cliente no encontrado en el registro.");
+        }
     }
+
 
     /**
      * Publica un mensaje a todos los clientes conectados.
@@ -65,6 +88,7 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
      */
     @Override
     public void publish(ChatMessage msg) throws RemoteException {
+
         for (ChatClient client : clients.values()) {
             client.receive(msg);
         }
@@ -81,6 +105,10 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
         System.out.println("Servidor cerrando.");
         // TODO hay que limpiar algún registro de memoria???
         System.exit(0);
+    }
+
+    public static String getSdf() {
+        return sdf.format(new Date());
     }
 
 }
