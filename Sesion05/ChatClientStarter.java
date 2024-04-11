@@ -1,12 +1,10 @@
 package es.ubu.lsi.client;
 
-import java.rmi.Naming;
-import java.rmi.RemoteException;
+import es.ubu.lsi.server.ChatServer;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import es.ubu.lsi.server.ChatServer;
-import es.ubu.lsi.common.ChatMessage;
 import java.util.Scanner;
 
 /**
@@ -32,7 +30,7 @@ import java.util.Scanner;
                 Registry registry = LocateRegistry.getRegistry(host);
                 ChatServer server = (ChatServer) registry.lookup("/servidor");
 
-                ChatClientImpl client = new ChatClientImpl(nickname, server);
+                es.ubu.lsi.client.ChatClientImpl client = new es.ubu.lsi.client.ChatClientImpl(nickname, server);
                 // Exportación del cliente remoto:
                 UnicastRemoteObject.exportObject(client,0);
                 // Enlaza ambos objetos: ChatClientImpl y ChatServer: cliente y servidor.

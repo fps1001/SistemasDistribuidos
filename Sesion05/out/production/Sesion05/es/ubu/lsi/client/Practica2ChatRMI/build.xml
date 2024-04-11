@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Sistemas Distribuidos
+Grado en Ingeniería Informática
+Universidad de Burgos
+Curso 2023-2024
+Fernando Pisot Serrano
+fps1001@alu.ubu.es
+________________________________________________
+https://github.com/fps1001/SistemasDistribuidos
+________________________________________________
+Sesión 5 - Práctica RMI
+
+Archivo para usar ant que permita la generación de documentación javadoc
+en terminal: ant javadoc
+-->
+
+<!--<project name="Sesion05" default="jar" >-->
+<project name="ChatRMI" default="compile" basedir="..">
+    <!-- Se establecen las 'variables' que se usarán a continuación -->
+    <property name="src.dir" value="src/main/java" />
+    <property name="build.dir" value="target/classes" />
+    <property name="docs.dir" value="target/doc"/>
+
+    <!-- Prepara el directorio de compilación. Los crea si no existen. -->
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${docs.dir}"/>
+    </target>
+
+    <!-- Compila el proyecto -->
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
+        </javac>
+    </target>
+
+    <!-- Genera la documentación Javadoc -->
+    <target name="javadoc" depends="compile">
+        <javadoc sourcepath="${src.dir}" destdir="${docs.dir}" packagenames="es.ubu.lsi.*" >
+            <classpath>
+                <pathelement path="${build.dir}"/>
+            </classpath>
+        </javadoc>
+    </target>
+
+    <!-- Limpia el proyecto -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${docs.dir}"/>
+    </target>
+</project>
+
+
