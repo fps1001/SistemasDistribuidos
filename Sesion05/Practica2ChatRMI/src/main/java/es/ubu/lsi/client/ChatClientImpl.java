@@ -1,7 +1,6 @@
 package es.ubu.lsi.client;
 
 import java.io.*;
-import java.util.Scanner;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import es.ubu.lsi.common.ChatMessage;
@@ -22,10 +21,10 @@ import java.text.SimpleDateFormat;
  */
 
 //public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
-public class ChatClientImpl implements ChatClient {
+public class ChatClientImpl implements ChatClient, Serializable {
 
     /** ID asignado por el servidor al cliente.*/
-    private int id = -1;
+    private int id = 1; // Añade un serialVersionUID
     /** Nickname del usuario.*/
     private String nickName;
     /** Referencia al servidor de chat */
@@ -44,7 +43,7 @@ public class ChatClientImpl implements ChatClient {
         super();
         this.nickName = nickName;
         this.server = server;
-        this.id = server.checkIn(this); // Registra el cliente en el servidor y guarda el ID asignado.
+        //this.id = server.checkIn(this); // Registra el cliente en el servidor y guarda el ID asignado.
     }
 
     /**
