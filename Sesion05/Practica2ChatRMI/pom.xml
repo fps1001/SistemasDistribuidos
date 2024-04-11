@@ -6,6 +6,8 @@
   <groupId>es.ubu.lsi</groupId>
   <artifactId>Practica2ChatRMI</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+<!-- Añado nombre-->
+  <name>Practica2ChatRMI</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -52,35 +54,33 @@
         </configuration>
       </plugin>
 
-<!--      Plugin para copiar las clases al proyecto 'Practica2ChatRMI-Web', dependencies no me funcionaba-->
+<!--      Plugin para copiar las clases al proyecto 'Practica2ChatRMI-Web', dependencies no me funcionaba
+ y maven-resources-plugin me decía plugin no encontrado-->
 
       <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>3.3.1</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version> <!-- Asegúrate de utilizar la última versión disponible -->
         <executions>
           <execution>
-            <id>copy-resource-one</id>
             <phase>package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
             <configuration>
-              <outputDirectory>${project.basedir}/../Practica2ChatRMI-Web/src/main/webapp/WEB-INF/classes</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.build.outputDirectory}</directory>
-                  <includes>
-                    <include>**/*.class</include>
-                  </includes>
-                  <excludes>
-                    <exclude>**/*Dynamic.class</exclude>
-                  </excludes>
-                </resource>
-              </resources>
+              <tasks>
+                <!-- Tus tareas Ant van aquí -->
+                <copy todir="../Practica2ChatRMI-Web/src/main/webapp">
+                  <fileset dir="./target/classes">
+                    <exclude name="**/*Dynamic.class" />
+                  </fileset>
+                </copy>
+              </tasks>
             </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
+
 
 
     </plugins>
