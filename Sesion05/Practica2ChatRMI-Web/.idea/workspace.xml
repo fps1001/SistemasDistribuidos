@@ -10,16 +10,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a33a5b1c-25bc-43de-9bf4-8881adfbfcc1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../ChatClientStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" afterDir="false" />
+    <list default="true" id="a33a5b1c-25bc-43de-9bf4-8881adfbfcc1" name="Changes" comment="Fallo al levantar servidor ahora">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientDynamic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientDynamic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +55,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05/Practica2ChatRMI-Web/target/Practica2ChatRMI-Web-1.0-SNAPSHOT.war",
+    "last_opened_file_path": "G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05/Practica2ChatRMI-Web",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -74,9 +70,6 @@
       <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
-        <file path="$PROJECT_DIR$/../Practica2ChatRMI/target/Practica2ChatRMI-0.0.1-SNAPSHOT.jar">
-          <settings />
-        </file>
         <file path="$PROJECT_DIR$/target/Practica2ChatRMI-Web-1.0-SNAPSHOT.war">
           <settings />
         </file>
@@ -166,11 +159,25 @@
       <workItem from="1712854028495" duration="904000" />
       <workItem from="1712855681833" duration="983000" />
       <workItem from="1712857664605" duration="61000" />
-      <workItem from="1712864241043" duration="1407000" />
+      <workItem from="1712864241043" duration="1563000" />
+      <workItem from="1712870857773" duration="980000" />
     </task>
+    <task id="LOCAL-00001" summary="Fallo al levantar servidor ahora">
+      <option name="closed" value="true" />
+      <created>1712867630240</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1712867630240</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Fallo al levantar servidor ahora" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fallo al levantar servidor ahora" />
   </component>
 </project>
