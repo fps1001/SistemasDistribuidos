@@ -19,58 +19,46 @@ import java.util.Scanner;
  *
  * @see <a href="https://github.com/fps1001/SistemasDistribuidos">Repositorio de GitHub</a>
  */
-public class ChatClientStarter {
 
-    private String nickname; // Asigno nombre Anónimo a cliente si no indica nombre.
-    private String host; // localhost valor por defecto.
 
-    /**
-     * Constructor de la clase.
-     *
-     * @param args nombre de usuario y host (localhost por defecto)
-     */
-    public ChatClientStarter(String[] args){
-        this.nickname = args.length > 0 ? args[0] : "Anónimo";
-        this.host = args.length > 1 ? args[1] : "localhost";
-        start(); // Iniciamos el host del cliente
-    }
+    public class ChatClientStarter {
 
-    /**
-     * Inicia el chat y los mensajes entre clientes a través del servidor.
-     */
-    public void start() {
-        try {
-            //Crea una instancia del cliente del chat con el nickname
-            ChatClientImpl chatClient = new ChatClientImpl(nickname, null);
+        public static void main(String[] args) {
+            try {
+                String nickname = args[0];
+                String host = args.length < 2 ? "localhost" : args[1];
+                // El Registry es un objeto remoto que mapea nombres a objetos remotos.
+                // Este paso es esencial para poder registrar o buscar objetos remotos más tarde.
+                Registry registry = LocateRegistry.getRegistry(host);
+                ChatServer server = (ChatServer) registry.lookup("/servidor");
 
-            //Exporta el objeto para hacerlo disponible para recibir llamadas remotas.
-            UnicastRemoteObject.exportObject(chatClient, 0);
+                ChatClientImpl client = new ChatClientImpl(nickname, server);
+                // Exportación del cliente remoto:
+                UnicastRemoteObject.exportObject(client,0);
+                // Enlaza ambos objetos: ChatClientImpl y ChatServer: cliente y servidor.
+                server.checkIn(client);
 
-            //Busca el servidor de chat en el registro RMI usando su nombre conocido.
-            Registry registry = LocateRegistry.getRegistry(host);
-            ChatServer servidor = (ChatServer) registry.lookup("ChatServer");
-
-            // Ponemos el mensaje como en sesión 3 con el id del usuario.
-            int clientId = servidor.checkIn(chatClient);
-            System.out.println("Registrado en el servidor con ID: " + clientId);
-
-            //Bucle de mensajes del cliente hasta logout.
-            Scanner scanner = new Scanner(System.in);
-            String input;
-            System.out.println("Escribe tus mensajes (escribe 'logout' para salir):");
-            while (!(input = scanner.nextLine()).equalsIgnoreCase("logout")) {
-                chatClient.sendMessage(input); // Suponiendo que agregaste un método sendMessage en ChatClientImpl que haga este trabajo.
+                System.out.println("Cliente iniciado. Escriba sus mensajes:");
+                try (Scanner scanner = new Scanner(System.in)) {
+                    while (true) {
+                        // TODO El primer mensaje debería ser el usuario?
+                        String raw_message = scanner.nextLine();
+                        if ("logout".equalsIgnoreCase(raw_message)) {
+                            client.logout(); //TODO Debería cerrar el scanner
+                            break;
+                        } else {
+                            //client.sendMessage(message);
+                            // Le paso todo el mensaje montado no solo el raw_message
+                            ChatMessage message = new ChatMessage(chatClient.getId(), nickname, mensaje);
+                            servidor.publish(message)
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Excepción del cliente: " + e.toString());
+                e.printStackTrace();
             }
-
-            servidor.logout(chatClient);
-            System.out.println("Desconectado del servidor.");
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) {
-        new ChatClientStarter(args);
-    }
-}
+
