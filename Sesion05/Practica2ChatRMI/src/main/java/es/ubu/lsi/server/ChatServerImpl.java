@@ -23,7 +23,7 @@ import es.ubu.lsi.common.ChatMessage;
  * @author Fernando Pisot Serrano
  */
 
-//public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
+
 public class ChatServerImpl implements ChatServer {
 
     /** Lista de clientes conectados: como en sockets usaré un mapa id-cliente.*/
@@ -90,6 +90,9 @@ public class ChatServerImpl implements ChatServer {
     public void publish(ChatMessage msg) throws RemoteException {
 
         for (ChatClient client : clients.values()) {
+            if (client.getId() != msg.getId()) { // Restringimos que el remitente reciba el mensaje.
+                client.receive(msg);
+            }
             client.receive(msg);
         }
     }
@@ -103,7 +106,6 @@ public class ChatServerImpl implements ChatServer {
     @Override
     public void shutdown(ChatClient client) throws RemoteException {
         System.out.println("Servidor cerrando.");
-        // TODO hay que limpiar algún registro de memoria???
         System.exit(0);
     }
 

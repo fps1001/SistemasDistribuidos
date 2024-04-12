@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 //public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 public class ChatClientImpl implements ChatClient, Serializable {
 
-    /** ID asignado por el servidor al cliente.*/
+    /** Id del servidor al cliente.*/
     private int id = 1; // Añade un serialVersionUID
     /** Nickname del usuario.*/
     private String nickName;
@@ -43,7 +43,6 @@ public class ChatClientImpl implements ChatClient, Serializable {
         super();
         this.nickName = nickName;
         this.server = server;
-        //this.id = server.checkIn(this); // Registra el cliente en el servidor y guarda el ID asignado.
     }
 
     /**
@@ -112,23 +111,16 @@ public class ChatClientImpl implements ChatClient, Serializable {
         UnicastRemoteObject.unexportObject(this, true); // Limpieza de la conexión RMI.
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
+    /** getServer. Getter de servidor.*/
     public ChatServer getServer() {
         return server;
     }
-
+    /** setServer. Setter de servidor.*/
     public void setServer(ChatServer server) {
         this.server = server;
     }
-
+    /** getSdf. Getter de hora.*/
     public static String getSdf() {
         return sdf.format(new Date());
-    }
-
-    public static void setSdf(SimpleDateFormat sdf) {
-        ChatClientImpl.sdf = sdf;
     }
 }

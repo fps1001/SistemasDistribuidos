@@ -24,6 +24,9 @@ import java.util.Scanner;
         /** Nombre del host al que se va a conectar*/
         private String host;
 
+        /**
+         * ChatClientStarter. Constructor de clase.
+         * */
         public ChatClientStarter(String[] args) {
             this.nickname = args[0];
             this.host = "localhost";
@@ -31,9 +34,7 @@ import java.util.Scanner;
         }
 
     public void start() {
-
             try {
-
                 // El Registry es un objeto remoto que mapea nombres a objetos remotos.
                 // Este paso es esencial para poder registrar o buscar objetos remotos más tarde.
                 Registry registry = LocateRegistry.getRegistry(host);
@@ -48,7 +49,6 @@ import java.util.Scanner;
                 System.out.println("Cliente iniciado. Escriba sus mensajes:");
                 try (Scanner scanner = new Scanner(System.in)) {
                     while (true) {
-                        // TODO El primer mensaje debería ser el usuario?
                         String message = scanner.nextLine();
                         if ("logout".equalsIgnoreCase(message)) {
                             client.disconnect(); // Limpieza de la conexión RMI.

@@ -24,3 +24,10 @@ Una vez ejecutados los procesos el cliente tiene la opción de enviar mensajes a
 - logout: cierra su conexión con el servidor.
 - drop + nombre_usuario: cerrará la conexión de nombre_usuario.
 
+-----------------------------------------------------------
+Aclaraciones:
+
+A diferencia de la sesión 3 no se implementa pues la práctica no lo exige:
+- Función shutdown
+- Función ban/unban con archivo de propiedades de manera persistente.
+- Se intentará no obstante la dockerización del proyecto aunque no es obligatoria.

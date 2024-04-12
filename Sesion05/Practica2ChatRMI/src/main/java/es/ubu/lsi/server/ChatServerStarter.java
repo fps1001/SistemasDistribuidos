@@ -17,34 +17,28 @@ import java.rmi.server.UnicastRemoteObject;
  */
 
 public class ChatServerStarter {
+    /** ChatServerStarter. Constructor de clase que ejecuta la función de arraque start.*/
     public ChatServerStarter() {
         start();
     }
-
     /**
      * Inicia el proceso de exportación del servidor remoto y registra RMI (rmiregistry)
      */
     public void start() {
-        try { // versión simplificada para ver si arranca
+        try {
             // Crea servidor
             ChatServerImpl server = new ChatServerImpl();
             // Y lo exporta:
-            /* Los stubs son la puerta de entrada para el lado del cliente, construyen un bloque de información y
-             envían esta información al lado del servidor.
-             El bloque de información puede consistir en el nombre del método que se va a invocar,
-             los parámetros para la JVM remota y el identificador del objeto remoto a utilizar.*/
+            // Los stubs son la puerta de entrada para el lado del cliente, construyen un bloque de información y
             ChatServer stub = (ChatServer) UnicastRemoteObject.exportObject(server, 0);
-
             // Registra el objeto remoto en el servicio de nombres RMI Registry
             Registry registry = LocateRegistry.getRegistry();
-            registry.rebind("/servidor", stub); // cambio a rebind para que no de fallo si tiene que registrar ya existente, con bind daría error.
+            registry.rebind("/servidor", stub);
             System.out.println("Servidor de chat RMI iniciado correctamente.");
 
         } catch (RemoteException e) {
             System.err.println("Excepción al iniciar el servidor de chat: " + e.toString());
             e.printStackTrace();
         }
-
-
     }
 }

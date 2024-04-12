@@ -32,3 +32,5 @@ Ejemplo de uso:
 ## Sesión 04 - Hola Mundo RMI
 - Modificar la aplicación "Hola mundo" de RMI para exponer al menos 3 objetos y listar estos objetos desde el cliente RMI.
 
+## Sesión 05 - Chat RMI
+- Consiste básicamente en el proyecto de la sesión 3 de un chat entre clientes y servidor pero usando como medio RMI de contrucción de clases dinámicas.
