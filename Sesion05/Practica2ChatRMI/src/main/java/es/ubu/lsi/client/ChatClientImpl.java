@@ -86,8 +86,21 @@ public class ChatClientImpl implements ChatClient, Serializable {
      */
     @Override
     public void receive(ChatMessage msg) throws RemoteException {
-        // Mostrar el mensaje recibido en la consola del cliente o en la interfaz de usuario.
-        System.out.println(getSdf() + "- "+ msg.getNickname() + ": " + msg.getMessage());
+        // Comprobación de logout por parte de un drop de otro usuario:
+        if("logout".equals(msg.getMessage())) {
+            System.out.println("Has sido eliminado del servidor.");
+            // Este mensaje es una instrucción para desconectar el cliente
+            this.disconnect();
+        } else {
+            String sender = null;
+            if (msg.getId() == 0){ // Si envía el servidor un mensaje de contestación a drop evita el null.
+                sender = "Server";
+            }else{
+                sender = msg.getNickname();
+            }
+            // Mostrar el mensaje recibido en la consola del cliente o en la interfaz de usuario.
+            System.out.println(getSdf() + "- " + sender + ": " + msg.getMessage());
+        }
     }
 
     /**

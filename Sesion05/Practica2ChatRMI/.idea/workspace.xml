@@ -4,16 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43c7abee-b242-403d-96f0-a37ff44e7100" name="Changes" comment="ant con javadoc funcionando. Cierre de logout del cliente corregido.">
-      <change beforePath="$PROJECT_DIR$/../../ABD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../README.md" afterDir="false" />
+    <list default="true" id="43c7abee-b242-403d-96f0-a37ff44e7100" name="Changes" comment="Implementado drop: debug: usuario droppeado puede escribir.">
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServerStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServerStarter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +79,7 @@
       <workItem from="1712857837241" duration="4636000" />
       <workItem from="1712870430238" duration="2212000" />
       <workItem from="1712904656323" duration="7935000" />
-      <workItem from="1712935859565" duration="1408000" />
+      <workItem from="1712935859565" duration="5206000" />
     </task>
     <task id="LOCAL-00001" summary="Añadido bash para lanzar las consolas automáticamente. No me funciona servidor ahora. Hay que revisar ambos starters.">
       <option name="closed" value="true" />
@@ -103,7 +105,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712915580578</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Limpiado código, evitado recepción de mensaje por el emisor del mismo.">
+      <option name="closed" value="true" />
+      <created>1712937432951</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1712937432951</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,6 +123,8 @@
     <MESSAGE value="Añadido bash para lanzar las consolas automáticamente. No me funciona servidor ahora. Hay que revisar ambos starters." />
     <MESSAGE value="Servidor funciona. Solucionado problema con clientStarter. Falla ahora ClientImpl: java.io.NotSerializableException" />
     <MESSAGE value="ant con javadoc funcionando. Cierre de logout del cliente corregido." />
-    <option name="LAST_COMMIT_MESSAGE" value="ant con javadoc funcionando. Cierre de logout del cliente corregido." />
+    <MESSAGE value="Limpiado código, evitado recepción de mensaje por el emisor del mismo." />
+    <MESSAGE value="Implementado drop: debug: usuario droppeado puede escribir." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implementado drop: debug: usuario droppeado puede escribir." />
   </component>
 </project>

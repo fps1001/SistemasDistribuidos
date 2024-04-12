@@ -53,8 +53,11 @@ import java.util.Scanner;
                         if ("logout".equalsIgnoreCase(message)) {
                             client.disconnect(); // Limpieza de la conexión RMI.
                             System.exit(0); // Terminamos la ejecución. El scanner se cierra automáticamente al estar en un try
-                        } else {
-                            client.sendMessage(message); // montará un tipo ChatMessage y hará server.publish
+                        } else if (message.toLowerCase().startsWith("drop ")) {
+                            String userToDrop = message.substring(5);
+                            server.dropUser(client, userToDrop); // Le pasa el emisor para recibir contestación de servidor.
+                        }else {
+                            client.sendMessage(message); // -> server.publish (msg)
                         }
                     }
                 }

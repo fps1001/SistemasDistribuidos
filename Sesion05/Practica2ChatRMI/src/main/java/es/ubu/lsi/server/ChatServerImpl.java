@@ -2,6 +2,7 @@ package es.ubu.lsi.server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -109,8 +110,39 @@ public class ChatServerImpl implements ChatServer {
         System.exit(0);
     }
 
-    public static String getSdf() {
-        return sdf.format(new Date());
+    @Override
+    public void dropUser(ChatClient requestingClient, String nicknameToDrop) throws RemoteException {
+        // Se crea un stream de las entradas del mapa de clientes.
+        Optional<Integer> userIdToDrop = clients.entrySet().stream()
+                // Se aplica un filtro para buscar el usuario con el nickname dado.
+                .filter(entry -> {
+                    try {
+                        // Se compara el nickname de cada cliente con el proporcionado.
+                        return entry.getValue().getNickName().equalsIgnoreCase(nicknameToDrop);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                // Se obtiene el ID del cliente
+                .map(Map.Entry::getKey)
+                // Se encuentra el primer elemento.
+                .findFirst();
+
+        try {
+            // Comprueba si se encontró un ID de usuario.
+            if (userIdToDrop.isPresent()) {
+                // Si está presente, obtenemos el cliente y lo desconectamos mandandole un mensaje de logout
+                ChatClient clientToDrop = clients.get(userIdToDrop.get());
+                clientToDrop.receive(new ChatMessage(userIdToDrop.get(), "logout"));
+                clients.remove(userIdToDrop.get());
+                requestingClient.receive(new ChatMessage(0, "El usuario " + nicknameToDrop + " ha sido desconectado")); // Lo mandamos con id=0 que será el servidor.
+            } else {
+                // Si el ID de usuario no está presente, informamos que el usuario no existe.
+                requestingClient.receive(new ChatMessage(0, "El usuario " + nicknameToDrop + " no existe"));
+            }
+        } catch (RuntimeException e) {
+            throw (RemoteException) e.getCause();
+        }
     }
 
 }

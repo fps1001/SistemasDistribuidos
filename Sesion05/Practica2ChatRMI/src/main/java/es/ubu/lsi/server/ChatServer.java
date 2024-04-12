@@ -9,9 +9,12 @@ import es.ubu.lsi.common.ChatMessage;
 /**
  * Chat server: interfaz que define los métodos remotos que el servidor debe implementar para registrar y desregistrar
  * clientes, publicar mensajes y apagar el servidor.
+ *
+ * Modificación FPisot: añade función dropUser
  * 
  * @author Raúl Marticorena
  * @author Joaquin P. Seco
+ * @author Fernando Pisot
  *
  */
 public interface ChatServer extends Remote {
@@ -51,4 +54,11 @@ public interface ChatServer extends Remote {
 	 * @throws RemoteException remote error
 	 */
 	public abstract void shutdown(ChatClient client) throws RemoteException;
+
+	/**
+	 * Añado dropUser como nueva funcionalidad del servidor. Un usuario envía la petición de eliminar a otro.
+	 * */
+	void dropUser(ChatClient requestingClient, String nicknameToDrop) throws RemoteException;
+
+
 }

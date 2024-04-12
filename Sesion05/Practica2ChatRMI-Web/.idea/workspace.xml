@@ -11,15 +11,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a33a5b1c-25bc-43de-9bf4-8881adfbfcc1" name="Changes" comment="Fallo al levantar servidor ahora">
-      <change beforePath="$PROJECT_DIR$/../../ABD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerStarter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +169,7 @@
       <workItem from="1712870857773" duration="1596000" />
       <workItem from="1712904801813" duration="11000" />
       <workItem from="1712905460871" duration="716000" />
-      <workItem from="1712935316018" duration="1142000" />
+      <workItem from="1712935316018" duration="2878000" />
     </task>
     <task id="LOCAL-00001" summary="Fallo al levantar servidor ahora">
       <option name="closed" value="true" />
