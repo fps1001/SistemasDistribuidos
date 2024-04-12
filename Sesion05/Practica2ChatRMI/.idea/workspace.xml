@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43c7abee-b242-403d-96f0-a37ff44e7100" name="Changes" comment="Implementado drop: debug: usuario droppeado puede escribir.">
+    <list default="true" id="43c7abee-b242-403d-96f0-a37ff44e7100" name="Changes" comment="Mejor gestión de drop pero ahora no se ven mensajes. Falta depurar y si se puede un shutdown y dockerizarlo.">
+      <change beforePath="$PROJECT_DIR$/../../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,23 +34,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05/Practica2ChatRMI",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05/Practica2ChatRMI&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\Mi unidad\DISTRIBUIDOS\repo\Sesion05\Practica2ChatRMI\src\main\java\es\ubu\lsi\client" />
@@ -79,7 +77,8 @@
       <workItem from="1712857837241" duration="4636000" />
       <workItem from="1712870430238" duration="2212000" />
       <workItem from="1712904656323" duration="7935000" />
-      <workItem from="1712935859565" duration="5206000" />
+      <workItem from="1712935859565" duration="6694000" />
+      <workItem from="1712944772919" duration="2289000" />
     </task>
     <task id="LOCAL-00001" summary="Añadido bash para lanzar las consolas automáticamente. No me funciona servidor ahora. Hay que revisar ambos starters.">
       <option name="closed" value="true" />
@@ -113,7 +112,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712937432951</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Implementado drop: debug: usuario droppeado puede escribir.">
+      <option name="closed" value="true" />
+      <created>1712941994326</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1712941994326</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,6 +132,7 @@
     <MESSAGE value="ant con javadoc funcionando. Cierre de logout del cliente corregido." />
     <MESSAGE value="Limpiado código, evitado recepción de mensaje por el emisor del mismo." />
     <MESSAGE value="Implementado drop: debug: usuario droppeado puede escribir." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementado drop: debug: usuario droppeado puede escribir." />
+    <MESSAGE value="Mejor gestión de drop pero ahora no se ven mensajes. Falta depurar y si se puede un shutdown y dockerizarlo." />
+    <option name="LAST_COMMIT_MESSAGE" value="Mejor gestión de drop pero ahora no se ven mensajes. Falta depurar y si se puede un shutdown y dockerizarlo." />
   </component>
 </project>

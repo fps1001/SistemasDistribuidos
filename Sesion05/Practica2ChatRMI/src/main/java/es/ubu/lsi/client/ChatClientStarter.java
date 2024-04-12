@@ -52,12 +52,18 @@ import java.util.Scanner;
                         String message = scanner.nextLine();
                         if ("logout".equalsIgnoreCase(message)) {
                             client.disconnect(); // Limpieza de la conexión RMI.
-                            System.exit(0); // Terminamos la ejecución. El scanner se cierra automáticamente al estar en un try
+                            System.out.println("Saliendo de la sala de chat... Adios");
+                            break;
                         } else if (message.toLowerCase().startsWith("drop ")) {
                             String userToDrop = message.substring(5);
                             server.dropUser(client, userToDrop); // Le pasa el emisor para recibir contestación de servidor.
                         }else {
-                            client.sendMessage(message); // -> server.publish (msg)
+                            try { // Hago este estado para evitar que un dropeado envíe mensajes y salga más ordenadamente.
+                                client.sendMessage(message); // -> server.publish (msg)
+                            }catch (IllegalStateException e){
+                                System.out.println(e.getMessage());
+                                break;
+                            }
                         }
                     }
                 }

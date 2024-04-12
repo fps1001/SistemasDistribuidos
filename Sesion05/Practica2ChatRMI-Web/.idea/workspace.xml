@@ -11,16 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a33a5b1c-25bc-43de-9bf4-8881adfbfcc1" name="Changes" comment="Fallo al levantar servidor ahora">
+      <change beforePath="$PROJECT_DIR$/../../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerStarter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,27 +47,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "GlassFish Server.GlassFish 5.1.0.executor": "Run",
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
-    "Maven.Practica2ChatRMI-Web [clean].executor": "Run",
-    "Maven.Practica2ChatRMI-Web [deploy].executor": "Run",
-    "Maven.Practica2ChatRMI-Web [install].executor": "Run",
-    "Maven.Practica2ChatRMI-Web [package].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05/Practica2ChatRMI",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;GlassFish Server.GlassFish 5.1.0.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Practica2ChatRMI-Web [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Practica2ChatRMI-Web [deploy].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Practica2ChatRMI-Web [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Practica2ChatRMI-Web [package].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05/Practica2ChatRMI&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="GlassFish 5.1.0" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 5.1.0" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="1.8" nameIsGenerated="true">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/Practica2ChatRMI-Web/Sesion05/Practica2ChatRMI-Web/src/main/webapp/index.html" />
@@ -169,7 +167,8 @@
       <workItem from="1712870857773" duration="1596000" />
       <workItem from="1712904801813" duration="11000" />
       <workItem from="1712905460871" duration="716000" />
-      <workItem from="1712935316018" duration="2878000" />
+      <workItem from="1712935316018" duration="3942000" />
+      <workItem from="1712944776419" duration="1297000" />
     </task>
     <task id="LOCAL-00001" summary="Fallo al levantar servidor ahora">
       <option name="closed" value="true" />

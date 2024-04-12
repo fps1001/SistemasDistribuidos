@@ -89,13 +89,21 @@ public class ChatServerImpl implements ChatServer {
      */
     @Override
     public void publish(ChatMessage msg) throws RemoteException {
-
-        for (ChatClient client : clients.values()) {
-            if (client.getId() != msg.getId()) { // Restringimos que el remitente reciba el mensaje.
-                client.receive(msg);
-            }
-            client.receive(msg);
-        }
+        clients.values().stream()
+                .filter(client -> {
+                    try {
+                        return client.getId() != msg.getId();
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .forEach(client -> {
+                    try {
+                        client.receive(msg);
+                    } catch (RemoteException e) {
+                        System.err.println("Error al enviar mensaje al cliente: " + e.getMessage());
+                    }
+                });
     }
 
     /**
