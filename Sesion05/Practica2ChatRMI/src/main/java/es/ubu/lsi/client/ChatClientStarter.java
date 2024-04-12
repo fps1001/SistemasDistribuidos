@@ -51,8 +51,8 @@ import java.util.Scanner;
                         // TODO El primer mensaje debería ser el usuario?
                         String message = scanner.nextLine();
                         if ("logout".equalsIgnoreCase(message)) {
-                            server.logout(client); //TODO Debería cerrar el scanner
-                            break;
+                            client.disconnect(); // Limpieza de la conexión RMI.
+                            System.exit(0); // Terminamos la ejecución. El scanner se cierra automáticamente al estar en un try
                         } else {
                             client.sendMessage(message); // montará un tipo ChatMessage y hará server.publish
                         }

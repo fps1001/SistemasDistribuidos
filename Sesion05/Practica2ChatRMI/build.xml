@@ -16,7 +16,7 @@ en terminal: ant javadoc
 -->
 
 <!--<project name="Sesion05" default="jar" >-->
-<project name="ChatRMI" default="compile" basedir="..">
+<project name="ChatRMI" default="compile" basedir=".">
     <!-- Se establecen las 'variables' que se usarán a continuación -->
     <property name="src.dir" value="src/main/java" />
     <property name="build.dir" value="target/classes" />
@@ -36,7 +36,8 @@ en terminal: ant javadoc
 
     <!-- Genera la documentación Javadoc -->
     <target name="javadoc" depends="compile">
-        <javadoc sourcepath="${src.dir}" destdir="${docs.dir}" packagenames="es.ubu.lsi.*" >
+    <!--  Añado additionalparam para que me informe en consola al compilar de los problemas que indique javadoc-->
+        <javadoc sourcepath="${src.dir}" destdir="${docs.dir}" packagenames="es.ubu.lsi.*" additionalparam="-Xdoclint">
             <classpath>
                 <pathelement path="${build.dir}"/>
             </classpath>
@@ -49,5 +50,3 @@ en terminal: ant javadoc
         <delete dir="${docs.dir}"/>
     </target>
 </project>
-
-

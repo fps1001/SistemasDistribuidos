@@ -11,8 +11,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a33a5b1c-25bc-43de-9bf4-8881adfbfcc1" name="Changes" comment="Fallo al levantar servidor ahora">
+      <change afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Sesion03/chat-sockets/read.me" beforeDir="false" afterPath="$PROJECT_DIR$/../../Sesion03/chat-sockets/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/build.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +160,9 @@
       <workItem from="1712855681833" duration="983000" />
       <workItem from="1712857664605" duration="61000" />
       <workItem from="1712864241043" duration="1563000" />
-      <workItem from="1712870857773" duration="1327000" />
+      <workItem from="1712870857773" duration="1596000" />
+      <workItem from="1712904801813" duration="11000" />
+      <workItem from="1712905460871" duration="716000" />
     </task>
     <task id="LOCAL-00001" summary="Fallo al levantar servidor ahora">
       <option name="closed" value="true" />
