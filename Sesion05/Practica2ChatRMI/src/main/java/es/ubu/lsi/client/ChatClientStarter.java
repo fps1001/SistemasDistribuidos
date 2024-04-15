@@ -49,6 +49,11 @@ import java.util.Scanner;
                 System.out.println("Cliente iniciado. Escriba sus mensajes:");
                 try (Scanner scanner = new Scanner(System.in)) {
                     while (true) {
+                        if (!client.getIsConnected()){ // Esta será la condición de haber sido dropeado.
+                            client.disconnect();
+                            System.out.println("Saliendo de la sala de chat... Adios");
+                            break;
+                        }
                         String message = scanner.nextLine();
                         if ("logout".equalsIgnoreCase(message)) {
                             client.disconnect(); // Limpieza de la conexión RMI.
@@ -58,12 +63,7 @@ import java.util.Scanner;
                             String userToDrop = message.substring(5);
                             server.dropUser(client, userToDrop); // Le pasa el emisor para recibir contestación de servidor.
                         }else {
-                            try { // Hago este estado para evitar que un dropeado envíe mensajes y salga más ordenadamente.
-                                client.sendMessage(message); // -> server.publish (msg)
-                            }catch (IllegalStateException e){
-                                System.out.println(e.getMessage());
-                                break;
-                            }
+                            client.sendMessage(message); // -> server.publish (msg)
                         }
                     }
                 }

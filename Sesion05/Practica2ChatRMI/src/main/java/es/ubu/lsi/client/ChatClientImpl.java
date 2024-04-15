@@ -1,7 +1,6 @@
 package es.ubu.lsi.client;
 
 import java.io.*;
-import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import es.ubu.lsi.common.ChatMessage;
@@ -32,8 +31,9 @@ public class ChatClientImpl implements ChatClient, Serializable {
     private ChatServer server;
     /** Fecha de envío de mensaje */
     private static SimpleDateFormat sdf = new SimpleDateFormat ("HH:mm:ss");
-    /** Cuando sufra un drop avisará de que no está conectado*/
+    /** Flag de conexión */
     private boolean isConnected;
+
 
     /**
      * Constructor de ChatClientImpl.
@@ -92,15 +92,14 @@ public class ChatClientImpl implements ChatClient, Serializable {
     public void receive(ChatMessage msg) throws RemoteException {
         if("logout".equals(msg.getMessage())) {
             System.out.println("Has sido eliminado del servidor.");
-            this.disconnect(); // Realiza la desconexión y limpieza
-            System.exit(0); // Cierra la ejecución del cliente inmediatamente
+            this.isConnected = false;
+            //server.logout(this); // Salimos sin cerrar RMI.
         } else {
             // Mostrar el mensaje recibido en la consola del cliente o en la interfaz de usuario.
             String sender = msg.getId() == 0 ? "Server" : msg.getNickname(); // Si es id=0 es el servidor informando de un drop.
             System.out.println(getSdf() + "- " + sender + ": " + msg.getMessage());
         }
     }
-
 
     /**
      * Envía un mensaje al chat a través del servidor.
@@ -109,32 +108,22 @@ public class ChatClientImpl implements ChatClient, Serializable {
      * @throws RemoteException Si ocurre un error en la llamada remota.
      */
     public void sendMessage(String message) throws RemoteException {
-        if (!isConnected) {
-            System.out.println("No puedes enviar mensajes porque estás desconectado.");
-            System.exit(0);
-        } else {
-            // Enviar el mensaje solo si el cliente está conectado
-            ChatMessage msg = new ChatMessage(this.id, this.nickName, message);
-            server.publish(msg);
-        }
+        ChatMessage msg = new ChatMessage(this.id, this.nickName, message);
+        server.publish(msg);
     }
 
     /**
      * Desconecta al cliente del servidor de chat y realiza la limpieza necesaria.
      *
-     * @throws RemoteException Si ocurre un error en la llamada remota.
      */
     public void disconnect() {
         try {
-            server.logout(this);
-            UnicastRemoteObject.unexportObject(this, true);
-        } catch (NoSuchObjectException e) {
-            System.out.println("Ya desconectado.");
+            server.logout(this); // Notifica al servidor que el cliente será desconectado
+            UnicastRemoteObject.unexportObject(this, true); // Limpia el objeto remoto para todos.
         } catch (RemoteException e) {
+            System.err.println("Error al desconectar: " + e.getMessage());
+        }
     }
-        isConnected = false;
-    }
-
 
     /** getServer. Getter de servidor.*/
     public ChatServer getServer() {
@@ -148,4 +137,6 @@ public class ChatClientImpl implements ChatClient, Serializable {
     public static String getSdf() {
         return sdf.format(new Date());
     }
+    /** getter de flag de desconexión. */
+    public boolean getIsConnected() { return this.isConnected;}
 }

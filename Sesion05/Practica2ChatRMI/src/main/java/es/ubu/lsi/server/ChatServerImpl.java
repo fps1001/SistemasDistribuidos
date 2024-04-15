@@ -2,7 +2,6 @@ package es.ubu.lsi.server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -125,39 +124,33 @@ public class ChatServerImpl implements ChatServer {
 
     @Override
     public void dropUser(ChatClient requestingClient, String nicknameToDrop) throws RemoteException {
-        // Se crea un stream de las entradas del mapa de clientes.
-        Optional<Integer> userIdToDrop = clients.entrySet().stream()
-                // Se aplica un filtro para buscar el usuario con el nickname dado.
-                .filter(entry -> {
-                    try {
-                        // Se compara el nickname de cada cliente con el proporcionado.
-                        return entry.getValue().getNickName().equalsIgnoreCase(nicknameToDrop);
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                // Se obtiene el ID del cliente
-                .map(Map.Entry::getKey)
-                // Se encuentra el primer elemento.
-                .findFirst();
+        Integer userIdToDrop = null;
 
-        try {
-            // Comprueba si se encontró un ID de usuario.
-            if (userIdToDrop.isPresent()) {
-                // Si está presente, obtenemos el cliente y lo desconectamos mandándole un mensaje de logout
-                ChatClient clientToDrop = clients.get(userIdToDrop.get());
-                if (clientToDrop != null) { //Añado comprobación para evitar excepción
-                    clientToDrop.receive(new ChatMessage(userIdToDrop.get(), "logout"));
+        // Buscamos en el mapa el ID del usuario con el nickname proporcionado.
+        for (Map.Entry<Integer, ChatClient> entry : clients.entrySet()) {
+            try {
+                if (entry.getValue().getNickName().equalsIgnoreCase(nicknameToDrop)) {
+                    userIdToDrop = entry.getKey();
+                    break; // Salimos del bucle si encontramos el usuario.
                 }
-                clients.remove(userIdToDrop.get());
-                requestingClient.receive(new ChatMessage(0, "El usuario " + nicknameToDrop + " ha sido desconectado")); // Lo mandamos con id=0 que será el servidor.
-            } else {
-                // Si el ID de usuario no está presente, informamos que el usuario no existe.
-                requestingClient.receive(new ChatMessage(0, "El usuario " + nicknameToDrop + " no existe"));
+            } catch (RemoteException e) {
+                System.err.println("Error al acceder al nickname del cliente: " + e.getMessage());
             }
-        } catch (RuntimeException e) {
-            throw (RemoteException) e.getCause();
+        }
+
+        if (userIdToDrop != null) {
+            // Si encontramos el usuario, mandamos el mensaje de logout y lo eliminamos del mapa.
+            ChatClient clientToDrop = clients.get(userIdToDrop);
+            if (clientToDrop != null) {
+                clientToDrop.receive(new ChatMessage(userIdToDrop, "logout"));
+                clients.remove(userIdToDrop);
+                requestingClient.receive(new ChatMessage(0, "El usuario " + nicknameToDrop + " ha sido desconectado"));
+            }
+        } else {
+            // Si no encontramos el usuario, mandamos un mensaje indicando que no existe.
+            requestingClient.receive(new ChatMessage(0, "El usuario " + nicknameToDrop + " no existe"));
         }
     }
+
 
 }
