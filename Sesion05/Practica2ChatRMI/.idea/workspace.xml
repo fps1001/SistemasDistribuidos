@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43c7abee-b242-403d-96f0-a37ff44e7100" name="Changes" comment="Comprobación de conexión en logout del drop.">
+    <list default="true" id="43c7abee-b242-403d-96f0-a37ff44e7100" name="Changes" comment="Drop funcionando.">
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +72,7 @@
       <workItem from="1712904656323" duration="7935000" />
       <workItem from="1712935859565" duration="6694000" />
       <workItem from="1712944772919" duration="2289000" />
-      <workItem from="1713159211152" duration="8403000" />
+      <workItem from="1713159211152" duration="11022000" />
     </task>
     <task id="LOCAL-00001" summary="Añadido bash para lanzar las consolas automáticamente. No me funciona servidor ahora. Hay que revisar ambos starters.">
       <option name="closed" value="true" />
@@ -128,7 +122,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713165449919</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Drop funcionando.">
+      <option name="closed" value="true" />
+      <created>1713173675304</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1713173675304</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,6 +144,7 @@
     <MESSAGE value="Implementado drop: debug: usuario droppeado puede escribir." />
     <MESSAGE value="Mejor gestión de drop pero ahora no se ven mensajes. Falta depurar y si se puede un shutdown y dockerizarlo." />
     <MESSAGE value="Comprobación de conexión en logout del drop." />
-    <option name="LAST_COMMIT_MESSAGE" value="Comprobación de conexión en logout del drop." />
+    <MESSAGE value="Drop funcionando." />
+    <option name="LAST_COMMIT_MESSAGE" value="Drop funcionando." />
   </component>
 </project>
