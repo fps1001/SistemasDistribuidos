@@ -12,7 +12,7 @@ para ello en terminal escribimos:
 
 *mvn clean compile*
 
-(Lo hacemos tanto en la carpeta Practica2ChatRMI como en Practica2ChatRMI-Web)
+(Lo hacemos tanto en la carpeta Practica2ChatRMI como en Practica2ChatRMI-Web y en este orden)
 
 Con ello generaremos un .jar y un .war respectivamente.
 
@@ -27,7 +27,7 @@ Una vez ejecutados los procesos el cliente tiene la opción de enviar mensajes a
 -----------------------------------------------------------
 Aclaraciones:
 
-A diferencia de la sesión 3 no se implementa pues la práctica no lo exige:
+A diferencia de la sesión 3 de sockets no se implementa por falta de tiempo, puesto que la práctica no lo exige
 - Función shutdown
 - Función ban/unban con archivo de propiedades de manera persistente.
-- Se intentará no obstante la dockerización del proyecto aunque no es obligatoria.
+- Dockerización del proyecto.

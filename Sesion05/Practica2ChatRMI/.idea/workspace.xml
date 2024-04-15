@@ -5,15 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="43c7abee-b242-403d-96f0-a37ff44e7100" name="Changes" comment="Mejor gestión de drop pero ahora no se ven mensajes. Falta depurar y si se puede un shutdown y dockerizarlo.">
-      <change beforePath="$PROJECT_DIR$/../../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +76,7 @@
       <workItem from="1712904656323" duration="7935000" />
       <workItem from="1712935859565" duration="6694000" />
       <workItem from="1712944772919" duration="2289000" />
+      <workItem from="1713159211152" duration="1918000" />
     </task>
     <task id="LOCAL-00001" summary="Añadido bash para lanzar las consolas automáticamente. No me funciona servidor ahora. Hay que revisar ambos starters.">
       <option name="closed" value="true" />

@@ -11,15 +11,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a33a5b1c-25bc-43de-9bf4-8881adfbfcc1" name="Changes" comment="Fallo al levantar servidor ahora">
-      <change beforePath="$PROJECT_DIR$/../../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/client/ChatClientStarter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/es/ubu/lsi/server/ChatServerImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/client/ChatClientStarter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/src/main/java/es/ubu/lsi/server/ChatServerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +56,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05/Practica2ChatRMI&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Mi unidad/DISTRIBUIDOS/repo/Sesion05/Practica2ChatRMI-Web&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -169,6 +166,8 @@
       <workItem from="1712905460871" duration="716000" />
       <workItem from="1712935316018" duration="3942000" />
       <workItem from="1712944776419" duration="1297000" />
+      <workItem from="1712957388643" duration="93000" />
+      <workItem from="1713159223566" duration="1447000" />
     </task>
     <task id="LOCAL-00001" summary="Fallo al levantar servidor ahora">
       <option name="closed" value="true" />

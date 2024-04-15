@@ -70,13 +70,12 @@ public class ChatServerImpl implements ChatServer {
                 break; // Salimos del bucle una vez encontrado el cliente.
             }
         }
-
         // Si encontramos un cliente para remover, lo eliminamos y mostramos un mensaje personalizado.
         if (clientIdToRemove != null) {
             clients.remove(clientIdToRemove); // Eliminamos el cliente usando su ID.
             System.out.println("El cliente " + clientIdToRemove + " ha sido borrado de registro.");
         } else {
-            System.out.println("Cliente no encontrado en el registro.");
+            System.out.println("Cliente no encontrado en el registro."); // No debería llegar aquí
         }
     }
 
@@ -89,21 +88,27 @@ public class ChatServerImpl implements ChatServer {
      */
     @Override
     public void publish(ChatMessage msg) throws RemoteException {
-        clients.values().stream()
-                .filter(client -> {
-                    try {
-                        return client.getId() != msg.getId();
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .forEach(client -> {
-                    try {
-                        client.receive(msg);
-                    } catch (RemoteException e) {
-                        System.err.println("Error al enviar mensaje al cliente: " + e.getMessage());
-                    }
-                });
+//        clients.values().stream()
+//                .filter(client -> {
+//                    try {
+//                        return client.getId() != msg.getId();
+//                    } catch (RemoteException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                })
+//                .forEach(client -> {
+//                    try {
+//                        client.receive(msg);
+//                    } catch (RemoteException e) {
+//                        System.err.println("Error al enviar mensaje al cliente: " + e.getMessage());
+//                    }
+//                });
+        for (ChatClient client : clients.values()) {
+            if (client.getId() != msg.getId()) { // Restringimos que el remitente reciba el mensaje.
+                client.receive(msg);
+            }
+            client.receive(msg);
+        }
     }
 
     /**
@@ -139,9 +144,11 @@ public class ChatServerImpl implements ChatServer {
         try {
             // Comprueba si se encontró un ID de usuario.
             if (userIdToDrop.isPresent()) {
-                // Si está presente, obtenemos el cliente y lo desconectamos mandandole un mensaje de logout
+                // Si está presente, obtenemos el cliente y lo desconectamos mandándole un mensaje de logout
                 ChatClient clientToDrop = clients.get(userIdToDrop.get());
-                clientToDrop.receive(new ChatMessage(userIdToDrop.get(), "logout"));
+                if (clientToDrop != null) { //Añado comprobación para evitar excepción
+                    clientToDrop.receive(new ChatMessage(userIdToDrop.get(), "logout"));
+                }
                 clients.remove(userIdToDrop.get());
                 requestingClient.receive(new ChatMessage(0, "El usuario " + nicknameToDrop + " ha sido desconectado")); // Lo mandamos con id=0 que será el servidor.
             } else {
