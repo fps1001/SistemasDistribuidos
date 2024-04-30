@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="43c7abee-b242-403d-96f0-a37ff44e7100" name="Changes" comment="Drop funcionando.">
       <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI-Web/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +71,7 @@
       <workItem from="1712904656323" duration="7935000" />
       <workItem from="1712935859565" duration="6694000" />
       <workItem from="1712944772919" duration="2289000" />
-      <workItem from="1713159211152" duration="11022000" />
+      <workItem from="1713159211152" duration="11023000" />
     </task>
     <task id="LOCAL-00001" summary="Añadido bash para lanzar las consolas automáticamente. No me funciona servidor ahora. Hay que revisar ambos starters.">
       <option name="closed" value="true" />

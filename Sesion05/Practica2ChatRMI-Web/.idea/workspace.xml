@@ -10,10 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a33a5b1c-25bc-43de-9bf4-8881adfbfcc1" name="Changes" comment="Fallo al levantar servidor ahora">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica2ChatRMI/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="a33a5b1c-25bc-43de-9bf4-8881adfbfcc1" name="Changes" comment="Añado prueba funcionamiento. Subo alfa. Faltaría docker si tengo tiempo lo haré. Ahora a estudiar para el examen!" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -175,7 +172,7 @@
       <workItem from="1712935316018" duration="3942000" />
       <workItem from="1712944776419" duration="1297000" />
       <workItem from="1712957388643" duration="93000" />
-      <workItem from="1713159223566" duration="7632000" />
+      <workItem from="1713159223566" duration="7690000" />
     </task>
     <task id="LOCAL-00001" summary="Fallo al levantar servidor ahora">
       <option name="closed" value="true" />
@@ -185,7 +182,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712867630240</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Añado prueba funcionamiento. Subo alfa. Faltaría docker si tengo tiempo lo haré. Ahora a estudiar para el examen!">
+      <option name="closed" value="true" />
+      <created>1713190845503</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1713190845503</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -193,6 +198,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fallo al levantar servidor ahora" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fallo al levantar servidor ahora" />
+    <MESSAGE value="Añado prueba funcionamiento. Subo alfa. Faltaría docker si tengo tiempo lo haré. Ahora a estudiar para el examen!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Añado prueba funcionamiento. Subo alfa. Faltaría docker si tengo tiempo lo haré. Ahora a estudiar para el examen!" />
   </component>
 </project>
