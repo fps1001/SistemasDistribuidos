@@ -31,10 +31,5 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        // Este bean define el encoder de contraseñas. Podría no necesitarlo si las contraseñas están en texto plano
-        // Pero lo dejo aquí por completitud y para futura referencia.
-        return new BCryptPasswordEncoder();
-    }
+
 }
