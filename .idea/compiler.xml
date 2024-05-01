@@ -15,7 +15,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Practica2ChatRMI-Web" options="-endorseddirs &quot;G:\Mi unidad\DISTRIBUIDOS\repo\Sesion05\Practica2ChatRMI-Web\target/endorsed&quot;" />
+      <module name="Practica2ChatRMI-Web" options="-endorseddirs C:\SistemasDistribuidos\Sesion05\Practica2ChatRMI-Web\target/endorsed" />
     </option>
   </component>
 </project>

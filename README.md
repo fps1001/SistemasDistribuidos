@@ -34,3 +34,6 @@ Ejemplo de uso:
 
 ## Sesión 05 - Chat RMI
 - Consiste básicamente en el proyecto de la sesión 3 de un chat entre clientes y servidor pero usando como medio RMI de contrucción de clases dinámicas.
+
+## Práctica 3 Web
+- Se trata de la versión Chat Web 2.0 con websocket: varios usuarios pueden hablar entre sí desde su navegador.
