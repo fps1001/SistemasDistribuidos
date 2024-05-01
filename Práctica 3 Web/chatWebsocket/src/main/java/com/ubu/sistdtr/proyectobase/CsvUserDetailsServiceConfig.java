@@ -8,32 +8,31 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Configuration
 public class CsvUserDetailsServiceConfig implements InitializingBean {
 
-    private final List<User.UserBuilder> users = new ArrayList<>();
+    private final List<UserDetails> users = new ArrayList<>();
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        // Load user details from a CSV file
         try (BufferedReader reader = new BufferedReader(new FileReader(new ClassPathResource("users.csv").getFile()))) {
-            String line;
-            reader.readLine(); // Skip the header line
+            String line = reader.readLine(); // Skip the header line
             while ((line = reader.readLine()) != null) {
                 String[] userData = line.split(",");
-                // Assume the format is Username,Password,Role
-                User.UserBuilder userBuilder = User.withUsername(userData[0])
-                        .password("{noop}" + userData[1])  // Using {noop} to indicate no encoding is used
-                        .roles(userData[2].toUpperCase()); // Convert role to uppercase
-                users.add(userBuilder);
+                // Example data: Username,Id,Password,Level
+                boolean isInclusive = Boolean.parseBoolean(userData[3].trim());
+                User.UserBuilder userBuilder = User.builder()
+                        .username(userData[0])
+                        .password("{noop}" + userData[2]); // Contraseña en texto plano
+                users.add(userBuilder.build());
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to read user data from CSV file", e);
@@ -42,6 +41,6 @@ public class CsvUserDetailsServiceConfig implements InitializingBean {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new InMemoryUserDetailsManager(users.stream().map(User.UserBuilder::build).collect(Collectors.toList()));
+        return new InMemoryUserDetailsManager(users);
     }
 }

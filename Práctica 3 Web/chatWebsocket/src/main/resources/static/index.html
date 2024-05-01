@@ -11,21 +11,28 @@
 <body>
 <div class="chat-container">
     <div class="chat-box" id="messageArea"></div>
-    <input type="text" id="from" placeholder="Your name">
-    <input type="text" id="fromId" placeholder="Your ID">
-    <input type="text" id="fromLevel" placeholder="Your Level">
-    <input type="text" id="messageInput" placeholder="Enter a message..." onkeypress="handleKeyPress(event)">
+    <label for="messageInput"></label><input type="text" id="messageInput" placeholder="Enter a message..." onkeypress="handleKeyPress(event)">
     <button onclick="sendMessage()">Send</button>
 </div>
 
 <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/userinfo')
+            .then(response => response.json())
+            .then(data => {
+                window.currentUser = data;  // Guarda los datos del usuario globalmente
+                connect();  // Conecta el WebSocket después de obtener los datos del usuario
+            });
+    });
+
     let stompClient = null;
+
     function connect() {
         const socket = new SockJS('/chat');
         stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
+        stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/messages', function (message) {
+            stompClient.subscribe('/topic/messages', function(message) {
                 showMessage(JSON.parse(message.body));
             });
         });
@@ -39,16 +46,13 @@
     }
 
     function sendMessage() {
-        const from = document.getElementById('from').value;
-        const fromId = document.getElementById('fromId').value;
-        const fromLevel = document.getElementById('fromLevel').value;
         const messageInput = document.getElementById('messageInput');
         const messageContent = messageInput.value.trim();
         if(messageContent && stompClient) {
             const chatMessage = {
-                from: from,
-                from_id: fromId,
-                from_level: fromLevel,
+                from: window.currentUser.username,
+                from_id: window.currentUser.id,
+                from_level: window.currentUser.level,
                 text: messageContent
             };
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
@@ -63,8 +67,6 @@
         document.getElementById('messageArea').appendChild(messageElement);
         messageElement.scrollIntoView();
     }
-
-    connect();
 </script>
 </body>
 </html>
