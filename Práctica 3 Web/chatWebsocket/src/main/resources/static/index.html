@@ -18,12 +18,23 @@
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
         fetch('/api/userinfo')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user details');
+                }
+                return response.json();
+            })
             .then(data => {
-                window.currentUser = data;  // Guarda los datos del usuario globalmente
-                connect();  // Conecta el WebSocket después de obtener los datos del usuario
-            });
+                if (data.username) {
+                    window.currentUser = data;
+                    connect();
+                } else {
+                    console.error('Username is missing from user details');
+                }
+            })
+            .catch(error => console.error('Error loading user data:', error));
     });
+
 
     let stompClient = null;
 
@@ -49,16 +60,17 @@
         const messageInput = document.getElementById('messageInput');
         const messageContent = messageInput.value.trim();
         if(messageContent && stompClient) {
-            const chatMessage = {
+            const message = {  // Usando 'message' para alinear con la clase 'Message' en Java
                 from: window.currentUser.username,
                 from_id: window.currentUser.id,
-                from_level: window.currentUser.level,
+                from_level: window.currentUser.from_level,
                 text: messageContent
             };
-            stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+            stompClient.send("/app/message", {}, JSON.stringify(message));
             messageInput.value = '';
         }
     }
+
 
     function showMessage(message) {
         const messageElement = document.createElement('div');
