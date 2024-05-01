@@ -74,11 +74,13 @@
 
     function showMessage(message) {
         const messageElement = document.createElement('div');
-        messageElement.className = 'message';
-        messageElement.innerHTML = message.from + ": " + message.text;
+        const isCurrentUser = message.from === window.currentUser.username; // Verifica si el mensaje es del usuario actual
+        messageElement.className = isCurrentUser ? 'message current-user' : 'message';
+        messageElement.innerHTML = `<strong>${message.from}</strong>: ${message.text}`;
         document.getElementById('messageArea').appendChild(messageElement);
-        messageElement.scrollIntoView();
+        messageElement.scrollIntoView({ behavior: 'smooth' });
     }
+
 </script>
 </body>
 </html>

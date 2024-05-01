@@ -53,4 +53,13 @@ button:hover {
     margin: 5px 0;
     border-radius: 4px;
     width: fit-content;
+    max-width: 80%;
 }
+
+.current-user {
+    background-color: #5C67F2; /* Color de fondo para el usuario actual */
+    color: white; /* Color de texto para el usuario actual */
+    margin-left: auto; /* Alinea a la derecha */
+    border-radius: 4px 0px 0px 4px; /* Bordes redondeados solo a la izquierda */
+}
+
