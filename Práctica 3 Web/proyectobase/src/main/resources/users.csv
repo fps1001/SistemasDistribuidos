@@ -1,4 +1,4 @@
-Username,Password,Level
-aroca,aroca,Admin
-fpisot,fpisot,User
-victorero,victorero,Guest
+Username,Id,Password,Level
+aroca,1,aroca,Admin
+fpisot,2,fpisot,User
+victorero,3,victorero,Guest

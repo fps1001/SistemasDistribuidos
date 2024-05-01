@@ -1,38 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat WebSocket</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
 </head>
 <body>
-<div>
-    <input type="text" id="messageInput" placeholder="Enter a message"/>
+<div class="chat-container">
+    <div class="chat-box" id="messageArea"></div>
+    <input type="text" id="from" placeholder="Your name">
+    <input type="text" id="fromId" placeholder="Your ID">
+    <input type="text" id="fromLevel" placeholder="Your Level">
+    <input type="text" id="messageInput" placeholder="Enter a message..." onkeypress="handleKeyPress(event)">
     <button onclick="sendMessage()">Send</button>
 </div>
-<div id="messageArea"></div>
 
 <script type="text/javascript">
-    var stompClient = null;
+    let stompClient = null;
     function connect() {
-        var socket = new SockJS('/chat');
+        const socket = new SockJS('/chat');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/messages', function (message) {
-                showMessage(JSON.parse(message.body).content);
+                showMessage(JSON.parse(message.body));
             });
         });
     }
 
+    function handleKeyPress(event) {
+        if (event.keyCode === 13) {  // Key code of the Enter key
+            sendMessage();
+            event.preventDefault();  // Prevent form from submitting
+        }
+    }
+
     function sendMessage() {
-        var message = document.getElementById('messageInput').value;
-        stompClient.send("/app/message", {}, JSON.stringify({'content': message}));
+        const from = document.getElementById('from').value;
+        const fromId = document.getElementById('fromId').value;
+        const fromLevel = document.getElementById('fromLevel').value;
+        const messageInput = document.getElementById('messageInput');
+        const messageContent = messageInput.value.trim();
+        if(messageContent && stompClient) {
+            const chatMessage = {
+                from: from,
+                from_id: fromId,
+                from_level: fromLevel,
+                text: messageContent
+            };
+            stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+            messageInput.value = '';
+        }
     }
 
     function showMessage(message) {
-        var messageArea = document.getElementById('messageArea');
-        messageArea.innerHTML += message + '<br />';
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message';
+        messageElement.innerHTML = message.from + ": " + message.text;
+        document.getElementById('messageArea').appendChild(messageElement);
+        messageElement.scrollIntoView();
     }
 
     connect();
