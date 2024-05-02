@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +17,17 @@ public class ChatController {
 
     @MessageMapping("/message")
     @SendTo("/topic/messages")
-    public Message processMessage(@Payload Message mensaje) {
+    public Message processMessage(@Payload Message mensaje, SimpMessageHeaderAccessor headerAccessor) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            mensaje.setFrom(userDetails.getUsername());
+            mensaje.setFrom_id(userDetails.getId());
+            mensaje.setFrom_level(userDetails.getUserLevel());
+        }
         return mensaje;
     }
+
 
     @GetMapping("/api/userinfo")
     public ResponseEntity<UserDetails> getUserInfo(Authentication authentication) {
@@ -27,7 +37,5 @@ public class ChatController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
-
-
 
 }

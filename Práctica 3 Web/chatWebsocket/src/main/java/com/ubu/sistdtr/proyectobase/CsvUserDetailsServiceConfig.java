@@ -41,17 +41,16 @@ public class CsvUserDetailsServiceConfig implements InitializingBean {
 
     private static UserDetails getUserDetails(String line) {
         String[] userData = line.split(",");
-        // Example data: Username, Id,Password,Level,Is_inclusive
         String username = userData[0].trim();
-        //String id = userData[1].trim();
+        String id = userData[1].trim();
         String password = "{noop}" + userData[2].trim();
-        //UserLevel level = UserLevel.fromString(userData[3].trim());
-        //boolean isInclusive = Boolean.parseBoolean(userData[4].trim());
+        UserLevel level = UserLevel.fromString(userData[3].trim());
+        boolean isInclusive = Boolean.parseBoolean(userData[4].trim());
 
-        // Define los permisos que se asignan al usuario.
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + "ADMIN"));
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        // Aquí ajusta el rol según necesites
 
-        return new User(username, password, authorities);
+        return new CustomUserDetails(username, password, authorities, id, level, isInclusive);
     }
 
     @Bean
