@@ -1,4 +1,4 @@
-Username,Id,Password,Level
-aroca,1,aroca,Admin
-fpisot,2,fpisot,User
-victorero,3,victorero,Guest
+Username,Id,Password,Level,Is_inclusive
+aroca,1,aroca,Admin,false
+fpisot,2,fpisot,User,true
+victorero,3,victorero,Guest,false
