@@ -1,12 +1,13 @@
-package com.ubu.sistdtr.proyectobase;
+package com.ubu.sistdtr.proyectobase.user;
 
+import com.ubu.sistdtr.proyectobase.model.UserLevel;
+import com.ubu.sistdtr.proyectobase.user.CustomUserDetails;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;

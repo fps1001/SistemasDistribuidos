@@ -1,5 +1,6 @@
-package com.ubu.sistdtr.proyectobase;
+package com.ubu.sistdtr.proyectobase.user;
 
+import com.ubu.sistdtr.proyectobase.model.UserLevel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 

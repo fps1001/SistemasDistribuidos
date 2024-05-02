@@ -1,4 +1,4 @@
-package com.ubu.sistdtr.proyectobase;
+package com.ubu.sistdtr.proyectobase.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

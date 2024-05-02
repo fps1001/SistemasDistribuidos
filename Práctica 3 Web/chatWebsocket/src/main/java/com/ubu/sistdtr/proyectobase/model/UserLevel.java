@@ -1,4 +1,4 @@
-package com.ubu.sistdtr.proyectobase;
+package com.ubu.sistdtr.proyectobase.model;
 
 public enum UserLevel {
     GUEST(0), // Nivel más bajo

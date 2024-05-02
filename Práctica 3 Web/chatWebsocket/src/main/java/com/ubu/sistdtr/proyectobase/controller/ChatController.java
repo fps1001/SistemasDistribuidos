@@ -1,5 +1,7 @@
-package com.ubu.sistdtr.proyectobase;
+package com.ubu.sistdtr.proyectobase.controller;
 
+import com.ubu.sistdtr.proyectobase.model.Message;
+import com.ubu.sistdtr.proyectobase.user.CustomUserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -15,12 +17,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ChatController {
 
+    /**
+     * Función de envío de mensaje. Obtendrá los datos del usuario actual y
+     * generará un mensaje completo tomando los datos del csv.
+     * */
+
     @MessageMapping("/message")
     @SendTo("/topic/messages")
     public Message processMessage(@Payload Message mensaje, SimpMessageHeaderAccessor headerAccessor) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails userDetails) {
             mensaje.setFrom(userDetails.getUsername());
             mensaje.setFrom_id(userDetails.getId());
             mensaje.setFrom_level(userDetails.getUserLevel());
@@ -28,6 +34,22 @@ public class ChatController {
         return mensaje;
     }
 
+
+//    @GetMapping("/api/userinfo")
+//    public ResponseEntity<Map<String, Object>> getUserInfo(Authentication authentication) {
+//        if (authentication != null && authentication.isAuthenticated()) {
+//            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//
+//            Map<String, Object> userInfo = new HashMap<>();
+//            userInfo.put("username", userDetails.getUsername());
+//            userInfo.put("id", userDetails.getId());
+//            userInfo.put("level", userDetails.getUserLevel().getLevelValue());
+//            userInfo.put("isInclusive", userDetails.isInclusive());
+//
+//            return ResponseEntity.ok(userInfo);
+//        }
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//    }
 
     @GetMapping("/api/userinfo")
     public ResponseEntity<UserDetails> getUserInfo(Authentication authentication) {
@@ -37,5 +59,7 @@ public class ChatController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
+
 
 }

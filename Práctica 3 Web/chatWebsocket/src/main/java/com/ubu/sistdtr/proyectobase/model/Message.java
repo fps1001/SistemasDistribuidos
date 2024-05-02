@@ -1,4 +1,5 @@
-package com.ubu.sistdtr.proyectobase;
+package com.ubu.sistdtr.proyectobase.model;
+
 /**
  * Mensaje del chat y su información pertinente.
  *

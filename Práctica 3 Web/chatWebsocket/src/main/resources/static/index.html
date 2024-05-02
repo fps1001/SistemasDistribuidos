@@ -18,18 +18,18 @@
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
         fetch('/api/userinfo')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user details');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                if (data.username) {
-                    window.currentUser = data;
+                if (data && data.username) {
+                    window.currentUser = {
+                        username: data.username,
+                        id: data.id,
+                        level: data.level,
+                        isInclusive: data.isInclusive
+                    };
                     connect();
                 } else {
-                    console.error('Username is missing from user details');
+                    console.error('User details are missing some required properties');
                 }
             })
             .catch(error => console.error('Error loading user data:', error));
@@ -50,9 +50,9 @@
     }
 
     function handleKeyPress(event) {
-        if (event.keyCode === 13) {  // Key code of the Enter key
+        if (event.keyCode === 13) {
             sendMessage();
-            event.preventDefault();  // Prevent form from submitting
+            event.preventDefault();
         }
     }
 
@@ -60,10 +60,11 @@
         const messageInput = document.getElementById('messageInput');
         const messageContent = messageInput.value.trim();
         if(messageContent && stompClient) {
-            const message = {  // Usando 'message' para alinear con la clase 'Message' en Java
+            const message = {
                 from: window.currentUser.username,
                 from_id: window.currentUser.id,
-                from_level: window.currentUser.from_level,
+                from_level: window.currentUser.level,
+                isInclusive: window.currentUser.isInclusive,
                 text: messageContent
             };
             stompClient.send("/app/message", {}, JSON.stringify(message));
@@ -71,16 +72,28 @@
         }
     }
 
-
     function showMessage(message) {
-        const messageElement = document.createElement('div');
-        const isCurrentUser = message.from === window.currentUser.username; // Verifica si el mensaje es del usuario actual
-        messageElement.className = isCurrentUser ? 'message current-user' : 'message';
-        messageElement.innerHTML = `<strong>${message.from}</strong>: ${message.text}`;
-        document.getElementById('messageArea').appendChild(messageElement);
-        messageElement.scrollIntoView({ behavior: 'smooth' });
+        const isCurrentUser = message.from === window.currentUser.username;
+        if (isCurrentUser || shouldDisplayMessage(message)) {
+            const messageElement = document.createElement('div');
+            messageElement.className = isCurrentUser ? 'message current-user' : 'message';
+            messageElement.innerHTML = `<strong>${message.from}</strong>: ${message.text}`;
+            document.getElementById('messageArea').appendChild(messageElement);
+            messageElement.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
+    function shouldDisplayMessage(message) {
+        console.log("nivel del usuario: "+ window.currentUser.username +": "+window.currentUser.from_level)
+        console.log(window.currentUser.isInclusive)
+
+        //TODO falta hacer funcionar esta función
+        return true;
+        // const currentUserLevel = window.currentUser.from_level;
+        // const currentUserIsInclusive = window.currentUser.isInclusive;
+        //
+        // return currentUserIsInclusive ? message.from_level <= currentUserLevel : message.from_level === currentUserLevel;
+    }
 </script>
 </body>
 </html>
