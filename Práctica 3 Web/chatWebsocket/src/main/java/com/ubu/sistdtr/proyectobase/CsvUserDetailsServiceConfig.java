@@ -30,17 +30,17 @@ public class CsvUserDetailsServiceConfig implements InitializingBean {
             String line = reader.readLine(); // Skip the header line
             while ((line = reader.readLine()) != null) {
                 String[] userData = line.split(",");
-                // Example data: Username,Id,Password,Level,Is_inclusive
+                // Example data: Username, Id,Password,Level,Is_inclusive
                 String username = userData[0].trim();
                 String id = userData[1].trim();
                 String password = "{noop}" + userData[2].trim();
-                String role = userData[3].trim();
+                UserLevel level = UserLevel.fromString(userData[3].trim());
                 boolean isInclusive = Boolean.parseBoolean(userData[4].trim());
 
                 // Define los permisos que se asignan al usuario.
-                List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()));
+                List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + "ADMIN"));
 
-                CustomUserDetails user = new CustomUserDetails(username, password, authorities, id, isInclusive);
+                CustomUserDetails user = new CustomUserDetails(username, password, authorities, id, level, isInclusive);
                 users.add(user);
             }
         } catch (IOException e) {

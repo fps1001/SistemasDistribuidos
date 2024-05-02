@@ -11,13 +11,13 @@ public class Message {
     /** Indica Id del remitente del mensaje*/
     private String from_id;
     /** Indica nivel del remitente del mensaje*/
-    private String from_level;
+    private UserLevel from_level;
     /** Mensaje a enviar*/
     private String text;
     /**
      * Constructor del mensaje y la información del remitente
      */
-    public Message(String from, String from_id, String from_level, String text) {
+    public Message(String from, String from_id, UserLevel from_level, String text) {
         this.from = from;
         this.from_id = from_id;
         this.from_level = from_level;
@@ -42,11 +42,11 @@ public class Message {
         this.from_id = from_id;
     }
 
-    public String getFrom_level() {
+    public UserLevel getFrom_level() {
         return from_level;
     }
 
-    public void setFrom_level(String from_level) {
+    public void setFrom_level(UserLevel from_level) {
         this.from_level = from_level;
     }
 
