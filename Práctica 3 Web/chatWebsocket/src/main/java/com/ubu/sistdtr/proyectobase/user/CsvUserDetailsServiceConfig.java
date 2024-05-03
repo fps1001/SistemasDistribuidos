@@ -1,20 +1,14 @@
 package com.ubu.sistdtr.proyectobase.user;
 
 import com.ubu.sistdtr.proyectobase.model.UserLevel;
-import com.ubu.sistdtr.proyectobase.user.CustomUserDetails;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,24 +17,23 @@ import java.util.List;
  * Esta clase carga los datos del csv en la variable CustomUserDetails
  */
 @Configuration
-public class CsvUserDetailsServiceConfig implements InitializingBean {
-    private final List<UserDetails> users = new ArrayList<>();
+public class CsvUserDetailsServiceConfig {
+    private final List<CustomUserDetails> users = new ArrayList<>();
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    @Bean
+    public CustomUserDetailsService customUserDetailsService() throws Exception {
+        List<CustomUserDetails> users = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(new ClassPathResource("users.csv").getFile()))) {
-            String line = reader.readLine(); // Skip the header line
+            reader.readLine(); // Lee y descarta la primera línea (cabecera)
+            String line;
             while ((line = reader.readLine()) != null) {
-                UserDetails user = getUserDetails(line);
-                users.add(user);
-                System.out.println("Usuarios: " + users);
+                users.add(getUserDetails(line));
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read user data from CSV file", e);
         }
+        return new CustomUserDetailsService(users);
     }
 
-    private static UserDetails getUserDetails(String line) {
+    private static CustomUserDetails getUserDetails(String line) { //Username,Id,Password,Level,Is_inclusive
         String[] userData = line.split(",");
         String username = userData[0].trim();
         String id = userData[1].trim();
@@ -49,13 +42,8 @@ public class CsvUserDetailsServiceConfig implements InitializingBean {
         boolean isInclusive = Boolean.parseBoolean(userData[4].trim());
 
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-        // Aquí ajusta el rol según necesites
 
         return new CustomUserDetails(username, password, authorities, id, level, isInclusive);
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new InMemoryUserDetailsManager(users);
-    }
 }

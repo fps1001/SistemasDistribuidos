@@ -20,7 +20,7 @@ public enum UserLevel {
 
     public static UserLevel fromString(String levelStr) {
         for (UserLevel level : UserLevel.values()) {
-            if (level.name().equalsIgnoreCase(levelStr)) {
+            if (level.name().equalsIgnoreCase(levelStr.toUpperCase())) {  // Convierte el input a mayúsculas!!!
                 return level;
             }
         }

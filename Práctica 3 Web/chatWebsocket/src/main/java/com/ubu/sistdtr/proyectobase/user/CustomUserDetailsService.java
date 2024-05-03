@@ -3,20 +3,36 @@ package com.ubu.sistdtr.proyectobase.user;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final InMemoryUserDetailsManager manager;
+    private ConcurrentHashMap<String, CustomUserDetails> users = new ConcurrentHashMap<>();
 
-    public CustomUserDetailsService(List<UserDetails> users) {
-        this.manager = new InMemoryUserDetailsManager(users);
+    public CustomUserDetailsService(List<CustomUserDetails> initialUsers) {
+        for (CustomUserDetails user : initialUsers) {
+            users.put(user.getUsername(), user);
+        }
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return manager.loadUserByUsername(username);
+        CustomUserDetails user = users.get(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+        return user;
+    }
+
+    public void addUser(CustomUserDetails user) {
+        users.put(user.getUsername(), user);
+    }
+
+    public void removeUser(String username) {
+        users.remove(username);
     }
 }
