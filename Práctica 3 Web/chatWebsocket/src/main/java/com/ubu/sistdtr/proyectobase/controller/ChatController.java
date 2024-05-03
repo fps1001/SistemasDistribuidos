@@ -10,9 +10,11 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class ChatController {
@@ -35,30 +37,30 @@ public class ChatController {
     }
 
 
-//    @GetMapping("/api/userinfo")
-//    public ResponseEntity<Map<String, Object>> getUserInfo(Authentication authentication) {
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-//
-//            Map<String, Object> userInfo = new HashMap<>();
-//            userInfo.put("username", userDetails.getUsername());
-//            userInfo.put("id", userDetails.getId());
-//            userInfo.put("level", userDetails.getUserLevel().getLevelValue());
-//            userInfo.put("isInclusive", userDetails.isInclusive());
-//
-//            return ResponseEntity.ok(userInfo);
-//        }
-//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//    }
-
     @GetMapping("/api/userinfo")
-    public ResponseEntity<UserDetails> getUserInfo(Authentication authentication) {
+    public ResponseEntity<Map<String, Object>> getUserInfo(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return ResponseEntity.ok(userDetails);
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+            Map<String, Object> userInfo = new HashMap<>();
+            userInfo.put("username", userDetails.getUsername());
+            userInfo.put("id", userDetails.getId());
+            userInfo.put("level", userDetails.getUserLevel().getLevelValue());
+            userInfo.put("isInclusive", userDetails.isInclusive());
+
+            return ResponseEntity.ok(userInfo);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
+//    @GetMapping("/api/userinfo")
+//    public ResponseEntity<UserDetails> getUserInfo(Authentication authentication) {
+//        if (authentication != null && authentication.isAuthenticated()) {
+//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//            return ResponseEntity.ok(userDetails);
+//        }
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//    }
 
 
 

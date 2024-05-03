@@ -88,11 +88,13 @@
         console.log(window.currentUser.isInclusive)
 
         //TODO falta hacer funcionar esta función
-        return true;
-        // const currentUserLevel = window.currentUser.from_level;
-        // const currentUserIsInclusive = window.currentUser.isInclusive;
-        //
-        // return currentUserIsInclusive ? message.from_level <= currentUserLevel : message.from_level === currentUserLevel;
+        //return true;
+        const currentUserLevel = window.currentUser.from_level;
+        const currentUserIsInclusive = window.currentUser.isInclusive;
+
+        return currentUserIsInclusive ? message.from_level <= currentUserLevel : message.from_level === currentUserLevel;
+
+}
     }
 </script>
 </body>
