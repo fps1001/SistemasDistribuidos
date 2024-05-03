@@ -33,8 +33,30 @@
                 }
             })
             .catch(error => console.error('Error loading user data:', error));
-    });
 
+        window.handleKeyPress = function(event) {
+            if (event.keyCode === 13) {
+                sendMessage();
+                event.preventDefault();
+            }
+        };
+
+        window.sendMessage = function() {
+            const messageInput = document.getElementById('messageInput');
+            const messageContent = messageInput.value.trim();
+            if(messageContent && stompClient) {
+                const message = {
+                    from: window.currentUser.username,
+                    from_id: window.currentUser.id,
+                    from_level: window.currentUser.level,
+                    isInclusive: window.currentUser.isInclusive,
+                    text: messageContent
+                };
+                stompClient.send("/app/message", {}, JSON.stringify(message));
+                messageInput.value = '';
+            }
+        };
+    });
 
     let stompClient = null;
 
@@ -49,29 +71,6 @@
         });
     }
 
-    function handleKeyPress(event) {
-        if (event.keyCode === 13) {
-            sendMessage();
-            event.preventDefault();
-        }
-    }
-
-    function sendMessage() {
-        const messageInput = document.getElementById('messageInput');
-        const messageContent = messageInput.value.trim();
-        if(messageContent && stompClient) {
-            const message = {
-                from: window.currentUser.username,
-                from_id: window.currentUser.id,
-                from_level: window.currentUser.level,
-                isInclusive: window.currentUser.isInclusive,
-                text: messageContent
-            };
-            stompClient.send("/app/message", {}, JSON.stringify(message));
-            messageInput.value = '';
-        }
-    }
-
     function showMessage(message) {
         const isCurrentUser = message.from === window.currentUser.username;
         if (isCurrentUser || shouldDisplayMessage(message)) {
@@ -84,18 +83,27 @@
     }
 
     function shouldDisplayMessage(message) {
-        console.log("nivel del usuario: "+ window.currentUser.username +": "+window.currentUser.from_level)
-        console.log(window.currentUser.isInclusive)
 
-        //TODO falta hacer funcionar esta función
-        //return true;
-        const currentUserLevel = window.currentUser.from_level;
+        console.log("nivel del usuario: "+ window.currentUser.username +": "+ window.currentUser.level);//level = numérico
+        console.log("nivel del mensaje: "+ message.from_level); //ADMIN,USER O GUEST
+        console.log("inclusivo usuario: "+ window.currentUser.username + ": " + window.currentUser.isInclusive);
+
+        const currentUserLevel = window.currentUser.level; //numérico
         const currentUserIsInclusive = window.currentUser.isInclusive;
+        const messageLevel = levelToNumber(message.from_level);
+        return currentUserIsInclusive ? true : messageLevel >= currentUserLevel; // si inclusivo = true, sino solo mensajes de mayor o igual nivel.
 
-        return currentUserIsInclusive ? message.from_level <= currentUserLevel : message.from_level === currentUserLevel;
-
-}
     }
+
+    function levelToNumber(level) {
+        const levels = {
+            'ADMIN': 2,
+            'USER': 1,
+            'GUEST': 0
+        };
+        return levels[level.toUpperCase()] || 0;  // Devuelve 0 como nivel por defecto si no encuentra el nivel
+    }
+
 </script>
 </body>
 </html>
