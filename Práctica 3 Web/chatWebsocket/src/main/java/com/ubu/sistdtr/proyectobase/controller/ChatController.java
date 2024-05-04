@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Controlador para manejar la funcionalidad de chat en tiempo real.
+ * Proporciona endpoints para enviar y recibir mensajes, además de obtener información del usuario.
+ */
 @Controller
 public class ChatController {
 
@@ -27,7 +31,9 @@ public class ChatController {
     @MessageMapping("/message")
     @SendTo("/topic/messages")
     public Message processMessage(@Payload Message mensaje, SimpMessageHeaderAccessor headerAccessor) {
+        // Obtiene el objeto Authentication que contiene los detalles del usuario actualmente autenticado.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Verifica si hay un usuario autenticado y guarda sus datos en el mensaje.
         if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails userDetails) {
             mensaje.setFrom(userDetails.getUsername());
             mensaje.setFrom_id(userDetails.getId());
@@ -36,32 +42,28 @@ public class ChatController {
         return mensaje;
     }
 
-
+    /**
+     * Endpoint HTTP GET para obtener información del usuario autenticado.
+     * Devuelve datos del usuario si está autenticado, de lo contrario devuelve un estado HTTP 401.
+     *
+     * @param authentication Objeto que representa la autenticación del usuario en la sesión.
+     * @return ResponseEntity que contiene información del usuario o un estado de error si no está autenticado.
+     */
     @GetMapping("/api/userinfo")
     public ResponseEntity<Map<String, Object>> getUserInfo(Authentication authentication) {
+        // Verifica si el usuario está autenticado.
         if (authentication != null && authentication.isAuthenticated()) {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
+            // Crea un mapa para almacenar información del usuario.
             Map<String, Object> userInfo = new HashMap<>();
             userInfo.put("username", userDetails.getUsername());
             userInfo.put("id", userDetails.getId());
             userInfo.put("level", userDetails.getUserLevel().getLevelValue());
             userInfo.put("isInclusive", userDetails.isInclusive());
 
-            return ResponseEntity.ok(userInfo);
+            return ResponseEntity.ok(userInfo); // Retorna la información del usuario en formato ResponseEntity.
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //401 si no autenticado.
     }
-
-//    @GetMapping("/api/userinfo")
-//    public ResponseEntity<UserDetails> getUserInfo(Authentication authentication) {
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//            return ResponseEntity.ok(userDetails);
-//        }
-//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//    }
-
-
 
 }
