@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +36,8 @@ public class CsvUserDetailsServiceConfig {
     @Bean
     public CustomUserDetailsService customUserDetailsService() throws Exception {
         List<CustomUserDetails> users = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(new ClassPathResource("users.csv").getFile()))) {
+        //try (BufferedReader reader = new BufferedReader(new FileReader(new ClassPathResource("users.csv").getFile()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new ClassPathResource("users.csv").getInputStream()))) { // cambio filereader por inputstream para dockerizar.
             reader.readLine(); // Lee y descarta la primera línea (cabecera)
             String line;
             while ((line = reader.readLine()) != null) {

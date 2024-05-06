@@ -21,8 +21,11 @@ Forma de uso en local:<p>
 - En la pantalla de login de spring security por defecto se pone uno de los usuarios del csv, sin modificar serían:
   aroca, fpisot y victorero (ver [users.csv](./src/main/resources/users.csv) para ver inclusividad y niveles)
 - ¡Chatea con tus amigos!
-
-
+--------
+Forma de uso con docker:<p>
+- Se puede hacer una compilación completa con maven para garantizar los archivos jar con: *'mvn clean package'*
+- Se construye la imagen con *'docker build -t chatwebsocket .'*
+- Se ejecuta el contenedor para cada cliente con: *'docker run -p 8080:8080 chatwebsocket'*
 ----------
 Formas de mejora del proyecto:
 - Dockerizar el proyecto.
