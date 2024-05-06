@@ -15,6 +15,8 @@ Para los niveles cree una enumeración con equivalencia numérica: ADMIN, USER, 
 al comparar numéricamente los resultados.<p>
 Como window.currentUser.level devolvía un valor numérico para el cliente tuve que adaptar con una función en javascript dentro del html.
 
+Como mejora
+
 --------
 Forma de uso en local:<p>
 - En un navegador se pone la dirección web: [localohost:8080](localhost/8080)
@@ -27,10 +29,9 @@ Forma de uso con docker:<p>
 - Se construye la imagen con *'docker build -t chatwebsocket .'*
 - Se ejecuta el contenedor para cada cliente con: *'docker run -p 8080:8080 chatwebsocket'*
 - Se puede loguear entonces en tres navegadores distintos con los usuarios fpisot/aroca/victorero y ver como se chatea entre ellos. <p>
-Observando como fpisot que no es inclusivo ignora los mensajes de victorero que es guest.
+Observando como fpisot que no es inclusivo ignora los mensajes de victorero que es guest (perfil más bajo).
 ----------
 Formas de mejora del proyecto:
-- Dockerizar el proyecto.
 - Permitir dar de alta usuarios grabando la información en el csv: habría que crear una pantalla de sign-up y persistir los datos
 - Función de logout.
 - Cambiar csv por una base de datos usando JPA/Hibernate.

@@ -3,13 +3,19 @@ package com.ubu.sistdtr.proyectobase.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Mensaje del chat y su información pertinente.
+ *
+ * @author Fernando Pisot
+ *
+ */
 public class Message {
     private String from;
     private String from_id;
     private UserLevel from_level;
     private String text;
 
-    @JsonCreator
+    @JsonCreator    // Soluciona el problema de deserialización de docker con esta clase.
     public Message(@JsonProperty("from") String from,
                    @JsonProperty("from_id") String from_id,
                    @JsonProperty("from_level") UserLevel from_level,
