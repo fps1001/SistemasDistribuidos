@@ -1,38 +1,32 @@
 package com.ubu.sistdtr.proyectobase.model;
 
-/**
- * Mensaje del chat y su información pertinente.
- *
- * @author Fernando Pisot
- *
- */
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Message {
-    /** Indica nombre del remitente del mensaje*/
     private String from;
-    /** Indica Id del remitente del mensaje*/
     private String from_id;
-    /** Indica nivel del remitente del mensaje*/
     private UserLevel from_level;
-    /** Mensaje a enviar*/
     private String text;
-    /**
-     * Constructor del mensaje y la información del remitente
-     */
-    public Message(String from, String from_id, UserLevel from_level, String text) {
+
+    @JsonCreator
+    public Message(@JsonProperty("from") String from,
+                   @JsonProperty("from_id") String from_id,
+                   @JsonProperty("from_level") UserLevel from_level,
+                   @JsonProperty("text") String text) {
         this.from = from;
         this.from_id = from_id;
         this.from_level = from_level;
         this.text = text;
     }
 
-
-    //Getters y setters de cada atributo de la clase:
-    public String getText() {
-        return text;
+    // Getters y setters
+    public String getFrom() {
+        return from;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setFrom(String from) {
+        this.from = from;
     }
 
     public String getFrom_id() {
@@ -51,11 +45,11 @@ public class Message {
         this.from_level = from_level;
     }
 
-    public String getFrom() {
-        return from;
+    public String getText() {
+        return text;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setText(String text) {
+        this.text = text;
     }
 }

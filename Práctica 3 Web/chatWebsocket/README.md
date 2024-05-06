@@ -26,6 +26,8 @@ Forma de uso con docker:<p>
 - Se puede hacer una compilación completa con maven para garantizar los archivos jar con: *'mvn clean package'*
 - Se construye la imagen con *'docker build -t chatwebsocket .'*
 - Se ejecuta el contenedor para cada cliente con: *'docker run -p 8080:8080 chatwebsocket'*
+- Se puede loguear entonces en tres navegadores distintos con los usuarios fpisot/aroca/victorero y ver como se chatea entre ellos. <p>
+Observando como fpisot que no es inclusivo ignora los mensajes de victorero que es guest.
 ----------
 Formas de mejora del proyecto:
 - Dockerizar el proyecto.
