@@ -2,9 +2,9 @@ services:
   mysql:
     image: 'mysql:latest'
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
+      - 'MYSQL_DATABASE=bbddtaller'
       - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
+      - 'MYSQL_ROOT_PASSWORD=nomelase'
       - 'MYSQL_USER=myuser'
     ports:
-      - '3306'
+      - '53435:3306' #No entiendo por qué el puerto externo tiene que ser el puerto 53435.
