@@ -35,5 +35,11 @@ Ejemplo de uso:
 ## Sesión 05 - Chat RMI
 - Consiste básicamente en el proyecto de la sesión 3 de un chat entre clientes y servidor pero usando como medio RMI de contrucción de clases dinámicas.
 
+## Sesión 08 - Validación de formulario
+- Crear un formulario HTML y enviar contenido a un servlet y a un JSP.
+
 ## Práctica 3 Web
 - Se trata de la versión Chat Web 2.0 con websocket: varios usuarios pueden hablar entre sí desde su navegador.
+
+## Taller
+- Consiste en hacer una pequeña web app usando las tecnologías Spring boot, JPA, Hibernate y Thymeleaf.

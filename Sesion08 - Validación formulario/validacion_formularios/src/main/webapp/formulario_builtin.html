@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Build-in validation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--  Personalización de estilos CSS para mostrar validación en el formulario -->
+    <style>
+        form {
+            font: 1em sans-serif;
+            max-width: 320px;
+        }
+
+        p>label {
+            display: block;
+        }
+
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            border: 1px solid #333;
+            box-sizing: border-box;
+        }
+
+        input:invalid {
+            box-shadow: 0 0 5px 1px red;
+        }
+
+        input:focus:invalid {
+            box-shadow: none;
+        }
+    </style>
+
+</head>
+<body>
+<h1>Ejemplo de validación HTML5 built-in</h1>
+
+<h2>Sintaxis HTML para validación</h2>
+<p>Aunque permite la validación es más complicada de personalizar.</p>
+<ul>
+    <li><b>required</b>: especifica la obligatoriedad de completar el campo</li>
+    <li><b>minlength</b> y <b>maxlength</b>: valor mínimo y máximo de longitud del texto.</li>
+    <li><b>min</b> y <b>max</b>: valor mínimo y máximo de valores númericos.</li>
+    <li><b>type</b>: especifica si el campo debe ser un número, email u otro tipo.</li>
+    <li><b>pattern</b>: especifica la expresión regular que define el patrón del dato.</li>
+</ul>
+
+<h2>Ejemplo de formulario con validación</h2>
+<p> Se utilizan estilos CSS para mostrar el estado de validación sobre el formulario.</p>
+<form action="process.jsp" method="post">
+    <p>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+    </p>
+    <p>
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" required>
+    </p>
+    <p>
+        <button type="submit">Enviar</button>
+    </p>
+</form>
+
+</body>
+</html>
