@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pantalla de Login</title>
+</head>
+<body>
+<h1>Login - Taller Coches</h1>
+<form th:action="@{/login}" method="post">
+    <div>
+        <label for="nombreUsuario">Nombre de Usuario:</label>
+        <input type="text" id="nombreUsuario" name="nombreUsuario" required>
+    </div>
+    <div>
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contraseña" name="contraseña" required>
+    </div>
+    <div>
+        <button type="submit">Iniciar Sesión</button>
+    </div>
+    <div th:if="${error}">
+        <p th:text="${error}" style="color: red;"></p>
+    </div>
+</form>
+</body>
+</html>

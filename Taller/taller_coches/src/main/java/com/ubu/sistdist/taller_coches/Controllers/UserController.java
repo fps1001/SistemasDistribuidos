@@ -15,12 +15,29 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
+
+    @PostMapping("/login")
+    public String MostrarPantallaLogin(Model model) {
+        return "login";
+    }
+
 
     @PostMapping("/login")
     public String controlLogin(@RequestParam("username") String username,
                                @RequestParam("password") String password,
                                Model model) {
-        return null;
+        System.out.println("username: " + username);
+        System.out.println("password: " + password);
+
+        if (userService.validateAuthentication(username,password)){
+            System.out.println("Valid username and password");
+            return "welcome";
+        }
+        else {
+            System.out.println("Invalid username and password");
+            return "loginerror";
+        }
+
     }
+
 }
