@@ -1,7 +1,7 @@
 package com.ubu.sistdist.taller_coches.Services;
 
 import com.ubu.sistdist.taller_coches.Repositories.UserRepository;
-import com.ubu.sistdist.taller_coches.model.User;
+import com.ubu.sistdist.taller_coches.Model.User;
 import org.springframework.stereotype.Service;
 
 @Service

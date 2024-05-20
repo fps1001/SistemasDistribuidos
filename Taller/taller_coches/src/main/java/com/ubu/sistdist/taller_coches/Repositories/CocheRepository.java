@@ -1,7 +1,6 @@
 package com.ubu.sistdist.taller_coches.Repositories;
 
-import com.ubu.sistdist.taller_coches.model.Coche;
-import com.ubu.sistdist.taller_coches.model.User;
+import com.ubu.sistdist.taller_coches.Model.Coche;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CocheRepository extends JpaRepository <Coche, Long> {

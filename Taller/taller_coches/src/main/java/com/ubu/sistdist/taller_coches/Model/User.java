@@ -1,4 +1,4 @@
-package com.ubu.sistdist.taller_coches.model;
+package com.ubu.sistdist.taller_coches.Model;
 
 //Uso de JPA e Hibernate, que permite inyectar código con lombok
 

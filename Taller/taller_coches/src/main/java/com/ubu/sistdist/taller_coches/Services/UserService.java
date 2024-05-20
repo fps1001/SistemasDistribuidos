@@ -1,6 +1,6 @@
 package com.ubu.sistdist.taller_coches.Services;
 
-import com.ubu.sistdist.taller_coches.model.User;
+import com.ubu.sistdist.taller_coches.Model.User;
 
 public interface UserService {
     void saveUser(User user);

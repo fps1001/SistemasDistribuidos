@@ -1,4 +1,4 @@
-package com.ubu.sistdist.taller_coches.model;
+package com.ubu.sistdist.taller_coches.Model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
