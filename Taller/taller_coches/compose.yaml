@@ -7,4 +7,4 @@ services:
       - 'MYSQL_ROOT_PASSWORD=nomelase'
       - 'MYSQL_USER=myuser'
     ports:
-      - '53435:3306' #No entiendo por qué el puerto externo tiene que ser el puerto 53435.
+      - '53435:3306' #Cambio el puerto por defecto del lado de la máquina. No del lado de docker.
