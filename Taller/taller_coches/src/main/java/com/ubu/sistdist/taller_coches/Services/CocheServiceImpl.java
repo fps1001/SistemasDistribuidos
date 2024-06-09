@@ -5,6 +5,7 @@ import com.ubu.sistdist.taller_coches.Model.Coche;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CocheServiceImpl implements CocheService{
@@ -17,12 +18,24 @@ public class CocheServiceImpl implements CocheService{
     }
 
     @Override
-    public void saveCoche(Coche coche) {
+    public Coche saveCoche(Coche coche) {
         cocheRepository.save(coche);
+        return coche;
     }
 
     @Override
     public List<Coche> cocheList(){
         return cocheRepository.findAll();
     }
+
+    @Override
+    public void eliminarCoche(Long id){
+        cocheRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Coche> buscarPorId (Long id){ // Intellij me marca Opcional para hacerlo null safety.
+        return cocheRepository.findById(id);
+    }
+
 }

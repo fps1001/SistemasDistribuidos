@@ -11,15 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class CocheController {
     private final CocheServiceImpl cocheService;
 
     public CocheController(CocheServiceImpl cocheService) {
+
         this.cocheService = cocheService;
     }
-
 
     @GetMapping("/coches/listacoches")
     public String listaCoches (Model model){
@@ -28,19 +29,44 @@ public class CocheController {
         return "listacoches";
     }
 
-    @GetMapping("/coches/{idcoche}")
-    public String detalleCoche(@PathVariable("idcoche") Integer id, Model model){
+    @GetMapping("/coches/{idCoche}")
+    public String detalleCoche(@PathVariable("idCoche") Long id, Model model){
+        Optional<Coche> cocheDetallado = cocheService.buscarPorId(id);
+        model.addAttribute("cocheDetalle", cocheDetallado);
         return "detallecoche";
     }
 
-    @PostMapping ("/coches/{idcoche}")
-    public String detalleCochePost(@PathVariable("idcoche") Integer id,
-                                   @RequestParam("nombreCoche") String nombreCoche,
-                                   @RequestParam("nombreUsuario") String nombreUsuario,
-                                   @RequestParam("modelo") String modelo
-                                   ){
-        // Generar objeto en base de datos.
-        return "detallecoche";
+    @PostMapping ("/coches/{idCoche}")
+    public String detalleCochePost(@PathVariable("idCoche") Long id, Coche coche){
+        // Genera objeto en base de datos.
+        cocheService.saveCoche(coche);
+        return "redirect:/coche/listacoches";
     }
+
+    @PostMapping ("/coches/{idCoche}/delete")
+    public  String eliminarCoche(@PathVariable("idCoche") Long id){
+        cocheService.eliminarCoche(id);
+        return "listacoches";
+    }
+
+    // Similar a detalle pero ahora creando.
+    @GetMapping("/coches/registro")
+    public String registroCoche(Model model)
+    {
+        //Buscar en la bbdd por id
+        Coche nuevoCoche = new Coche();
+        model.addAttribute("coche",nuevoCoche);
+        return "registrocoche";
+    }
+
+    @PostMapping ("/coches/registro")
+    public String detalleCochePost(Coche coche)
+    {
+        Coche nuevoCoche = cocheService.saveCoche(coche);
+        //Generar el objeto en la bbdd
+        return "redirect:/coches/" +  nuevoCoche.getIdCoche();
+    }
+    
+    
 
 }
