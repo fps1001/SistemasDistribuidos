@@ -1,12 +1,14 @@
 package com.ubu.sistdist.taller_coches.Controllers;
 
 import com.ubu.sistdist.taller_coches.Model.Coche;
+import com.ubu.sistdist.taller_coches.Model.User;
 import com.ubu.sistdist.taller_coches.Services.CocheServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,18 +31,18 @@ public class CocheController {
     @GetMapping("/coches/{idCoche}")
     public String detalleCoche(@PathVariable("idCoche") Long id, Model model) {
         Optional<Coche> cocheDetallado = cocheService.buscarPorId(id);
-        if (cocheDetallado.isPresent()) {
-            model.addAttribute("cocheDetalle", cocheDetallado.get());
-        } else {
-            // Manejo del caso en que el coche no se encuentra (puedes redirigir a una página de error o manejarlo de otra forma)
-            return "redirect:/coches/listacoches";
-        }
+        List<User> usuarios = cocheService.obtenerTodosLosUsuarios();
+        cocheDetallado.ifPresent(coche -> {
+            model.addAttribute("cocheDetalle", coche);
+            model.addAttribute("usuarios", usuarios);
+        });
         return "detallecoche";
     }
 
-
     @PostMapping("/coches/guardar")
-    public String guardarCoche(Coche coche) {
+    public String guardarCoche(@RequestParam Long userId, Coche coche) {
+        Optional<User> user = cocheService.obtenerTodosLosUsuarios().stream().filter(u -> u.getId() == userId).findFirst();
+        user.ifPresent(coche::setUser);
         cocheService.saveCoche(coche);
         return "redirect:/coches/listacoches";
     }
@@ -54,12 +56,16 @@ public class CocheController {
     @GetMapping("/coches/registro")
     public String registroCoche(Model model) {
         Coche nuevoCoche = new Coche();
+        List<User> usuarios = cocheService.obtenerTodosLosUsuarios();
         model.addAttribute("coche", nuevoCoche);
+        model.addAttribute("usuarios", usuarios);
         return "registrocoche";
     }
 
     @PostMapping("/coches/registro")
-    public String detalleCochePost(Coche coche) {
+    public String detalleCochePost(@RequestParam Long userId, Coche coche) {
+        Optional<User> user = cocheService.obtenerTodosLosUsuarios().stream().filter(u -> u.getId() == userId).findFirst();
+        user.ifPresent(coche::setUser);
         Coche nuevoCoche = cocheService.saveCoche(coche);
         return "redirect:/coches/" + nuevoCoche.getIdCoche();
     }

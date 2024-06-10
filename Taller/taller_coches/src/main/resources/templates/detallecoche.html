@@ -61,13 +61,15 @@
                                 <input type="text" class="form-control" id="modelo" name="modelo" th:value="${cocheDetalle.modelo}" placeholder="Introduce el modelo del coche">
                             </div>
                             <div class="form-group">
-                                <label for="nombreUsuario">Usuario</label>
-                                <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" th:value="${cocheDetalle.nombreUsuario}" placeholder="Introduce el nombre del usuario">
+                                <label for="usuario">Usuario</label>
+                                <select class="form-control" id="usuario" name="userId">
+                                    <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombreUsuario}" th:selected="${usuario.id} == ${cocheDetalle.user.id}"></option>
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-success">Guardar</button>
                         </form>
                         <a th:href="@{/coches/listacoches}" class="btn btn-primary">Volver a la Lista</a>
-                        <form th:action="@{'/coches/'+ ${cocheDetalle.idCoche} +'/delete'}" method="post">
+                        <form th:action="@{'/coches/' + ${cocheDetalle.idCoche} + '/delete'}" method="post">
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
                     </div>

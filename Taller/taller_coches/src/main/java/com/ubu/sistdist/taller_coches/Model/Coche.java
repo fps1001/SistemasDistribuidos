@@ -21,12 +21,12 @@ public class Coche {
     @Column (name="nombreCoche")
     private String nombreCoche;
 
-    @Column (name="nombreUsuario")
-    private String nombreUsuario;
-    // Aquí modifico el código del profesor pues entiendo que lo que quiere hacer es una relación entre User y Coche...
-//    @ManyToOne
-//    @JoinColumn(name="user_id", nullable = false)
-//    private User user; // 1 coche solo puede tener un usuario. Muchos usuarios pueden tener n coches
+//    @Column (name="nombreUsuario")
+//    private String nombreUsuario;
+// Aquí modifico el código del profesor pues entiendo que lo que quiere hacer es una relación entre User y Coche...
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user; // 1 coche solo puede tener un usuario. Muchos usuarios pueden tener n coches
 
     @Column (name="modelo")
     private String modelo;

@@ -10,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Optional;
+
 @SpringBootApplication
 public class TallerCochesApplication implements CommandLineRunner {
 
@@ -35,42 +37,57 @@ public class TallerCochesApplication implements CommandLineRunner {
 	}
 
 	public void crearUsuarios() {
-		User newUser = new User(); // Genera un nuevo usuario con constructor vacío.
-		newUser.setNombreUsuario("fer"); // Creamos unas variables para los campos (no hace falta Id)
-		newUser.setPassword("fer");
-		newUser.setEmail("fer@fer.es");
-		userRepository.save(newUser); // guardamos usando el repositorio.
+		User newUser1 = new User(); // Genera un nuevo usuario con constructor vacío.
+		newUser1.setNombreUsuario("fer"); // Creamos unas variables para los campos (no hace falta Id)
+		newUser1.setPassword("fer");
+		newUser1.setEmail("fer@fer.es");
+		userRepository.save(newUser1); // guardamos usando el repositorio.
+
+		User newUser2 = new User(); // Genera un nuevo usuario con constructor vacío.
+		newUser2.setNombreUsuario("aroca"); // Creamos unas variables para los campos (no hace falta Id)
+		newUser2.setPassword("aroca");
+		newUser2.setEmail("aroca@fer.es");
+		userRepository.save(newUser2); // guardamos usando el repositorio.
 	}
 
 	public void crearCoches() {
-		Coche coche1 = new Coche();
-		coche1.setNombreCoche("Ford Mustang");
-		coche1.setNombreUsuario("fer");
-		coche1.setModelo("GT 2020");
-		cocheRepository.save(coche1);
+		// Obtener el usuario de la base de datos
+		Optional<User> userOptional = userRepository.findByNombreUsuario("fer");
+		if (userOptional.isPresent()) {
+			User user = userOptional.get();
 
-		Coche coche2 = new Coche();
-		coche2.setNombreCoche("Chevrolet Camaro");
-		coche2.setNombreUsuario("fer");
-		coche2.setModelo("SS 2021");
-		cocheRepository.save(coche2);
+			Coche coche1 = new Coche();
+			coche1.setNombreCoche("Ford Mustang");
+			coche1.setUser(user);
+			coche1.setModelo("GT 2020");
+			cocheRepository.save(coche1);
 
-		Coche coche3 = new Coche();
-		coche3.setNombreCoche("Dodge Challenger");
-		coche3.setNombreUsuario("fer");
-		coche3.setModelo("R/T 2019");
-		cocheRepository.save(coche3);
+			Coche coche2 = new Coche();
+			coche2.setNombreCoche("Chevrolet Camaro");
+			coche2.setUser(user);
+			coche2.setModelo("SS 2021");
+			cocheRepository.save(coche2);
 
-		Coche coche4 = new Coche();
-		coche4.setNombreCoche("Tesla Model S");
-		coche4.setNombreUsuario("fer");
-		coche4.setModelo("Plaid 2022");
-		cocheRepository.save(coche4);
+			Coche coche3 = new Coche();
+			coche3.setNombreCoche("Dodge Challenger");
+			coche3.setUser(user);
+			coche3.setModelo("R/T 2019");
+			cocheRepository.save(coche3);
 
-		Coche coche5 = new Coche();
-		coche5.setNombreCoche("BMW M4");
-		coche5.setNombreUsuario("fer");
-		coche5.setModelo("Competition 2021");
-		cocheRepository.save(coche5);
+			Coche coche4 = new Coche();
+			coche4.setNombreCoche("Tesla Model S");
+			coche4.setUser(user);
+			coche4.setModelo("Plaid 2022");
+			cocheRepository.save(coche4);
+
+			Coche coche5 = new Coche();
+			coche5.setNombreCoche("BMW M4");
+			coche5.setUser(user);
+			coche5.setModelo("Competition 2021");
+			cocheRepository.save(coche5);
+		} else {
+			System.out.println("Usuario 'fer' no encontrado");
+		}
 	}
 }
+

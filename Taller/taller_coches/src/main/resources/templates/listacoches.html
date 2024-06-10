@@ -30,7 +30,7 @@
             background-color: #dc3545;
             border-color: #dc3545;
         }
-        .btn-primary, .btn-success {
+        .btn-primary, .btn-success, .btn-home {
             margin-bottom: 10px;
         }
     </style>
@@ -47,6 +47,8 @@
             <div class="table-container">
                 <!-- Botón para registrar un nuevo coche -->
                 <a th:href="@{/coches/registro}" class="btn btn-success mb-3">Registrar Nuevo Coche</a>
+                <!-- Botón para ir al inicio -->
+                <a th:href="@{/}" class="btn btn-home btn-primary mb-3">Ir al Inicio</a>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
@@ -61,7 +63,7 @@
                         <tbody>
                         <tr th:each="elemento : ${cochesList}">
                             <td th:text="${elemento.nombreCoche}"></td>
-                            <td th:text="${elemento.nombreUsuario}"></td>
+                            <td th:text="${elemento.user.nombreUsuario}"></td>
                             <td th:text="${elemento.modelo}"></td>
                             <td>
                                 <a th:href="@{'/coches/' + ${elemento.idCoche}}" class="btn btn-info">Detalles</a>

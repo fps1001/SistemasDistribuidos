@@ -60,8 +60,10 @@
                                 <input type="text" class="form-control" id="modelo" name="modelo" th:value="${coche.modelo}" placeholder="Introduce el modelo del coche">
                             </div>
                             <div class="form-group">
-                                <label for="nombreUsuario">Usuario</label>
-                                <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" th:value="${coche.nombreUsuario}" placeholder="Introduce el nombre del usuario">
+                                <label for="usuario">Usuario</label>
+                                <select class="form-control" id="usuario" name="userId">
+                                    <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombreUsuario}"></option>
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-success">Guardar</button>
                         </form>
