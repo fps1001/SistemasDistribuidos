@@ -24,7 +24,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public String controlLogin(@RequestParam("username") String username,
+    public String controlLogin(@RequestParam("nombreUsuario") String username,
                                @RequestParam("password") String password,
                                Model model) {
         System.out.println("username: " + username);

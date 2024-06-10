@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface CocheService {
     Coche saveCoche(Coche coche);
-    List<Coche> cocheList();
+    List<Coche> obtenerTodosLosCoches();
     void eliminarCoche(Long id);
 
     Optional<Coche> buscarPorId (Long id);

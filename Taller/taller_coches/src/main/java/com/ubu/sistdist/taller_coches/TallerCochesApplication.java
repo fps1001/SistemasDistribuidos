@@ -4,50 +4,45 @@ import com.ubu.sistdist.taller_coches.Model.Coche;
 import com.ubu.sistdist.taller_coches.Model.User;
 import com.ubu.sistdist.taller_coches.Repositories.CocheRepository;
 import com.ubu.sistdist.taller_coches.Repositories.UserRepository;
-import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Objects;
-
 @SpringBootApplication
-public class TallerCochesApplication {
+public class TallerCochesApplication implements CommandLineRunner {
 
-	// Elementos para crear usuarios en inicio si interesa.
-	@Autowired //Conexión con:
-	private static UserRepository userRepository;
-	private static CocheRepository cocheRepository;
+	@Autowired // Inyecta la dependencia de manera automática. Buscará una instancia del tipo y la asignará al campo.
+	private UserRepository userRepository;
 
 	@Autowired
-	private static Environment env;
+	private CocheRepository cocheRepository;
 
-	// Constructor
-	public TallerCochesApplication (UserRepository userRepository){
-		// Usará este repositorio para poder acceder a BD a través de JPA y su método save.
-		TallerCochesApplication.userRepository = userRepository;
-	}
+	@Value("${execution.mode}")
+	private int executionMode;
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(TallerCochesApplication.class, args);
-		String db_initialize = String.valueOf(env.getClass());
-		if (Objects.equals(db_initialize, "1")){
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		if (executionMode == 1) {
 			crearUsuarios();
 			crearCoches();
 		}
 	}
 
-	public static void crearUsuarios (){
+	public void crearUsuarios() {
 		User newUser = new User(); // Genera un nuevo usuario con constructor vacío.
 		newUser.setNombreUsuario("fer"); // Creamos unas variables para los campos (no hace falta Id)
 		newUser.setPassword("fer");
 		newUser.setEmail("fer@fer.es");
 		userRepository.save(newUser); // guardamos usando el repositorio.
-
 	}
 
-	public static void crearCoches(){
+	public void crearCoches() {
 		Coche coche1 = new Coche();
 		coche1.setNombreCoche("Ford Mustang");
 		coche1.setNombreUsuario("fer");
@@ -78,6 +73,4 @@ public class TallerCochesApplication {
 		coche5.setModelo("Competition 2021");
 		cocheRepository.save(coche5);
 	}
-
-
 }

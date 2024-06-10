@@ -2,13 +2,11 @@ package com.ubu.sistdist.taller_coches.Controllers;
 
 import com.ubu.sistdist.taller_coches.Model.Coche;
 import com.ubu.sistdist.taller_coches.Services.CocheServiceImpl;
-import com.ubu.sistdist.taller_coches.Services.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,55 +16,51 @@ public class CocheController {
     private final CocheServiceImpl cocheService;
 
     public CocheController(CocheServiceImpl cocheService) {
-
         this.cocheService = cocheService;
     }
 
     @GetMapping("/coches/listacoches")
-    public String listaCoches (Model model){
-        List<Coche> cocheList = cocheService.cocheList();
-        model.addAttribute("cochesList",cocheList);
+    public String listaCoches(Model model) {
+        List<Coche> cocheList = cocheService.obtenerTodosLosCoches();
+        model.addAttribute("cochesList", cocheList);
         return "listacoches";
     }
 
     @GetMapping("/coches/{idCoche}")
-    public String detalleCoche(@PathVariable("idCoche") Long id, Model model){
+    public String detalleCoche(@PathVariable("idCoche") Long id, Model model) {
         Optional<Coche> cocheDetallado = cocheService.buscarPorId(id);
-        model.addAttribute("cocheDetalle", cocheDetallado);
+        if (cocheDetallado.isPresent()) {
+            model.addAttribute("cocheDetalle", cocheDetallado.get());
+        } else {
+            // Manejo del caso en que el coche no se encuentra (puedes redirigir a una página de error o manejarlo de otra forma)
+            return "redirect:/coches/listacoches";
+        }
         return "detallecoche";
     }
 
-    @PostMapping ("/coches/{idCoche}")
-    public String detalleCochePost(@PathVariable("idCoche") Long id, Coche coche){
-        // Genera objeto en base de datos.
+
+    @PostMapping("/coches/guardar")
+    public String guardarCoche(Coche coche) {
         cocheService.saveCoche(coche);
-        return "redirect:/coche/listacoches";
+        return "redirect:/coches/listacoches";
     }
 
-    @PostMapping ("/coches/{idCoche}/delete")
-    public  String eliminarCoche(@PathVariable("idCoche") Long id){
+    @PostMapping("/coches/{idCoche}/delete")
+    public String eliminarCoche(@PathVariable("idCoche") Long id) {
         cocheService.eliminarCoche(id);
-        return "listacoches";
+        return "redirect:/coches/listacoches";
     }
 
-    // Similar a detalle pero ahora creando.
     @GetMapping("/coches/registro")
-    public String registroCoche(Model model)
-    {
-        //Buscar en la bbdd por id
+    public String registroCoche(Model model) {
         Coche nuevoCoche = new Coche();
-        model.addAttribute("coche",nuevoCoche);
+        model.addAttribute("coche", nuevoCoche);
         return "registrocoche";
     }
 
-    @PostMapping ("/coches/registro")
-    public String detalleCochePost(Coche coche)
-    {
+    @PostMapping("/coches/registro")
+    public String detalleCochePost(Coche coche) {
         Coche nuevoCoche = cocheService.saveCoche(coche);
-        //Generar el objeto en la bbdd
-        return "redirect:/coches/" +  nuevoCoche.getIdCoche();
+        return "redirect:/coches/" + nuevoCoche.getIdCoche();
     }
-    
-    
-
 }

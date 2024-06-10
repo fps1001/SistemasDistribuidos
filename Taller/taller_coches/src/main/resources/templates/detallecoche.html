@@ -25,17 +25,12 @@
             width: 90%;
             max-width: 700px;
         }
-        .card-img-top {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
         .card-title {
             margin-top: 20px;
             color: #333;
         }
-        .card-text {
-            color: #555;
+        .form-group label {
+            color: #333;
         }
         .btn-primary, .btn-danger, .btn-success {
             width: 100%;
@@ -54,27 +49,24 @@
         <div class="col-lg-10 mx-auto">
             <div class="card-container">
                 <div class="card">
-                    <!-- Imagen de un Ford Mustang porque me apetece. Debería ser una variable en BD-->
-                    <img src="https://www.ford.com/cmslibs/content/dam/brand_ford/en_us/brand/cars/mustang/2021/collections/3_2/21_frd_mst_gal_ext_9_32.jpg/_jcr_content/renditions/cq5dam.web.1280.1280.jpeg" class="card-img-top" alt="Imagen del coche">
                     <div class="card-body">
                         <form th:action="@{/coches/guardar}" method="post">
-                            <!-- Campo oculto para el ID del coche. -->
                             <input type="hidden" th:value="${cocheDetalle.idCoche}" name="idCoche">
                             <div class="form-group">
                                 <label for="nombreCoche">Nombre del Coche</label>
-                                <input type="text" class="form-control" id="nombreCoche" name="nombreCoche" th:value="${cocheDetalle.nombreCoche}">
+                                <input type="text" class="form-control" id="nombreCoche" name="nombreCoche" th:value="${cocheDetalle.nombreCoche}" placeholder="Introduce el nombre del coche">
                             </div>
                             <div class="form-group">
                                 <label for="modelo">Modelo</label>
-                                <input type="text" class="form-control" id="modelo" name="modelo" th:value="${cocheDetalle.modelo}">
+                                <input type="text" class="form-control" id="modelo" name="modelo" th:value="${cocheDetalle.modelo}" placeholder="Introduce el modelo del coche">
                             </div>
                             <div class="form-group">
                                 <label for="nombreUsuario">Usuario</label>
-                                <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" th:value="${cocheDetalle.nombreUsuario}">
+                                <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" th:value="${cocheDetalle.nombreUsuario}" placeholder="Introduce el nombre del usuario">
                             </div>
                             <button type="submit" class="btn btn-success">Guardar</button>
                         </form>
-                        <a th:href="@{/coches}" class="btn btn-primary">Volver a la Lista</a>
+                        <a th:href="@{/coches/listacoches}" class="btn btn-primary">Volver a la Lista</a>
                         <form th:action="@{'/coches/'+ ${cocheDetalle.idCoche} +'/delete'}" method="post">
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>

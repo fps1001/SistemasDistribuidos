@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!-- Indica que quiero usar thymeleaf-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,6 +30,9 @@
             background-color: #dc3545;
             border-color: #dc3545;
         }
+        .btn-primary, .btn-success {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -43,34 +45,36 @@
     <div class="row">
         <div class="col-lg-10 mx-auto">
             <div class="table-container">
-                <form action="#" method="post" class="form">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
-                            <thead class="thead-dark">
-                            <tr>
-                                <th>Nombre del Coche</th>
-                                <th>Nombre de Usuario</th>
-                                <th>Modelo</th>
-                                <th>Detalles</th>
-                                <th>Eliminar</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="elemento :${cochesList}">
-                                <td th:text="${elemento.nombreCoche}"></td>
-                                <td th:text="${elemento.nombreUsuario}"></td>
-                                <td th:text="${elemento.modelo}"></td>
-                                <td>
-                                    <a th:href="@{'/coches/'+ ${elemento.id}}" class="btn btn-info">Detalles</a>
-                                </td>
-                                <td>
-                                    <button type="submit" class="btn btn-danger" th:formaction="@{'/mascotas/'+ ${elemento.id} +'/delete'}">Eliminar</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                <!-- Botón para registrar un nuevo coche -->
+                <a th:href="@{/coches/registro}" class="btn btn-success mb-3">Registrar Nuevo Coche</a>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Nombre del Coche</th>
+                            <th>Nombre de Usuario</th>
+                            <th>Modelo</th>
+                            <th>Detalles</th>
+                            <th>Eliminar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="elemento : ${cochesList}">
+                            <td th:text="${elemento.nombreCoche}"></td>
+                            <td th:text="${elemento.nombreUsuario}"></td>
+                            <td th:text="${elemento.modelo}"></td>
+                            <td>
+                                <a th:href="@{'/coches/' + ${elemento.idCoche}}" class="btn btn-info">Detalles</a>
+                            </td>
+                            <td>
+                                <form th:action="@{'/coches/' + ${elemento.idCoche} + '/delete'}" method="post">
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
